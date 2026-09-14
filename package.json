@@ -1,0 +1,32 @@
+{
+  "name": "businessbuilder-studio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "shots": "node scripts/shots.mjs",
+    "a11y": "node scripts/a11y.mjs",
+    "perf": "node scripts/perf.mjs",
+    "keyboard": "node scripts/keyboard.mjs",
+    "verify": "npm run typecheck && npm run lint && npm run a11y && npm run keyboard"
+  },
+  "dependencies": {
+    "next": "16.3.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.5",
+    "playwright": "^1.63.0",
+    "typescript": "^5"
+  }
+}

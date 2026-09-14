@@ -1,0 +1,82 @@
+.section {
+  border-top: 1px solid var(--line);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-7);
+  align-items: start;
+}
+
+.roster {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.rosterTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fg-3);
+}
+
+.rosterList {
+  display: grid;
+  border-top: 1px solid var(--fg);
+}
+
+.worker {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "index name"
+    ". job";
+  column-gap: var(--s-4);
+  row-gap: 0.15rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.workerIndex {
+  grid-area: index;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg-4);
+  padding-top: 0.3rem;
+}
+
+.workerName {
+  grid-area: name;
+  font-size: var(--text-lead);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.workerJob {
+  grid-area: job;
+  font-size: var(--text-small);
+  color: var(--fg-3);
+}
+
+.workerFuture .workerName {
+  color: var(--fg-3);
+  font-weight: 400;
+}
+
+.rosterAction {
+  padding-top: var(--s-2);
+}
+
+.card {
+  width: 100%;
+}
+
+@media (min-width: 64rem) {
+  .grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--s-8);
+  }
+}

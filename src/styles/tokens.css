@@ -1,0 +1,173 @@
+/* Business Builder design tokens. Every value used in a component comes from here. */
+:root {
+  /* Raw palette */
+  --ink-0: #0d0e10;
+  --ink-1: #111214;
+  --ink-2: #1b1c1f;
+  --ink-3: #26282d;
+  --ink-4: #33363c;
+  --ink-5: #4a4d55;
+
+  --paper-0: #fbfaf7;
+  --paper-1: #f7f6f2;
+  --paper-2: #efede7;
+  --paper-3: #e6e3db;
+
+  /* Text greys. Every tier meets WCAG AA (4.5:1) on both paper tones. */
+  --graphite-1: #3a3d44;
+  --graphite-2: #52555d;
+  --graphite-3: #666971;
+  --graphite-4: #7d8088;
+
+  --rule-light: #dddbd3;
+  --rule-light-strong: #c9c6bc;
+  --rule-dark: #2a2c31;
+  --rule-dark-strong: #3a3d44;
+
+  --verified-600: #0f6b4c;
+  --verified-500: #178f66;
+  --verified-300: #3dd68c;
+  --verified-100: #e3f2ea;
+  --verified-900: #0e2b20;
+
+  --progress-600: #8a5a12;
+  --progress-300: #e2b45a;
+  --progress-100: #f6ecd8;
+  --progress-900: #33270f;
+
+  --founder-600: #2f4bd7;
+  --founder-300: #8ea0ff;
+  --founder-100: #e4e8fa;
+  --founder-900: #141c47;
+
+  --danger-600: #a81f15;
+
+  /* Semantic, light (paper) tone. Sections re-map these with data-tone. */
+  --bg: var(--paper-1);
+  --bg-raised: var(--paper-0);
+  --bg-sunken: var(--paper-2);
+  --fg: var(--ink-1);
+  --fg-2: var(--graphite-1);
+  --fg-3: var(--graphite-2);
+  --fg-4: var(--graphite-3);
+  --line: var(--rule-light);
+  --line-strong: var(--rule-light-strong);
+  --accent: var(--verified-600);
+  --accent-soft: var(--verified-100);
+  --accent-fg: #ffffff;
+  --progress: var(--progress-600);
+  --progress-soft: var(--progress-100);
+  --founder: var(--founder-600);
+  --founder-soft: var(--founder-100);
+  --btn-primary-bg: var(--ink-1);
+  --btn-primary-fg: var(--paper-0);
+  --btn-primary-hover: var(--ink-3);
+  --focus: var(--founder-600);
+  --shadow-1: 0 1px 2px rgba(17, 18, 20, 0.06), 0 1px 1px rgba(17, 18, 20, 0.04);
+  --shadow-2: 0 2px 6px rgba(17, 18, 20, 0.06), 0 12px 32px -12px rgba(17, 18, 20, 0.16);
+  --shadow-3: 0 4px 12px rgba(17, 18, 20, 0.08), 0 32px 64px -24px rgba(17, 18, 20, 0.28);
+
+  /* Type */
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-serif: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --text-display: clamp(2.75rem, 1.9rem + 3.2vw, 4.5rem);
+  --text-h1: clamp(2.5rem, 1.9rem + 2.6vw, 4rem);
+  --text-h2: clamp(1.875rem, 1.5rem + 1.6vw, 2.875rem);
+  --text-h3: clamp(1.375rem, 1.25rem + 0.5vw, 1.75rem);
+  --text-h4: 1.125rem;
+  --text-lead: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --text-body: clamp(1rem, 0.98rem + 0.1vw, 1.0625rem);
+  --text-small: 0.875rem;
+  --text-xs: 0.8125rem;
+  --text-mono: 0.8125rem;
+  --text-mono-xs: 0.75rem;
+
+  --leading-display: 0.98;
+  --leading-h1: 1.02;
+  --leading-h2: 1.06;
+  --leading-h3: 1.2;
+  --leading-lead: 1.45;
+  --leading-body: 1.6;
+
+  --tracking-display: -0.03em;
+  --tracking-h1: -0.025em;
+  --tracking-h2: -0.02em;
+  --tracking-h3: -0.01em;
+  --tracking-mono: 0.02em;
+  --tracking-eyebrow: 0.08em;
+
+  /* Space (8-based) */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+  --s-9: 6rem;
+  --s-10: 8rem;
+  --s-11: 10rem;
+
+  --section-y: clamp(4rem, 3rem + 4.5vw, 7.5rem);
+  --section-y-tight: clamp(3rem, 2.25rem + 3vw, 5rem);
+
+  /* Layout */
+  --container: 75rem;
+  --gutter: clamp(1.25rem, 0.9rem + 1.5vw, 2rem);
+  --grid-gap: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+  --header-h: 4rem;
+
+  /* Radius */
+  --r-1: 4px;
+  --r-2: 8px;
+  --r-3: 12px;
+  --r-4: 16px;
+  --r-pill: 999px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --d-1: 150ms;
+  --d-2: 250ms;
+  --d-3: 400ms;
+  --d-4: 700ms;
+}
+
+/* Ink tone: the interior of the system. */
+[data-tone="ink"] {
+  --bg: var(--ink-1);
+  --bg-raised: var(--ink-2);
+  --bg-sunken: var(--ink-0);
+  --fg: var(--paper-1);
+  --fg-2: #c9cbd1;
+  --fg-3: #9fa2aa;
+  --fg-4: #83868e;
+  --line: var(--rule-dark);
+  --line-strong: var(--rule-dark-strong);
+  --accent: var(--verified-300);
+  --accent-soft: var(--verified-900);
+  --accent-fg: var(--ink-1);
+  --progress: var(--progress-300);
+  --progress-soft: var(--progress-900);
+  --founder: var(--founder-300);
+  --founder-soft: var(--founder-900);
+  --btn-primary-bg: var(--paper-1);
+  --btn-primary-fg: var(--ink-1);
+  --btn-primary-hover: #ffffff;
+  --focus: var(--verified-300);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.4), 0 12px 32px -12px rgba(0, 0, 0, 0.6);
+  --shadow-3: 0 4px 12px rgba(0, 0, 0, 0.5), 0 32px 64px -24px rgba(0, 0, 0, 0.7);
+  color-scheme: dark;
+}
+
+/* Deeper paper: secondary sections. */
+[data-tone="paper-2"] {
+  --bg: var(--paper-2);
+  --bg-raised: var(--paper-0);
+  --bg-sunken: var(--paper-3);
+  --line: var(--rule-light-strong);
+}

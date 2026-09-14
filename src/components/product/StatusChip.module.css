@@ -1,0 +1,79 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  line-height: 1;
+  padding: 0.3rem 0.55rem 0.3rem 0.4rem;
+  border-radius: var(--r-1);
+  border: 1px solid var(--line);
+  color: var(--fg-3);
+  background: transparent;
+  white-space: nowrap;
+  transition:
+    color var(--d-2) var(--ease),
+    background-color var(--d-2) var(--ease),
+    border-color var(--d-2) var(--ease);
+}
+
+.sm {
+  font-size: 0.6875rem;
+  padding: 0.2rem 0.45rem 0.2rem 0.3rem;
+}
+
+.dot {
+  display: inline-grid;
+  place-items: center;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  flex: none;
+  transition: background-color var(--d-2) var(--ease);
+}
+
+.check {
+  width: 0.7rem;
+  height: 0.7rem;
+  stroke-width: 2.25;
+  color: var(--accent-fg);
+}
+
+.proposed {
+  color: var(--fg-4);
+  border-style: dashed;
+}
+
+.executed {
+  color: var(--fg-2);
+  border-color: var(--line-strong);
+}
+
+.executed .dot {
+  background: var(--fg-4);
+  border-color: var(--fg-4);
+}
+
+.tested {
+  color: var(--progress);
+  border-color: color-mix(in srgb, var(--progress) 40%, transparent);
+  background: var(--progress-soft);
+}
+
+.tested .dot {
+  background: var(--progress);
+  border-color: var(--progress);
+}
+
+.verified {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: var(--accent-soft);
+}
+
+.verified .dot {
+  background: var(--accent);
+  border-color: var(--accent);
+}

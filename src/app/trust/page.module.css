@@ -1,0 +1,148 @@
+.concerns {
+  display: grid;
+  border-top: 1px solid var(--fg);
+}
+
+.concern {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-4) var(--s-8);
+  padding: var(--s-6) 0;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+.question {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s-3);
+  align-items: baseline;
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--accent);
+}
+
+.q {
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+  letter-spacing: var(--tracking-h3);
+  font-weight: 500;
+  max-width: 20ch;
+}
+
+.answer {
+  display: grid;
+  gap: var(--s-4);
+}
+
+.a {
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+  font-weight: 500;
+  color: var(--fg);
+  max-width: 30em;
+}
+
+.detail {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 60ch;
+}
+
+.detail li {
+  padding-left: var(--s-4);
+  border-left: 1px solid var(--line-strong);
+  color: var(--fg-2);
+  font-size: var(--text-body);
+  line-height: 1.55;
+}
+
+.compare {
+  display: grid;
+  border-top: 1px solid var(--line-strong);
+}
+
+.compareHead {
+  display: none;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.6fr);
+  gap: var(--s-5);
+  padding: 0.75rem 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.compareRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-2) var(--s-5);
+  padding: var(--s-5) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.compareKind {
+  font-size: var(--text-h4);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.compareThey {
+  color: var(--fg-3);
+  font-size: var(--text-small);
+  line-height: 1.55;
+}
+
+.compareWe {
+  color: var(--fg);
+  font-size: var(--text-small);
+  line-height: 1.55;
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--accent);
+}
+
+.scopeGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-5);
+  align-items: start;
+}
+
+.scope {
+  display: grid;
+  gap: var(--s-3);
+  max-width: 48rem;
+}
+
+.scope li {
+  padding-left: var(--s-4);
+  border-left: 1px solid var(--line-strong);
+  color: var(--fg-2);
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+}
+
+@media (min-width: 64rem) {
+  .concern {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+
+  .compareHead {
+    display: grid;
+  }
+
+  .compareRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1.6fr);
+    align-items: start;
+  }
+
+  .scopeGrid {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--s-9);
+  }
+}

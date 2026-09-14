@@ -1,0 +1,353 @@
+.assembly {
+  --part-h: 2.5rem;
+  --spine: 1.125rem;
+  display: grid;
+  gap: var(--s-5);
+}
+
+.lanes {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.lane {
+  display: grid;
+  gap: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line-strong);
+}
+
+.laneHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2) var(--s-4);
+}
+
+.laneLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.laneGoal {
+  font-size: var(--text-small);
+  color: var(--fg-3);
+}
+
+/* Mobile: a vertical chain down a spine. Desktop: an aligned horizontal run. */
+.chain {
+  display: grid;
+  justify-items: start;
+}
+
+.part {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: var(--part-h);
+  padding: 0 0.875rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-2);
+  box-shadow: var(--shadow-1);
+}
+
+.partLabel {
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.partMark {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 1px;
+  background: var(--fg);
+  flex: none;
+}
+
+.part[data-kind="yours"] .partMark,
+.legendMark[data-kind="yours"] {
+  background: transparent;
+  border: 1.5px solid var(--fg);
+}
+
+.part[data-kind="customer"] .partMark,
+.legendMark[data-kind="customer"] {
+  background: transparent;
+  border: 1.5px dashed var(--fg-3);
+  border-radius: 50%;
+}
+
+.part[data-kind="founder"] .partMark,
+.legendMark[data-kind="founder"] {
+  background: var(--founder);
+}
+
+.part[data-kind="founder"] {
+  border-color: color-mix(in srgb, var(--founder) 55%, transparent);
+  background: color-mix(in srgb, var(--founder-soft) 60%, var(--bg-raised));
+}
+
+/* A join is a drawn line plus a label for what travels along it. */
+.join {
+  position: relative;
+  justify-self: stretch;
+  display: grid;
+  padding: 0.4rem 0 0.4rem calc(var(--spine) + 0.75rem);
+  min-height: 2.25rem;
+}
+
+.joinTrack {
+  position: absolute;
+  left: var(--spine);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.joinFill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top center;
+}
+
+[data-lit="true"] .joinFill {
+  animation: drawY var(--d-3) var(--ease-out) forwards;
+  animation-delay: calc(var(--i) * 80ms);
+}
+
+.join[data-state="waiting"] .joinFill {
+  background: var(--founder);
+}
+
+@keyframes drawY {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes drawX {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes badgeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.joinBadge {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-size: var(--text-xs);
+  color: var(--fg-3);
+  line-height: 1.4;
+  opacity: 0;
+}
+
+[data-lit="true"] .joinBadge {
+  animation: badgeIn var(--d-2) var(--ease) forwards;
+  animation-delay: calc(var(--i) * 80ms + 160ms);
+}
+
+.joinBadge svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-top: 0.15rem;
+  color: var(--accent);
+  stroke-width: 2.5;
+  flex: none;
+}
+
+.joinDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 0.3rem;
+  border-radius: 50%;
+  background: var(--founder);
+  flex: none;
+}
+
+.join[data-state="waiting"] .joinBadge {
+  color: var(--founder);
+}
+
+.joinLabel {
+  min-width: 0;
+}
+
+/* Business email, tying the booking and payment lanes together. */
+.spanning {
+  display: grid;
+  row-gap: 0;
+}
+
+.riser {
+  justify-self: start;
+  margin-left: var(--spine);
+  width: 2px;
+  height: 1.25rem;
+  background: var(--line-strong);
+}
+
+.spanningBody {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3) var(--s-4);
+  padding: var(--s-4);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-3);
+  background: var(--bg);
+}
+
+.spanningNote {
+  flex: 1 1 16rem;
+  font-size: var(--text-xs);
+  color: var(--fg-3);
+  line-height: 1.45;
+}
+
+.spanningBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.spanningBadge svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  stroke-width: 2.5;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-5);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-xs);
+  color: var(--fg-3);
+}
+
+.legendMark {
+  display: block;
+}
+
+@media (min-width: 64rem) {
+  .assembly {
+    --part-h: 2.75rem;
+    gap: var(--s-6);
+  }
+
+  .lane {
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: var(--s-5);
+    align-items: start;
+    padding-top: var(--s-5);
+  }
+
+  .laneHead {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .laneGoal {
+    font-size: var(--text-xs);
+  }
+
+  /*
+   * Seven tracks: part, join, part, join, part, join, part. Parts take their
+   * natural width and joins absorb the slack, so the same position lines up
+   * across lanes and a three-part lane simply stops early.
+   */
+  .chain {
+    grid-template-columns:
+      max-content minmax(4rem, 1fr)
+      max-content minmax(4rem, 1fr)
+      max-content minmax(4rem, 1fr)
+      max-content;
+    align-items: start;
+    justify-items: start;
+  }
+
+  .join {
+    grid-template-rows: var(--part-h) auto;
+    padding: 0 0.75rem;
+    min-height: 0;
+  }
+
+  .joinTrack {
+    left: 0.75rem;
+    right: 0.75rem;
+    top: calc(var(--part-h) / 2 - 1px);
+    bottom: auto;
+    width: auto;
+    height: 2px;
+  }
+
+  .joinFill {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  [data-lit="true"] .joinFill {
+    animation-name: drawX;
+  }
+
+  .joinBadge {
+    grid-row: 2;
+    padding-top: 0.45rem;
+  }
+
+  .spanning {
+    grid-template-columns: 10rem minmax(0, 1fr);
+    column-gap: var(--s-5);
+    align-items: start;
+  }
+
+  .riser {
+    grid-column: 2;
+    margin-left: 0;
+    justify-self: center;
+  }
+
+  .spanningBody {
+    grid-column: 2;
+  }
+
+  .legend {
+    padding-left: calc(10rem + var(--s-5));
+  }
+}

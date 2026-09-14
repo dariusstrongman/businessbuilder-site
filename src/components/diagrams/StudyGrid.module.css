@@ -1,0 +1,218 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-7);
+}
+
+.card {
+  display: grid;
+  gap: var(--s-4);
+  margin: 0;
+  min-width: 0;
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-3);
+  background: var(--bg-sunken);
+  border: 1px solid var(--line);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform var(--d-4) var(--ease-out);
+}
+
+.card:hover .image {
+  transform: scale(1.015);
+}
+
+/* Names the work honestly, on the work itself. */
+.stamp {
+  position: absolute;
+  top: var(--s-3);
+  left: var(--s-3);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--r-1);
+  background: color-mix(in srgb, var(--ink-1) 78%, transparent);
+  color: var(--paper-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  backdrop-filter: saturate(140%) blur(4px);
+  -webkit-backdrop-filter: saturate(140%) blur(4px);
+}
+
+.caption {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--accent);
+}
+
+.name {
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+  letter-spacing: var(--tracking-h3);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.discipline {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-3);
+  text-transform: uppercase;
+}
+
+.line {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--text-lead);
+  line-height: 1.35;
+  color: var(--fg-2);
+  margin-top: var(--s-1);
+}
+
+.premise {
+  font-size: var(--text-small);
+  color: var(--fg-2);
+  line-height: 1.55;
+  max-width: 44ch;
+  margin-top: var(--s-2);
+}
+
+.notes {
+  display: grid;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.notesTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fg-4);
+}
+
+.notesList {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.notesList li {
+  padding-left: var(--s-3);
+  border-left: 1px solid var(--line-strong);
+  font-size: var(--text-small);
+  color: var(--fg-2);
+  line-height: 1.5;
+  max-width: 48ch;
+}
+
+.transfer {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: var(--s-3);
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--accent);
+  font-size: var(--text-small);
+  color: var(--fg);
+  line-height: 1.55;
+  max-width: 48ch;
+}
+
+.transferLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.disclosure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2) var(--s-4);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--text-small);
+  color: var(--fg-3);
+}
+
+.disclosureMark {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 1px;
+  background: var(--fg-4);
+  flex: none;
+}
+
+.disclosureLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+  font-weight: 500;
+  color: var(--fg);
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 1px;
+}
+
+.disclosureLink:hover {
+  border-color: var(--fg);
+}
+
+.disclosureLink svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+@media (min-width: 48rem) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-8) var(--s-6);
+  }
+
+  .disclosure {
+    grid-column: 1 / -1;
+  }
+
+  /*
+   * Editorial rhythm: one full-measure opener, then pairs. Paired frames share
+   * a fixed aspect so their captions sit on the same line, which reads as a
+   * decision rather than as whatever the source images happened to be.
+   */
+  .wide {
+    grid-column: 1 / -1;
+  }
+
+  .card:not(.wide) .frame {
+    aspect-ratio: 4 / 3;
+  }
+
+  .card:not(.wide) .image {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+@media (min-width: 64rem) {
+  .grid {
+    gap: var(--s-9) var(--s-7);
+  }
+
+}

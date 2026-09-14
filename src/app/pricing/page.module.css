@@ -1,0 +1,119 @@
+.note {
+  margin-top: var(--s-6);
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--line-strong);
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  max-width: 56em;
+}
+
+.tableWrap {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-top: 1px solid var(--fg);
+}
+
+.tableWrap:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.table {
+  width: 100%;
+  min-width: 40rem;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  vertical-align: middle;
+  padding: 0.8rem var(--s-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-left: 0;
+}
+
+.thLabel {
+  width: 40%;
+}
+
+.thPackage {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.thIndex {
+  color: var(--accent);
+  margin-right: 0.5rem;
+}
+
+.groupRow th {
+  padding-top: var(--s-5);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fg-3);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.rowLabel {
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.cell {
+  color: var(--fg-2);
+}
+
+.yes {
+  display: inline-grid;
+  place-items: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 3px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.yes svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  stroke-width: 2.25;
+}
+
+.no {
+  color: var(--fg-4);
+}
+
+.partial {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg-2);
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-6);
+  align-items: start;
+}
+
+@media (min-width: 64rem) {
+  .faqGrid {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--s-9);
+  }
+}

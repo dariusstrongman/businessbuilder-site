@@ -1,0 +1,25 @@
+.section {
+  border-top: 1px solid var(--line);
+}
+
+.closing {
+  display: flex;
+  gap: var(--s-3);
+  align-items: baseline;
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+  color: var(--fg-2);
+  max-width: 56em;
+}
+
+.closingMark {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: var(--founder);
+  flex: none;
+  transform: translateY(-1px);
+}
