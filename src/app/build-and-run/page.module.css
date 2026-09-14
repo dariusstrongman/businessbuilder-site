@@ -1,0 +1,120 @@
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-5);
+}
+
+.future {
+  margin-top: var(--s-6);
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--line-strong);
+  color: var(--fg-3);
+  font-size: var(--text-small);
+  max-width: 44em;
+}
+
+/* Limits band */
+.limits {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--line-strong);
+}
+
+.limit {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+  padding: var(--s-5) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.limitLabel {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+  letter-spacing: var(--tracking-h3);
+  font-weight: 500;
+}
+
+.limitIndex {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--accent);
+}
+
+.limitText {
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  max-width: 32em;
+  line-height: 1.55;
+}
+
+/* Stopping */
+.stopping {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-5);
+}
+
+.stop {
+  position: relative;
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+  padding: var(--s-5);
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-3);
+}
+
+.stopIndex {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--accent);
+}
+
+.stopTitle {
+  font-size: var(--text-h4);
+  font-weight: 500;
+}
+
+.stopText {
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  line-height: 1.55;
+}
+
+@media (min-width: 48rem) {
+  .limits {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--s-6);
+  }
+
+  .stopping {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 64rem) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-6);
+  }
+
+  .limits {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .limit {
+    border-bottom: 0;
+    padding-right: var(--s-5);
+  }
+
+  .limit + .limit {
+    border-left: 1px solid var(--line);
+    padding-left: var(--s-5);
+  }
+}

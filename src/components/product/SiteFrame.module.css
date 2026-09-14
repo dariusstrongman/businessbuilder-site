@@ -1,0 +1,253 @@
+.frame {
+  display: grid;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-4);
+  box-shadow: var(--shadow-3);
+  overflow: hidden;
+  font-size: var(--text-xs);
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 2.5rem;
+  padding: 0 var(--s-3);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.dots {
+  display: inline-flex;
+  gap: 0.3rem;
+}
+
+.dots i {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+
+.url {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--r-1);
+  background: var(--bg-sunken);
+  font-family: var(--font-mono);
+  color: var(--fg-2);
+  font-size: var(--text-mono-xs);
+}
+
+.lock {
+  width: 0.5rem;
+  height: 0.6rem;
+  border: 1px solid var(--accent);
+  border-radius: 2px 2px 1px 1px;
+  background: var(--accent);
+}
+
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--r-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--accent);
+  background: var(--accent-soft);
+  white-space: nowrap;
+  flex: none;
+}
+
+.stamp svg {
+  width: 0.7rem;
+  height: 0.7rem;
+  stroke-width: 2.25;
+}
+
+.page {
+  display: grid;
+  gap: var(--s-5);
+  padding: var(--s-5);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
+.wordmark {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  font-size: var(--text-small);
+}
+
+.navLinks {
+  display: none;
+  gap: var(--s-4);
+  color: var(--fg-3);
+}
+
+.navLinks i {
+  font-style: normal;
+}
+
+.navCta {
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--r-1);
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 500;
+}
+
+.hero {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-4) 0;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.headline {
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  color: var(--fg);
+  max-width: 18ch;
+}
+
+.sub {
+  display: grid;
+  gap: 0.4rem;
+  max-width: 22rem;
+}
+
+.sub i {
+  display: block;
+  height: 0.5rem;
+  border-radius: 2px;
+  background: var(--line);
+}
+
+.sub i:last-child {
+  width: 70%;
+}
+
+.heroActions {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.btnPrimary,
+.btnSecondary {
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--r-1);
+  font-weight: 500;
+}
+
+.btnPrimary {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.btnSecondary {
+  border: 1px solid var(--line-strong);
+  color: var(--fg);
+}
+
+.services {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-3);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.service {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.serviceName {
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.serviceLine {
+  display: block;
+  height: 0.4rem;
+  width: 80%;
+  border-radius: 2px;
+  background: var(--line);
+}
+
+.form {
+  display: grid;
+  gap: 0.5rem;
+  padding: var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  background: var(--bg);
+}
+
+.formTitle {
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.formRow:has(i:only-child) {
+  grid-template-columns: 1fr;
+}
+
+.formRow i {
+  display: block;
+  height: 1.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-1);
+  background: var(--bg-raised);
+}
+
+.formSubmit {
+  justify-self: start;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--r-1);
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-weight: 500;
+}
+
+@media (min-width: 40rem) {
+  .navLinks {
+    display: inline-flex;
+  }
+
+  .services {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

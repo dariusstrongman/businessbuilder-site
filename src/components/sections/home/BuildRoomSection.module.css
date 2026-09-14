@@ -1,0 +1,68 @@
+.section {
+  border-top: 1px solid var(--line);
+}
+
+.notes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: var(--s-7);
+  border-top: 1px solid var(--line);
+}
+
+.note {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "index title"
+    ". text";
+  column-gap: var(--s-4);
+  row-gap: var(--s-2);
+  padding: var(--s-5) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.noteIndex {
+  grid-area: index;
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg);
+}
+
+.noteTitle {
+  grid-area: title;
+  font-size: var(--text-h4);
+  line-height: 1.35;
+  font-weight: 500;
+  padding-top: 0.1rem;
+}
+
+.noteText {
+  grid-area: text;
+  color: var(--fg-3);
+  font-size: var(--text-small);
+  max-width: 34em;
+}
+
+@media (min-width: 64rem) {
+  .notes {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: var(--s-6);
+  }
+
+  .note {
+    border-bottom: 0;
+    padding-right: var(--s-4);
+  }
+
+  .note + .note {
+    border-left: 1px solid var(--line);
+    padding-left: var(--s-6);
+  }
+}

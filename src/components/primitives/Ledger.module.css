@@ -1,0 +1,76 @@
+.ledger {
+  display: grid;
+  border-top: 1px solid var(--fg);
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: var(--s-4);
+  padding: 0.75rem 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.25rem var(--s-4);
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.numberedRow {
+  padding-left: 2.25rem;
+}
+
+.index {
+  position: absolute;
+  left: 0;
+  top: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg-4);
+}
+
+.label {
+  display: grid;
+  gap: 0.15rem;
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  font-weight: 400;
+  color: var(--fg-4);
+  letter-spacing: var(--tracking-mono);
+}
+
+.value {
+  font-size: var(--text-body);
+  color: var(--fg-3);
+  line-height: 1.5;
+}
+
+.emphasis .value {
+  color: var(--fg);
+}
+
+.emphasis .index {
+  color: var(--fg);
+}
+
+@media (min-width: 40rem) {
+  .row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    align-items: baseline;
+  }
+}

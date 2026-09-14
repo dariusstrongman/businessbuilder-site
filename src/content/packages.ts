@@ -1,0 +1,90 @@
+import { routes } from "@/config/brand";
+
+export type PackageId = "website" | "business" | "run";
+
+export type Package = {
+  id: PackageId;
+  name: string;
+  shortName: string;
+  audience: string;
+  model: string;
+  summary: string;
+  includesLabel?: string;
+  includes: string[];
+  outcome: string;
+  href: string;
+  ctaLabel: string;
+  emphasis?: boolean;
+};
+
+export const packages: Package[] = [
+  {
+    id: "website",
+    name: "Build my professional website",
+    shortName: "Website",
+    audience: "For people who need a premium, working website first.",
+    model: "One-time build",
+    summary: "A website built for your business type, on your domain, verified live.",
+    includes: [
+      "Positioning and brand direction for the site",
+      "Website designed for your business type",
+      "Service, quote and booking pages",
+      "Domain connected, HTTPS verified",
+      "Contact and quote forms that reach you",
+      "Local search basics and analytics",
+      "Verified live on your domain",
+      "Full ownership and export",
+    ],
+    outcome: "A live website you own, verified working.",
+    href: routes.website,
+    ctaLabel: "Build my website",
+  },
+  {
+    id: "business",
+    name: "Build my business",
+    shortName: "Business",
+    audience: "For people who want the whole company assembled.",
+    model: "One-time build",
+    summary: "Research, positioning, brand, website, business systems, Founder Actions, verification, handoff.",
+    includesLabel: "Everything in Website, plus",
+    includes: [
+      "Market and competitor research",
+      "Recommendation, including where the idea is weak",
+      "Brand direction: name direction, voice, visual system",
+      "Business email on your domain",
+      "CRM configured for your services",
+      "Scheduling connected to your calendar",
+      "Payments configured, checkout verified",
+      "Setup and admin guidance as Founder Actions",
+      "Verification of every connected system",
+      "Ready and Fully Set readiness",
+      "Handoff with evidence log and ownership record",
+    ],
+    outcome: "A company that is Ready, then Fully Set, then yours.",
+    href: routes.buildMyBusiness,
+    ctaLabel: "Build my business",
+    emphasis: true,
+  },
+  {
+    id: "run",
+    name: "Build & run my business",
+    shortName: "Build & Run",
+    audience: "For people who want parts of the company operated after handoff.",
+    model: "One-time build, then monthly operations",
+    summary: "Everything in Build my business, plus AI workers operating inside limits you set.",
+    includesLabel: "Everything in Business, plus",
+    includes: [
+      "Intake Assistant for new inquiries",
+      "Quote Drafting Assistant using your price rules",
+      "Inbox Assistant for sorting and drafts",
+      "Review Follow-up Assistant",
+      "Permissions, budgets and approval rules per worker",
+      "Recurring monitoring of connected systems",
+      "Human escalation path",
+      "Stop any time. The company stays yours.",
+    ],
+    outcome: "A company that keeps working while you do the work.",
+    href: routes.buildAndRun,
+    ctaLabel: "Build and run my business",
+  },
+];

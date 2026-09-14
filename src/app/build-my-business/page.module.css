@@ -1,0 +1,111 @@
+.phases {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--line-strong);
+}
+
+.phase {
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+  padding: var(--s-5) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.phaseIndex {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--accent);
+}
+
+.phaseLabel {
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+  letter-spacing: var(--tracking-h3);
+  font-weight: 500;
+}
+
+.phaseSummary {
+  color: var(--fg-3);
+  font-size: var(--text-small);
+  max-width: 28em;
+}
+
+.phaseStages {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: var(--s-2);
+}
+
+.phaseStages li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: var(--text-small);
+  color: var(--fg-2);
+}
+
+.phaseStages li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--fg);
+}
+
+.phaseStages li[data-actor="founder"]::before {
+  background: transparent;
+  border: 1.5px solid var(--accent);
+}
+
+.phaseStages li[data-actor="state"]::before {
+  border-radius: 1px;
+  transform: rotate(45deg) scale(0.9);
+  background: var(--accent);
+}
+
+.phaseStages li[data-actor="optional"]::before {
+  background: transparent;
+  border: 1.5px dashed var(--fg-3);
+}
+
+.phasesAction {
+  padding-top: var(--s-6);
+}
+
+.package {
+  display: grid;
+  gap: var(--s-5);
+  justify-items: start;
+}
+
+.packageOutcome {
+  font-size: var(--text-lead);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+@media (min-width: 48rem) {
+  .phases {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--s-6);
+  }
+}
+
+@media (min-width: 64rem) {
+  .phases {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .phase {
+    border-bottom: 0;
+    padding-right: var(--s-5);
+  }
+
+  .phase + .phase {
+    border-left: 1px solid var(--line);
+    padding-left: var(--s-5);
+  }
+}

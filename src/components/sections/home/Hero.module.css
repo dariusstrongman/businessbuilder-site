@@ -1,0 +1,129 @@
+.hero {
+  position: relative;
+  background: var(--bg);
+  padding-top: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  padding-bottom: var(--section-y);
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-8) var(--grid-gap);
+  align-items: start;
+}
+
+.copy {
+  display: grid;
+  gap: var(--s-5);
+  max-width: 40rem;
+}
+
+.title {
+  display: grid;
+  gap: var(--s-4);
+  margin-top: var(--s-1);
+  font-size: var(--text-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  font-weight: 500;
+  font-stretch: 94%;
+  color: var(--fg);
+  max-width: 13ch;
+}
+
+.promise {
+  display: block;
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+  font-weight: 400;
+  font-stretch: 100%;
+  color: var(--fg-2);
+  max-width: 22ch;
+}
+
+.lead {
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+  color: var(--fg-2);
+  max-width: 34rem;
+  margin-top: var(--s-2);
+}
+
+.copy form {
+  margin-top: var(--s-2);
+}
+
+.secondary {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+}
+
+.visual {
+  position: relative;
+  display: grid;
+  gap: var(--s-4);
+  align-self: stretch;
+  align-content: center;
+}
+
+.plan {
+  position: absolute;
+  inset: -2rem -2rem -1rem -2rem;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, var(--rule-light) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--rule-light) 1px, transparent 1px);
+  background-size: 3rem 3rem;
+  opacity: 0.6;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 35%, transparent 75%);
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 35%, transparent 75%);
+}
+
+.room {
+  position: relative;
+}
+
+.caption {
+  position: relative;
+  display: flex;
+  gap: var(--s-3);
+  align-items: flex-start;
+  font-size: var(--text-xs);
+  color: var(--fg-3);
+  max-width: 30rem;
+  line-height: 1.5;
+}
+
+.captionMark {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: 0.35rem;
+  background: var(--accent);
+  border-radius: 1px;
+  flex: none;
+}
+
+@media (min-width: 64rem) {
+  .hero {
+    padding-top: clamp(3rem, 2rem + 3vw, 5rem);
+  }
+
+  .grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--s-9);
+    align-items: center;
+  }
+
+  .visual {
+    padding-top: var(--s-4);
+  }
+}
+
+@media (min-width: 80rem) {
+  .grid {
+    gap: var(--s-10);
+  }
+}

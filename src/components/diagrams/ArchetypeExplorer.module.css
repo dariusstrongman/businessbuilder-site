@@ -1,0 +1,290 @@
+.explorer {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-5);
+  align-items: start;
+}
+
+/* Mobile: a snapping horizontal strip. Desktop: a vertical index. */
+.tabs {
+  display: flex;
+  gap: 0.375rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: var(--s-2);
+  margin-inline: calc(-1 * var(--gutter));
+  padding-inline: var(--gutter);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: none;
+  scroll-snap-align: start;
+  min-height: 2.5rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--fg-2);
+  background: var(--bg);
+  white-space: nowrap;
+  transition:
+    color var(--d-1) var(--ease),
+    border-color var(--d-1) var(--ease),
+    background-color var(--d-1) var(--ease);
+}
+
+.tab:hover {
+  border-color: var(--fg-3);
+  color: var(--fg);
+}
+
+.tabActive {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+
+.tabIndex {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg-4);
+}
+
+.tabActive .tabIndex {
+  color: var(--bg);
+  opacity: 0.65;
+}
+
+.panel {
+  display: grid;
+  gap: var(--s-5);
+  min-width: 0;
+  animation: panelIn var(--d-3) var(--ease-out);
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.panel:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: var(--s-3);
+  border-radius: var(--r-2);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--s-4);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--fg);
+}
+
+.headText {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.title {
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+  font-weight: 500;
+}
+
+.ops {
+  font-size: var(--text-lead);
+  color: var(--fg-2);
+  max-width: 34em;
+}
+
+.variants {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+  margin-top: var(--s-1);
+}
+
+.variants span {
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--r-1);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+}
+
+.deep {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2rem;
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--fg);
+  border-bottom: 1px solid var(--line-strong);
+  white-space: nowrap;
+}
+
+.deep:hover {
+  border-color: var(--fg);
+}
+
+.site {
+  max-width: 44rem;
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-5);
+}
+
+.col {
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+}
+
+.colTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fg-4);
+}
+
+.colFounder {
+  color: var(--founder);
+}
+
+.colVerify {
+  color: var(--accent);
+}
+
+.list {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.list li {
+  display: grid;
+  gap: 0.15rem;
+  padding-left: var(--s-3);
+  border-left: 1px solid var(--line-strong);
+}
+
+.listFounder li {
+  border-left-color: color-mix(in srgb, var(--founder) 45%, transparent);
+}
+
+.listVerify li {
+  border-left-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.itemText {
+  font-size: var(--text-small);
+  color: var(--fg);
+  line-height: 1.45;
+}
+
+.itemWhy {
+  font-size: var(--text-xs);
+  color: var(--fg-3);
+  line-height: 1.45;
+}
+
+@media (min-width: 48rem) {
+  .cols {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-6);
+  }
+}
+
+@media (min-width: 64rem) {
+  .explorer {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: var(--s-8);
+  }
+
+  .tabs {
+    display: grid;
+    gap: 0;
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+    padding-bottom: 0;
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-6));
+    border-top: 1px solid var(--fg);
+  }
+
+  .tab {
+    justify-content: flex-start;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    padding: 0 0 0 0;
+    min-height: 2.75rem;
+    background: transparent;
+    color: var(--fg-2);
+  }
+
+  .tab:hover {
+    background: transparent;
+    color: var(--fg);
+  }
+
+  .tabActive,
+  .tabActive:hover {
+    background: transparent;
+    color: var(--fg);
+  }
+
+  .tabActive .tabName {
+    box-shadow: inset 0 -1px 0 var(--accent);
+  }
+
+  .tabActive .tabIndex {
+    color: var(--accent);
+    opacity: 1;
+  }
+
+  .site {
+    max-width: none;
+  }
+}
+
+/* Wide: the mock sits beside the three lists so neither column runs long. */
+@media (min-width: 80rem) {
+  .panel {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    align-items: start;
+  }
+
+  .head {
+    grid-column: 1 / -1;
+  }
+
+  .cols {
+    grid-template-columns: 1fr;
+    gap: var(--s-5);
+  }
+}

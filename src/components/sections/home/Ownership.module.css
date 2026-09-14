@@ -1,0 +1,73 @@
+.section {
+  border-top: 1px solid var(--line);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-7);
+  align-items: start;
+}
+
+.copy {
+  display: grid;
+  gap: var(--s-5);
+  max-width: 28rem;
+}
+
+.copy h2 {
+  margin-top: var(--s-1);
+}
+
+.text {
+  color: var(--fg-2);
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+}
+
+.textStrong {
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+  font-weight: 500;
+  color: var(--fg);
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--accent);
+}
+
+.assets {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--fg);
+}
+
+.asset {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.assetName {
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.assetNote {
+  font-size: var(--text-small);
+  color: var(--fg-3);
+}
+
+@media (min-width: 40rem) {
+  .assets {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--s-6);
+  }
+}
+
+@media (min-width: 64rem) {
+  .grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--s-9);
+  }
+}

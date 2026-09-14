@@ -1,0 +1,259 @@
+.wrap {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.ladder {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--line-strong);
+}
+
+/* State is carried by the chip and the fill rule, never by dimming text below AA. */
+.rung {
+  position: relative;
+  display: grid;
+  gap: var(--s-3);
+  align-content: start;
+  padding: var(--s-5) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/* A rule that fills across the reached rung, so progress is visible at a glance. */
+.rung::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--d-4) var(--ease-out);
+}
+
+.reached::before {
+  transform: scaleX(1);
+}
+
+.rungTop {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.rungIndex {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg-4);
+}
+
+.rungTitle {
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+  letter-spacing: var(--tracking-h3);
+  font-weight: 500;
+  color: var(--fg-3);
+  transition: color var(--d-3) var(--ease);
+}
+
+.reached .rungTitle {
+  color: var(--fg);
+}
+
+.current .rungIndex {
+  color: var(--accent);
+}
+
+.rungText {
+  color: var(--fg-3);
+  font-size: var(--text-small);
+  line-height: 1.55;
+  max-width: 30em;
+}
+
+.rung[data-state="verified"].reached .rungTitle {
+  color: var(--accent);
+}
+
+/* Example check */
+.example {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-5);
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+}
+
+.exampleHead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--s-3);
+  align-items: center;
+}
+
+.exampleLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.exampleState {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line-strong);
+  color: var(--fg-2);
+  transition:
+    color var(--d-2) var(--ease),
+    background-color var(--d-2) var(--ease),
+    border-color var(--d-2) var(--ease);
+}
+
+.exampleStateDone {
+  color: var(--accent-fg);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.flow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-3);
+}
+
+.flowStep {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "mark actor"
+    "mark text";
+  column-gap: 0.6rem;
+  row-gap: 0.15rem;
+}
+
+.flowMark {
+  grid-area: mark;
+  display: inline-grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.15rem;
+  border-radius: 3px;
+  border: 1px solid var(--line-strong);
+  color: var(--accent-fg);
+  transition:
+    background-color var(--d-2) var(--ease),
+    border-color var(--d-2) var(--ease);
+}
+
+.flowStepLit .flowMark {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.flowMark svg {
+  width: 0.7rem;
+  height: 0.7rem;
+  stroke-width: 2.25;
+}
+
+.flowActor {
+  grid-area: actor;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-3);
+  transition: color var(--d-2) var(--ease);
+}
+
+.flowStepLit .flowActor {
+  color: var(--accent);
+}
+
+.flowText {
+  grid-area: text;
+  font-size: var(--text-small);
+  color: var(--fg);
+  line-height: 1.45;
+}
+
+.result {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.6rem;
+  align-items: start;
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  transition: color var(--d-3) var(--ease);
+}
+
+.resultDone {
+  color: var(--fg);
+}
+
+.resultMark {
+  display: inline-grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.15rem;
+  border-radius: 3px;
+  border: 1px solid var(--line-strong);
+  color: var(--accent-fg);
+  transition:
+    background-color var(--d-2) var(--ease),
+    border-color var(--d-2) var(--ease);
+}
+
+.resultDone .resultMark {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.resultMark svg {
+  width: 0.7rem;
+  height: 0.7rem;
+  stroke-width: 2.25;
+}
+
+@media (min-width: 48rem) {
+  .ladder {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--s-6);
+  }
+
+  .flow {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-4);
+  }
+}
+
+@media (min-width: 64rem) {
+  .ladder {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .rung {
+    border-bottom: 0;
+    padding-right: var(--s-5);
+  }
+
+  .rung + .rung {
+    border-left: 1px solid var(--line);
+    padding-left: var(--s-5);
+  }
+
+  .rung + .rung::before {
+    left: var(--s-5);
+  }
+}

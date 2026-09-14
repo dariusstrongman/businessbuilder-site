@@ -1,0 +1,91 @@
+.section {
+  border-top: 1px solid var(--line);
+}
+
+.items {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--fg);
+}
+
+.item {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+  padding: var(--s-5) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.index {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--accent);
+}
+
+.title {
+  font-size: var(--text-h4);
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.text {
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  line-height: 1.55;
+}
+
+.scope {
+  display: grid;
+  gap: var(--s-3);
+  margin-top: var(--s-7);
+  max-width: 44rem;
+}
+
+.scopeTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fg-3);
+}
+
+.scopeList {
+  display: grid;
+  gap: 0.5rem;
+  color: var(--fg-2);
+  font-size: var(--text-body);
+}
+
+.scopeList li {
+  padding-left: var(--s-4);
+  border-left: 1px solid var(--line-strong);
+}
+
+.scope a {
+  justify-self: start;
+  margin-top: var(--s-2);
+}
+
+@media (min-width: 48rem) {
+  .items {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--s-6);
+  }
+}
+
+@media (min-width: 64rem) {
+  .items {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .item {
+    border-bottom: 0;
+    padding-right: var(--s-4);
+  }
+
+  .item + .item {
+    border-left: 1px solid var(--line);
+    padding-left: var(--s-5);
+  }
+}

@@ -1,0 +1,99 @@
+.log {
+  display: grid;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-3);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+  font-size: var(--text-xs);
+}
+
+.head,
+.row {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr) 7rem;
+  gap: var(--s-3);
+  align-items: center;
+  padding: 0.65rem var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.head {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-4);
+  background: var(--bg);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.when {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg-4);
+  white-space: nowrap;
+}
+
+.check {
+  display: grid;
+  gap: 0.1rem;
+  color: var(--fg);
+  min-width: 0;
+}
+
+.module {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-3);
+  text-transform: uppercase;
+}
+
+.result {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  white-space: nowrap;
+}
+
+.result svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  stroke-width: 2.25;
+}
+
+.pass .result {
+  color: var(--accent);
+}
+
+.retry .result {
+  color: var(--progress);
+}
+
+.waiting .result {
+  color: var(--founder);
+}
+
+.pendingDot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+@media (max-width: 40rem) {
+  .head {
+    display: none;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}

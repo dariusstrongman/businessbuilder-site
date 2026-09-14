@@ -1,0 +1,117 @@
+.section {
+  border-top: 1px solid var(--line);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-7) var(--grid-gap);
+  align-items: start;
+}
+
+.copy {
+  display: grid;
+  gap: var(--s-5);
+  max-width: 30rem;
+}
+
+.copy h2 {
+  margin-top: var(--s-1);
+}
+
+.text {
+  color: var(--fg-2);
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+}
+
+.ledger {
+  display: grid;
+  border-top: 1px solid var(--fg);
+}
+
+.ledgerHead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-4);
+  padding: 0.75rem 0 0.75rem 2.25rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--s-4);
+  padding: 0.85rem 0 0.85rem 2.25rem;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--text-body);
+}
+
+.index {
+  position: absolute;
+  left: 0;
+  top: 0.95rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg-4);
+}
+
+.job {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.who {
+  color: var(--fg-3);
+}
+
+.punchline .job {
+  color: var(--fg);
+}
+
+.punchline .who {
+  color: var(--danger-600);
+  font-weight: 500;
+}
+
+.punchline .index {
+  color: var(--fg);
+}
+
+.resolve {
+  display: flex;
+  gap: var(--s-3);
+  align-items: baseline;
+  padding: var(--s-5) 0 0;
+  font-size: var(--text-lead);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+
+.resolveMark {
+  width: 0.625rem;
+  height: 0.625rem;
+  background: var(--accent);
+  border-radius: 1px;
+  flex: none;
+  transform: translateY(-1px);
+}
+
+@media (min-width: 64rem) {
+  .grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--s-9);
+  }
+
+  .copy {
+    position: sticky;
+    top: calc(var(--header-h) + var(--s-6));
+  }
+}

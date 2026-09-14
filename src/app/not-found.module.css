@@ -1,0 +1,24 @@
+.page {
+  background: var(--bg);
+  padding-block: var(--section-y);
+  min-height: 60vh;
+  display: grid;
+  align-content: center;
+}
+
+.inner {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 34rem;
+  justify-items: start;
+}
+
+.text {
+  color: var(--fg-2);
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+}
+
+.inner a {
+  margin-top: var(--s-2);
+}
