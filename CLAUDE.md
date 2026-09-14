@@ -32,6 +32,19 @@ showing its photograph alone, it stops proving anything about design and should 
 section on `/work` saying plainly what they are and are not. Never describe one as a client, a case
 study, or a company we built. If that framing ever slips, the studies have to come down.
 
+**Never mix the two state systems.** Keep / Improve / Replace / Missing (`audit.ts`) answers what to
+do with something that already exists. Proposed / Executed / Tested / Verified (`buildRoom.ts`)
+answers how far through implementation it is. A module can carry both; they are never interchanged.
+
+**Never overclaim legal or filing capability.** Business Builder is not a law firm, an accountant,
+an insurer, a bank, a registered agent or a filing authority. Allowed verbs: prepare, guide,
+coordinate, prefill where allowed, track, connect, verify completion. Forbidden: "we form your
+LLC", "we file your return", "we get your EIN", "we open your bank account", or any legal
+guarantee. Every item in `turnkey.ts` carries an owner for exactly this reason.
+
+**The site serves existing businesses as much as new ones.** Never write copy that assumes the
+reader is starting from nothing. The starting-point branch exists because most owners are not.
+
 **Never invent a price.** The website tiers in `websiteTiers.ts` are real published rates. The
 company build is quoted with the recommendation. Do not fill that gap with a made-up number or a
 fake range.

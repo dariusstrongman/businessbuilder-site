@@ -86,7 +86,7 @@ const check = (name, ok, detail = "") => {
 {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   await page.goto(base + "/how-it-works");
-  const node = page.getByRole("button", { name: /05 Approve/i });
+  const node = page.getByRole("button", { name: /05 Founder approval/i });
   await node.focus();
   check("rail node takes focus", (await node.getAttribute("aria-pressed")) === "true");
   await page.close();

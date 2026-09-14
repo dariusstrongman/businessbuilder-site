@@ -6,7 +6,7 @@ import { readiness } from "@/content/buildRoom";
 import { cn } from "@/lib/cn";
 import styles from "./Verification.module.css";
 
-export function Verification({ index = "08" }: { index?: string }) {
+export function Verification({ index = "09" }: { index?: string }) {
   return (
     <Section tone="ink" aria-labelledby="verification-title" className={styles.section}>
       <Container>

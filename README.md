@@ -91,6 +91,9 @@ src/
     archetypes.ts          the ten supported business types
     buildRoom.ts           modules, statuses, Founder Actions, readiness, ownership
     evidence.ts            the example evidence log
+    startingPoints.ts      the four starting points the journey branches on
+    audit.ts               the Existing Business Audit and its Keep/Improve/Replace/Missing verdicts
+    turnkey.ts             the six-lane scope, with an owner on every item
     packages.ts            the three packages
     pricing.ts             the comparison matrix and pricing questions
     websiteTiers.ts        the real, published website project prices
@@ -154,6 +157,13 @@ Two places are deliberately left unconnected, and both are marked in the code:
   jumps, no horizontal overflow, no undersized tap targets.
 - **Performance**: on a 4× CPU throttle and a slow connection against the production build, LCP is
   around one second on every page and CLS stays under 0.05.
+- **Two state systems, never mixed**: Keep / Improve / Replace / Missing answers what to do with
+  something that already exists. Proposed / Executed / Tested / Verified answers how far through
+  implementation it is. A module can carry both.
+- **Every scope item names its owner**: Business Builder, Founder Action, or external provider. We
+  do not claim to form companies, file returns, issue tax IDs, open bank accounts or place
+  insurance. The verbs are prepare, guide, coordinate, prefill where allowed, track, connect and
+  verify completion.
 - **No invented proof**: no testimonials, customer logos, revenue figures, case studies or
   screenshots of customers that do not exist. The design studies are real work by this studio, and
   they are labelled as studies everywhere they appear. Everything else visual is a rendering of a

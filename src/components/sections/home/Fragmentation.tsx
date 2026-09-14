@@ -9,7 +9,7 @@ export function Fragmentation() {
       <Container>
         <div className={styles.grid}>
           <div className={styles.copy}>
-            <Eyebrow index="01">The problem</Eyebrow>
+            <Eyebrow index="02">The problem</Eyebrow>
             <Heading id="fragmentation-title" level={2}>
               Starting a real business is ten jobs.
             </Heading>

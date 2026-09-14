@@ -5,7 +5,7 @@ import { studiesCopy } from "@/content/studies";
 import { routes } from "@/config/brand";
 import styles from "./Studies.module.css";
 
-export function Studies({ index = "06" }: { index?: string }) {
+export function Studies({ index = "07" }: { index?: string }) {
   return (
     <Section aria-labelledby="studies-title" className={styles.section}>
       <Container>
@@ -23,7 +23,7 @@ export function Studies({ index = "06" }: { index?: string }) {
             </Button>
           </div>
         </div>
-        <StudyGrid variant="strip" limit={3} />
+        <StudyGrid variant="strip" limit={2} />
       </Container>
     </Section>
   );

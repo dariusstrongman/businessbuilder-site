@@ -23,3 +23,54 @@
   flex: none;
   transform: translateY(-1px);
 }
+
+.scope {
+  display: grid;
+  gap: var(--s-6);
+  margin-top: var(--s-8);
+  padding-top: var(--s-7);
+  border-top: 2px solid var(--fg);
+}
+
+.scopeHead {
+  display: grid;
+  gap: var(--s-3);
+  justify-items: start;
+}
+
+.scopeTitle {
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+  font-weight: 500;
+  font-stretch: 96%;
+  max-width: 16ch;
+}
+
+.scopeLead {
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+  color: var(--fg-2);
+  max-width: 44em;
+}
+
+.scopeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2rem;
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--fg);
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 1px;
+}
+
+.scopeLink:hover {
+  border-color: var(--fg);
+}
+
+.scopeLink svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}

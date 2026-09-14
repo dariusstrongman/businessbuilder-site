@@ -1,5 +1,4 @@
 .rail {
-  /* Node box is the tap target (28px); the marker inside it is 12px. */
   --node: 1.75rem;
   position: relative;
   display: grid;
@@ -9,7 +8,7 @@
 /* Phase headers: desktop only. */
 .phases {
   display: none;
-  grid-template-columns: 3fr 2fr 3fr 4fr;
+  grid-template-columns: 3fr 3fr 5fr 4fr;
   gap: var(--s-4);
 }
 
@@ -31,19 +30,19 @@
 .phaseSummary {
   font-size: var(--text-xs);
   color: var(--fg-3);
-  max-width: 26ch;
+  max-width: 30ch;
 }
 
-/* Stages: vertical list on mobile, twelve columns on desktop. */
-.stages {
+/* Mobile: one vertical run down a spine. */
+.columns {
+  --units: 15;
   --fill: 0;
   position: relative;
   display: grid;
   gap: 0;
 }
 
-/* Mobile: vertical track down the left gutter. */
-.stages::before {
+.columns::before {
   content: "";
   position: absolute;
   left: calc(var(--node) / 2 - 0.3125rem);
@@ -51,6 +50,14 @@
   bottom: 0.75rem;
   width: 1px;
   background: var(--line-strong);
+}
+
+.column {
+  display: grid;
+}
+
+.track {
+  display: grid;
 }
 
 .stage {
@@ -65,31 +72,6 @@
   padding: 0.75rem 0;
 }
 
-.stage[data-phase-label] {
-  grid-template-areas:
-    "phase phase"
-    "node label"
-    ". desc";
-  padding-top: 1.5rem;
-}
-
-.stage[data-phase-label]::before {
-  content: attr(data-phase-label);
-  grid-area: phase;
-  padding-left: calc(var(--node) - 0.625rem + var(--s-4));
-  margin-bottom: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: var(--text-mono-xs);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-  color: var(--fg-3);
-}
-
-.stage:first-child {
-  padding-top: 0;
-}
-
-/* The visual node is 18px; the hit area is 28px, centred on it. */
 .node {
   grid-area: node;
   display: grid;
@@ -119,11 +101,9 @@
   transition:
     background-color var(--d-2) var(--ease),
     border-color var(--d-2) var(--ease),
-    transform var(--d-2) var(--ease),
     box-shadow var(--d-2) var(--ease);
 }
 
-/* Actor shapes */
 .stage[data-actor="state"] .marker {
   border-radius: 2px;
   transform: rotate(45deg) scale(0.9);
@@ -133,7 +113,10 @@
   border-style: dashed;
 }
 
-/* Activation */
+.stage[data-actor="both"] .marker {
+  border-radius: 2px;
+}
+
 .active[data-actor="system"] .marker {
   background: var(--fg);
   border-color: var(--fg);
@@ -147,6 +130,11 @@
 
 .active[data-actor="state"] .marker {
   background: var(--accent);
+  border-color: var(--accent);
+}
+
+.active[data-actor="both"] .marker {
+  background: linear-gradient(135deg, var(--fg) 0 50%, var(--bg) 50% 100%);
   border-color: var(--accent);
 }
 
@@ -187,10 +175,29 @@
   line-height: 1.5;
 }
 
-/* Detail line and legend: desktop only. */
+/* The parallel band: three things happening at once, bracketed as a group. */
+.bandColumn {
+  position: relative;
+  margin: var(--s-3) 0;
+  padding: var(--s-4) 0 var(--s-4) var(--s-5);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 var(--r-2) var(--r-2) 0;
+  background: color-mix(in srgb, var(--accent-soft) 55%, transparent);
+}
+
+.bandLabel {
+  display: inline-block;
+  margin-bottom: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
 .detail {
   display: none;
-  grid-template-columns: auto auto auto 1fr;
+  grid-template-columns: auto auto auto;
   align-items: baseline;
   gap: var(--s-3) var(--s-4);
   padding: var(--s-5) 0 0;
@@ -239,50 +246,25 @@
   color: var(--fg-2);
   line-height: var(--leading-lead);
   grid-column: 1 / -1;
-  max-width: 48rem;
+  max-width: 52rem;
 }
 
-.legend {
-  display: none;
-  gap: var(--s-5);
-  flex-wrap: wrap;
-}
-
-.legend div {
+.bandNote {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: var(--text-xs);
-  color: var(--fg-3);
+  gap: var(--s-3);
+  align-items: baseline;
+  font-size: var(--text-small);
+  color: var(--fg-2);
+  line-height: 1.55;
+  max-width: 64ch;
 }
 
-.legendMarker {
-  display: block;
-  width: 0.625rem;
-  height: 0.625rem;
-  border-radius: 50%;
-  border: 1.5px solid var(--fg);
-}
-
-.legendSystem {
-  background: var(--fg);
-}
-
-.legendFounder {
-  border-color: var(--accent);
-  border-width: 2px;
-}
-
-.legendState {
-  border-radius: 2px;
-  transform: rotate(45deg) scale(0.9);
+.bandNoteMark {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 1px;
   background: var(--accent);
-  border-color: var(--accent);
-}
-
-.legendOptional {
-  border-style: dashed;
-  border-color: var(--fg-2);
+  flex: none;
 }
 
 @media (min-width: 64rem) {
@@ -294,45 +276,90 @@
     display: grid;
   }
 
-  .stages {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+  /* One track across, with the band taking three units of width. */
+  .columns {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-template-columns: none;
     column-gap: var(--s-2);
     padding-top: var(--s-2);
+    align-items: start;
   }
 
-  /* Desktop: horizontal track through the node centres, from first node to last. */
-  .stages::before,
-  .stages::after {
+  .columns::before,
+  .columns::after {
     content: "";
     position: absolute;
     top: calc(var(--s-2) + var(--node) / 2 - 0.1rem);
     bottom: auto;
     left: calc(var(--node) / 2 - 0.3125rem);
-    right: calc(100% / 12 - var(--node) / 2 + 0.3125rem);
+    right: calc(100% / var(--units) - var(--node) / 2 + 0.3125rem);
     width: auto;
     height: 1px;
     background: var(--line-strong);
   }
 
-  .stages::after {
+  .columns::after {
     background: var(--accent);
     transform-origin: left center;
     transform: scaleX(var(--fill));
     transition: transform 700ms var(--ease-out);
   }
 
-  .stage,
-  .stage[data-phase-label] {
+  /*
+   * The band spans three units and brackets its three tracks, so the eye reads
+   * one group happening at once rather than three more beads on the string.
+   */
+  .bandColumn {
+    grid-column: span 3;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    position: relative;
+  }
+
+  .bandColumn::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(var(--s-2) - 0.55rem);
+    bottom: -0.6rem;
+    border: 1px dashed color-mix(in srgb, var(--accent) 55%, transparent);
+    border-radius: var(--r-2);
+    background: color-mix(in srgb, var(--accent-soft) 40%, transparent);
+  }
+
+  .bandLabel {
+    position: absolute;
+    left: 50%;
+    bottom: -1.35rem;
+    transform: translateX(-50%);
+    margin: 0;
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--r-1);
+    background: var(--bg);
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .bandTrack {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    column-gap: var(--s-2);
+    position: relative;
+    z-index: 1;
+  }
+
+  .stage {
     grid-template-columns: 1fr;
     grid-template-areas:
       "node"
       "label";
     row-gap: var(--s-3);
     padding: 0;
-  }
-
-  .stage[data-phase-label]::before {
-    display: none;
   }
 
   .node {
@@ -343,9 +370,10 @@
   .stageLabel {
     flex-direction: column;
     gap: 0.2rem;
-    font-size: var(--text-small);
-    line-height: 1.3;
+    font-size: var(--text-xs);
+    line-height: 1.35;
     padding-right: var(--s-2);
+    overflow-wrap: break-word;
   }
 
   .stageDescription {
@@ -354,10 +382,6 @@
 
   .detail {
     display: grid;
-    margin-top: var(--s-5);
-  }
-
-  .legend {
-    display: flex;
+    margin-top: var(--s-7);
   }
 }

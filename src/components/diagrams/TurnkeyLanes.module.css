@@ -1,0 +1,326 @@
+.turnkey {
+  display: grid;
+  gap: var(--s-6);
+}
+
+/* Filters */
+.filters {
+  display: grid;
+  gap: var(--s-3);
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.filterLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  padding: 0 0.875rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--fg-2);
+  background: var(--bg-raised);
+  transition:
+    color var(--d-1) var(--ease),
+    border-color var(--d-1) var(--ease),
+    background-color var(--d-1) var(--ease);
+}
+
+.filter:hover {
+  border-color: var(--fg-3);
+  color: var(--fg);
+}
+
+.filterCount {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg-4);
+  font-variant-numeric: tabular-nums;
+}
+
+.filterOn {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--bg);
+}
+
+.filterOn .filterCount {
+  color: var(--bg);
+  opacity: 0.7;
+}
+
+.filterOn[data-owner="founder"] {
+  background: var(--founder);
+  border-color: var(--founder);
+  color: #fff;
+}
+
+.filterOn[data-owner="external"] {
+  background: var(--progress);
+  border-color: var(--progress);
+  color: #fff;
+}
+
+.filterMeaning {
+  font-size: var(--text-small);
+  color: var(--fg-2);
+  line-height: 1.5;
+  max-width: 60ch;
+}
+
+/* Lanes */
+.lanes {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.lane {
+  display: grid;
+  gap: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.laneHead {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "index label"
+    ".     premise"
+    ".     count";
+  column-gap: var(--s-3);
+  row-gap: 0.2rem;
+  align-content: start;
+}
+
+.laneIndex {
+  grid-area: index;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--accent);
+  padding-top: 0.45rem;
+}
+
+.laneLabel {
+  grid-area: label;
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+  letter-spacing: var(--tracking-h3);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.lanePremise {
+  grid-area: premise;
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  line-height: 1.5;
+  max-width: 40ch;
+}
+
+.laneCount {
+  grid-area: count;
+  margin-top: var(--s-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-4);
+}
+
+/* Full item list */
+.items {
+  display: grid;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "owner"
+    "label"
+    "detail";
+  gap: 0.2rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.owner {
+  grid-area: owner;
+  justify-self: start;
+  padding: 0.15rem 0.45rem;
+  margin-bottom: 0.2rem;
+  border-radius: var(--r-1);
+  border: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-3);
+  white-space: nowrap;
+}
+
+[data-owner="founder"] .owner {
+  color: var(--founder);
+  border-color: color-mix(in srgb, var(--founder) 45%, transparent);
+  background: var(--founder-soft);
+}
+
+[data-owner="external"] .owner {
+  color: var(--progress);
+  border-color: color-mix(in srgb, var(--progress) 45%, transparent);
+  background: var(--progress-soft);
+}
+
+.itemLabel {
+  grid-area: label;
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.itemDetail {
+  grid-area: detail;
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  line-height: 1.5;
+}
+
+.empty {
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/*
+ * The homepage index collapses to lane names and counts on a phone. Forty chips
+ * stacked in a column is a list, not a diagram, and it buries everything after it.
+ */
+@media (max-width: 47.99rem) {
+  .turnkey:not(:has(.items)) .chips,
+  .turnkey:not(:has(.items)) .lanePremise {
+    display: none;
+  }
+
+  .turnkey:not(:has(.items)) .lane {
+    gap: 0;
+    padding-top: var(--s-3);
+  }
+}
+
+/* Index chips, for the homepage cut */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip,
+.chipMore {
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--r-1);
+  border: 1px solid var(--line);
+  font-size: var(--text-xs);
+  color: var(--fg-2);
+  background: var(--bg-raised);
+}
+
+[data-owner="founder"].chip {
+  border-color: color-mix(in srgb, var(--founder) 40%, transparent);
+  color: var(--founder);
+}
+
+[data-owner="external"].chip {
+  border-color: color-mix(in srgb, var(--progress) 40%, transparent);
+  color: var(--progress);
+}
+
+.chipMore {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg-4);
+  border-style: dashed;
+}
+
+.boundary {
+  display: flex;
+  gap: var(--s-3);
+  align-items: baseline;
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--text-small);
+  color: var(--fg-2);
+  line-height: 1.55;
+  max-width: 68ch;
+}
+
+.boundaryMark {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 1px;
+  background: var(--progress);
+  flex: none;
+}
+
+@media (min-width: 48rem) {
+  .item {
+    grid-template-columns: 9rem minmax(0, 1fr);
+    grid-template-areas:
+      "owner label"
+      ".     detail";
+    column-gap: var(--s-4);
+    align-items: baseline;
+  }
+
+  .owner {
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 64rem) {
+  .lanes {
+    gap: var(--s-6);
+  }
+
+  .lane {
+    grid-template-columns: 17rem minmax(0, 1fr);
+    gap: var(--s-6);
+    padding-top: var(--s-5);
+  }
+
+  .laneHead {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  /* The homepage index reads as a register rather than a stack. */
+  .turnkey:not(:has(.items)) .lanes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--s-7);
+  }
+
+  .turnkey:not(:has(.items)) .lane {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-3);
+  }
+
+  .item {
+    grid-template-columns: 9rem minmax(0, 1fr) minmax(0, 1.3fr);
+    grid-template-areas: "owner label detail";
+  }
+}

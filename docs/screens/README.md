@@ -37,6 +37,10 @@ Captured at 1.5x.
 
 ![Build Room, compact](details/build-room-compact.jpg)
 
+### Where are you starting from: the branch
+
+![Where are you starting from: the branch](details/starting-points.jpg)
+
 ### The ten jobs ledger
 
 ![The ten jobs ledger](details/fragmentation.jpg)
@@ -45,9 +49,9 @@ Captured at 1.5x.
 
 ![The Company, Assembled: the signature view](details/company-assembly.jpg)
 
-### The journey rail
+### The journey rail, with the parallel band
 
-![The journey rail](details/journey-rail.jpg)
+![The journey rail, with the parallel band](details/journey-rail.jpg)
 
 ### Build Room, full
 
@@ -61,9 +65,9 @@ Captured at 1.5x.
 
 ![Design studies on the homepage](details/design-studies-strip.jpg)
 
-### A Founder Action at real size
+### Three kinds of task, and the one that is yours
 
-![A Founder Action at real size](details/founder-action.jpg)
+![Three kinds of task, and the one that is yours](details/founder-action.jpg)
 
 ### The verification ladder, settled
 
@@ -125,6 +129,14 @@ Captured at 1.5x.
 
 ![The five design studies](details/design-studies-full.jpg)
 
+### Turnkey scope: six lanes, every item owned
+
+![Turnkey scope: six lanes, every item owned](details/turnkey-scope.jpg)
+
 ### The bill of materials
 
 ![The bill of materials](details/bill-of-materials.jpg)
+
+### The Existing Business Audit
+
+![The Existing Business Audit](details/existing-business-audit.jpg)

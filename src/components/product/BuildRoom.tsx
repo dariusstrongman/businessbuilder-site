@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import {
   founderActionStatusLabels,
   founderActions,
+  laneLabels,
   modules,
   readiness,
   type FounderActionStatus,
+  type Lane,
   type Status,
 } from "@/content/buildRoom";
-import { phases } from "@/content/journey";
+import { ownerLabels } from "@/content/turnkey";
 import { StatusChip } from "./StatusChip";
 import { CheckIcon } from "@/components/primitives/Icons";
 import { useInView } from "@/lib/useInView";
@@ -26,13 +28,15 @@ type Props = {
   className?: string;
 };
 
-/* Scripted assembly sequence. Each tick is one step; the loop resets after a hold at Fully Set. */
-const TICK_MS = 750;
-const SNAPSHOT = 8;
-const LOOP_END = 23;
+/* Scripted assembly. Each tick is one step; the loop resets after a hold at Fully Set. */
+const TICK_MS = 700;
+const SNAPSHOT = 9;
+const LOOP_END = 26;
+
+const laneOrder: Lane[] = ["foundation", "identity", "customer", "operations", "launch", "proof"];
 
 function moduleStatus(index: number, t: number): Status {
-  if (t >= 8 + index) return "verified";
+  if (t >= 9 + index) return "verified";
   if (t >= 5 + index) return "tested";
   if (t >= 2 + index) return "executed";
   return "proposed";
@@ -42,14 +46,14 @@ function founderStatus(id: string, t: number): FounderActionStatus {
   switch (id) {
     case "legal-name":
       return "done";
+    case "ein":
+      return t >= 8 ? "done" : "waiting";
     case "processor-identity":
-      return t >= 11 ? "done" : "waiting";
-    case "address":
-      if (t >= 13) return "done";
+      if (t >= 15) return "done";
       return t >= 6 ? "waiting" : "upcoming";
-    case "bank":
-      if (t >= 16) return "done";
-      return t >= 10 ? "waiting" : "upcoming";
+    case "gbp":
+      if (t >= 19) return "done";
+      return t >= 12 ? "waiting" : "upcoming";
     default:
       return "upcoming";
   }
@@ -83,7 +87,7 @@ export function BuildRoom({ variant = "full", prompt = "A mobile detailing busin
   const state: Readiness = isFullySet ? "fully-set" : isReady ? "ready" : "building";
   const waiting = actions.find((a) => a.status === "waiting");
 
-  const currentPhase = isFullySet || isReady ? "own" : "build";
+  const visibleLanes = laneOrder.filter((l) => modules.some((m) => m.lane === l));
 
   return (
     <div
@@ -91,7 +95,7 @@ export function BuildRoom({ variant = "full", prompt = "A mobile detailing busin
       className={cn(styles.frame, styles[variant], className)}
       data-state={state}
       role="img"
-      aria-label={`Build Room preview for “${prompt}”. ${verifiedCount} of ${modules.length} modules verified, ${doneActions} of ${actions.length} founder actions done. Status: ${readinessLabel[state]}.`}
+      aria-label={`Build Room preview for “${prompt}”. ${verifiedCount} of ${modules.length} modules verified across ${visibleLanes.length} lanes, ${doneActions} of ${actions.length} founder actions done. Status: ${readinessLabel[state]}.`}
     >
       <div className={styles.topbar}>
         <div className={styles.topbarLeft}>
@@ -110,16 +114,16 @@ export function BuildRoom({ variant = "full", prompt = "A mobile detailing busin
         {variant === "full" ? (
           <aside className={styles.sidebar} aria-hidden>
             <div className={styles.sideGroup}>
-              <span className={styles.sideLabel}>Phase</span>
-              <ul className={styles.phaseList}>
-                {phases.map((p) => {
-                  const order = ["understand", "decide", "build", "own"];
-                  const done = order.indexOf(p.id) < order.indexOf(currentPhase);
-                  const current = p.id === currentPhase;
+              <span className={styles.sideLabel}>Lanes</span>
+              <ul className={styles.laneList}>
+                {visibleLanes.map((lane) => {
+                  const idx = modules.map((m, i) => (m.lane === lane ? i : -1)).filter((i) => i >= 0);
+                  const done = idx.every((i) => statuses[i] === "verified");
+                  const started = idx.some((i) => statuses[i] !== "proposed");
                   return (
-                    <li key={p.id} className={cn(styles.phaseItem, done && styles.phaseDone, current && styles.phaseCurrent)}>
-                      <span className={styles.phaseMarker}>{done ? <CheckIcon className={styles.phaseCheck} /> : null}</span>
-                      {p.label}
+                    <li key={lane} className={cn(styles.laneItem, done && styles.laneDone, !done && started && styles.laneCurrent)}>
+                      <span className={styles.laneMarker}>{done ? <CheckIcon className={styles.laneCheck} /> : null}</span>
+                      {laneLabels[lane]}
                     </li>
                   );
                 })}
@@ -154,20 +158,33 @@ export function BuildRoom({ variant = "full", prompt = "A mobile detailing busin
             </div>
           ) : null}
           <ul className={styles.modules}>
-            {modules.map((m, i) => {
-              const status = statuses[i];
-              return (
-                <li key={m.id} className={styles.moduleRow} data-status={status}>
-                  <span className={styles.moduleName}>{m.name}</span>
-                  {variant === "full" ? (
-                    <span className={cn(styles.moduleEvidence, status === "verified" && styles.moduleEvidenceVerified)}>
-                      {status === "verified" ? m.evidence : m.detail}
-                    </span>
-                  ) : null}
-                  <StatusChip status={status} size={variant === "compact" ? "sm" : "md"} className={styles.chip} />
-                </li>
-              );
-            })}
+            {visibleLanes.map((lane) => (
+              <li key={lane} className={styles.laneGroup}>
+                {variant === "full" ? <span className={styles.laneHeading}>{laneLabels[lane]}</span> : null}
+                <ul>
+                  {modules.map((m, i) =>
+                    m.lane !== lane ? null : (
+                      <li key={m.id} className={styles.moduleRow} data-status={statuses[i]} data-owner={m.owner}>
+                        <span className={styles.moduleName}>
+                          {m.name}
+                          {m.owner !== "builder" ? (
+                            <span className={styles.ownerTag}>{ownerLabels[m.owner]}</span>
+                          ) : null}
+                        </span>
+                        {variant === "full" ? (
+                          <span
+                            className={cn(styles.moduleEvidence, statuses[i] === "verified" && styles.moduleEvidenceVerified)}
+                          >
+                            {statuses[i] === "verified" ? m.evidence : m.detail}
+                          </span>
+                        ) : null}
+                        <StatusChip status={statuses[i]} size={variant === "compact" ? "sm" : "md"} className={styles.chip} />
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </li>
+            ))}
           </ul>
         </div>
 

@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/primitives/PageHero";
 import { Button } from "@/components/primitives/Button";
+import { Container, Section, SectionHeader } from "@/components/primitives/Layout";
 import { Split } from "@/components/primitives/Split";
 import { BuildRoomSection } from "@/components/sections/home/BuildRoomSection";
 import { FounderActions } from "@/components/sections/home/FounderActions";
 import { Verification } from "@/components/sections/home/Verification";
 import { Handoff } from "@/components/sections/home/Handoff";
 import { EvidenceLog } from "@/components/product/EvidenceLog";
+import { AuditMatrix } from "@/components/product/AuditMatrix";
+import { auditCopy } from "@/content/audit";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { cta, routes } from "@/config/brand";
 
@@ -42,12 +45,25 @@ export default function ProductPage() {
         lead="This is a live preview of the Build Room running a mobile detailing build. Statuses move as the build progresses; Ready and Fully Set switch on when the evidence says so."
       />
 
-      <FounderActions index="02" />
+      <Section aria-labelledby="audit-title" id="audit" tone="paper-2">
+        <Container>
+          <SectionHeader
+            index="02"
+            eyebrow={auditCopy.eyebrow}
+            id="audit-title"
+            title={auditCopy.title}
+            lead={auditCopy.lead}
+          />
+          <AuditMatrix variant="full" />
+        </Container>
+      </Section>
 
-      <Verification index="03" />
+      <FounderActions index="03" />
+
+      <Verification index="04" />
 
       <Split
-        index="04"
+        index="05"
         eyebrow="The evidence log"
         id="evidence-title"
         title="Every check, written down."
@@ -64,7 +80,7 @@ export default function ProductPage() {
         </p>
       </Split>
 
-      <Handoff index="05" />
+      <Handoff index="06" />
 
       <CtaBand />
     </>

@@ -1,4 +1,4 @@
-export type Actor = "founder" | "system" | "state" | "optional";
+export type Actor = "founder" | "system" | "state" | "optional" | "both";
 
 export type Phase = {
   id: "understand" | "decide" | "build" | "own";
@@ -12,115 +12,158 @@ export type Stage = {
   phase: Phase["id"];
   actor: Actor;
   description: string;
+  /** Used on the rail, where a column is only a few characters wide. */
+  short?: string;
+  /**
+   * Stages sharing a track number run alongside each other rather than after
+   * each other. Build, Founder Actions and verification are not silos: each
+   * starts the moment its dependencies allow.
+   */
+  track?: 1 | 2 | 3;
 };
 
 export const phases: Phase[] = [
   {
     id: "understand",
     label: "Understand",
-    summary: "We learn what you want and what the market will support.",
+    summary: "Where you are starting from, what you want, and what the market supports.",
   },
   {
     id: "decide",
     label: "Decide",
-    summary: "We propose the strongest version. You approve it.",
+    summary: "We propose the strongest version. You approve it, then commit.",
   },
   {
     id: "build",
     label: "Build",
-    summary: "We assemble the company and prove each part works.",
+    summary: "Assembly, your actions and verification run together, not in sequence.",
   },
   {
     id: "own",
     label: "Own",
-    summary: "You take the keys, or we keep parts of it running.",
+    summary: "Finish what is left, take the keys, or keep parts of it running.",
   },
 ];
 
 export const stages: Stage[] = [
   {
-    id: "idea",
-    label: "Idea",
+    id: "starting-point",
+    label: "Starting point",
+    short: "Start point",
     phase: "understand",
     actor: "founder",
-    description: "You describe the company you want, in your own words.",
+    description:
+      "You tell us where you are starting from: an idea, a half-built setup, an existing business, or one you want operated.",
   },
   {
     id: "understand",
     label: "Understand",
     phase: "understand",
     actor: "system",
-    description: "We learn your goals, constraints, service area and how you want to work.",
+    description: "We learn your goals, constraints, service area and how you want to work. Answers are stored once.",
   },
   {
     id: "research",
     label: "Research",
     phase: "understand",
     actor: "system",
-    description: "We study the local market, competitors, pricing norms and demand.",
+    description:
+      "We study the local market and, if you already trade, audit what you have and classify every system.",
   },
   {
-    id: "recommend",
-    label: "Recommend",
+    id: "recommendation",
+    label: "Recommendation",
+    short: "Propose",
     phase: "decide",
     actor: "system",
-    description: "We propose positioning, offer, brand direction and scope. We say where the idea is weak.",
+    description:
+      "A scope you can read: what to keep, improve, replace or add, what only you can do, and what it costs.",
   },
   {
-    id: "approve",
-    label: "Approve",
+    id: "approval",
+    label: "Founder approval",
+    short: "Approve",
     phase: "decide",
     actor: "founder",
-    description: "Nothing is built until you approve the direction.",
+    description: "Nothing is built and nothing is charged until you approve the direction and the scope.",
   },
   {
-    id: "build",
-    label: "Build",
+    id: "commit",
+    label: "Purchase",
+    phase: "decide",
+    actor: "founder",
+    description: "You commit to the agreed scope. The Build Room opens on the same day.",
+  },
+  {
+    id: "build-room",
+    label: "Build Room opens",
+    short: "Build Room",
     phase: "build",
     actor: "system",
-    description: "Brand, website, domain, email, CRM, scheduling, payments and setup are assembled.",
+    description: "One place showing every lane, every module and who each remaining task belongs to.",
+  },
+  {
+    id: "assembly",
+    label: "Assembly",
+    phase: "build",
+    actor: "system",
+    track: 1,
+    description: "Identity, website, customer systems, operations and launch presence are configured and connected.",
   },
   {
     id: "founder-actions",
     label: "Founder Actions",
+    short: "Your actions",
     phase: "build",
     actor: "founder",
-    description: "Anything only you can do is prepared for you, explained, and tracked.",
+    track: 2,
+    description:
+      "Signatures, identity checks and regulated account openings, each prepared and explained. They start immediately, not at the end.",
   },
   {
-    id: "verify",
-    label: "Verify",
+    id: "verification",
+    label: "Verification",
     phase: "build",
     actor: "system",
-    description: "Each system is executed, tested, and checked against what you should see.",
+    track: 3,
+    description: "Checks run continuously as each connection is made, rather than as a final pass.",
   },
   {
     id: "ready",
     label: "Ready",
-    phase: "own",
+    phase: "build",
     actor: "state",
-    description: "Customers can find you, reach you, book you and pay you.",
+    description: "A real customer can move through your whole path: find you, ask, get a quote, book, and pay.",
+  },
+  {
+    id: "finish-setup",
+    label: "Finish setup",
+    short: "Finish setup",
+    phase: "own",
+    actor: "both",
+    description: "The remaining administrative and operational work is completed and recorded, together.",
   },
   {
     id: "fully-set",
     label: "Fully Set",
     phase: "own",
     actor: "state",
-    description: "Every founder action complete. Every connected system verified.",
+    description: "Every agreed customer-facing, operational, ownership and administrative item is complete and verified.",
   },
   {
     id: "handoff",
     label: "Handoff",
     phase: "own",
     actor: "founder",
-    description: "You take the keys and every asset, with the evidence.",
+    description: "Accounts, assets, documents, evidence and obligations transfer to you, in writing.",
   },
   {
     id: "run",
-    label: "Run",
+    label: "Take the keys, or run it",
+    short: "Keys, or run",
     phase: "own",
     actor: "optional",
-    description: "Or we keep operating parts of the company, inside limits you set.",
+    description: "Run it yourself, or have us keep operating agreed parts inside limits you set.",
   },
 ];
 
@@ -128,5 +171,12 @@ export const actorLabels: Record<Actor, string> = {
   founder: "You",
   system: "Business Builder",
   state: "Milestone",
-  optional: "Optional",
+  optional: "Your choice",
+  both: "Together",
+};
+
+/** The parallel band, named so the rail and the copy stay in step. */
+export const parallelBand = {
+  label: "Runs in parallel",
+  note: "Assembly, your Founder Actions and verification all run at once. Each starts as soon as its dependencies allow, so waiting on a bank or a government office never stops the rest of the build.",
 };

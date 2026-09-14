@@ -11,7 +11,7 @@ export function BuildAndRun() {
     <Section tone="paper-2" aria-labelledby="run-title" className={styles.section}>
       <Container>
         <SectionHeader
-          index="10"
+          index="11"
           eyebrow="Build & Run"
           id="run-title"
           title="AI workers, inside limits you set."

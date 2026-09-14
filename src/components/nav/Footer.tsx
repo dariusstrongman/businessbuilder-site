@@ -61,8 +61,8 @@ export function Footer() {
       </div>
       <div className={styles.bottom}>
         <p>
-          © {brand.foundedYear} {brand.name}. We prepare and guide legal and financial steps. We do not give legal or
-          tax advice.
+          © {brand.foundedYear} {brand.name}. We prepare, guide and coordinate legal and financial steps. We are not a
+          law firm, accountant, insurer, bank or filing authority, and we do not give legal or tax advice.
         </p>
         <p className={styles.meta}>Built for service businesses. Verified before handoff.</p>
       </div>

@@ -6,6 +6,8 @@ import { Split } from "@/components/primitives/Split";
 import { Ledger } from "@/components/primitives/Ledger";
 import { BuildRoom } from "@/components/product/BuildRoom";
 import { WhatWeBuild } from "@/components/sections/home/WhatWeBuild";
+import { TurnkeyLanes } from "@/components/diagrams/TurnkeyLanes";
+import { turnkeyCopy } from "@/content/turnkey";
 import { FounderActions } from "@/components/sections/home/FounderActions";
 import { Verification } from "@/components/sections/home/Verification";
 import { Ownership } from "@/components/sections/home/Ownership";
@@ -76,10 +78,23 @@ export default function BuildMyBusinessPage() {
         </Container>
       </Section>
 
-      <WhatWeBuild index="02" />
+      <Section aria-labelledby="turnkey-title">
+        <Container>
+          <SectionHeader
+            index="02"
+            eyebrow={turnkeyCopy.eyebrow}
+            id="turnkey-title"
+            title={turnkeyCopy.title}
+            lead={turnkeyCopy.lead}
+          />
+          <TurnkeyLanes variant="full" />
+        </Container>
+      </Section>
+
+      <WhatWeBuild index="03" />
 
       <Split
-        index="03"
+        index="04"
         eyebrow="The Build Room"
         id="room-title"
         title="You watch it happen."
@@ -92,14 +107,14 @@ export default function BuildMyBusinessPage() {
         </Button>
       </Split>
 
-      <FounderActions index="04" />
+      <FounderActions index="05" />
 
-      <Verification index="05" />
+      <Verification index="06" />
 
-      <Ownership index="06" />
+      <Ownership index="07" />
 
       <Split
-        index="07"
+        index="08"
         eyebrow="The package"
         id="package-title"
         title={business.name}

@@ -11,6 +11,7 @@ export type StartState = {
   name?: string;
   email?: string;
   tier?: string;
+  from?: string;
 };
 
 const packageIds = new Set(packages.map((p) => p.id));
@@ -26,7 +27,8 @@ export async function startBuild(_prev: StartState, form: FormData): Promise<Sta
   const email = String(form.get("email") ?? "").trim();
   const pkg = String(form.get("package") ?? "");
   const tier = String(form.get("tier") ?? "") || undefined;
-  const echo = { idea, name, email, tier, packageId: packageIds.has(pkg as PackageId) ? (pkg as PackageId) : undefined };
+  const from = String(form.get("from") ?? "") || undefined;
+  const echo = { idea, name, email, tier, from, packageId: packageIds.has(pkg as PackageId) ? (pkg as PackageId) : undefined };
 
   if (idea.length < 12) {
     return {
@@ -46,5 +48,5 @@ export async function startBuild(_prev: StartState, form: FormData): Promise<Sta
     return { ...echo, status: "error", message: "Choose a package to start from. You can change it later." };
   }
 
-  return { status: "received", idea, packageId: echo.packageId, name, email, tier };
+  return { status: "received", idea, packageId: echo.packageId, name, email, tier, from };
 }

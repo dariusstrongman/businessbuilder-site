@@ -26,6 +26,11 @@ export const trustItems: TrustItem[] = [
     text: "Permissions, budgets and approvals are explicit. Workers ask before anything irreversible, customer-facing or costly.",
   },
   {
+    id: "boundary",
+    title: "Clear lines about who does what",
+    text: "Every task belongs to us, to you, or to an external provider. Where the law requires you personally, we prepare everything around it and say so plainly rather than implying we can do it.",
+  },
+  {
     id: "human",
     title: "A person you can reach",
     text: "Workers escalate what they cannot resolve. You can talk to a human about your build at any stage.",
@@ -33,7 +38,7 @@ export const trustItems: TrustItem[] = [
 ];
 
 export const honestScope = [
-  "We prepare and guide legal, tax and financial steps. We do not give legal or tax advice.",
+  "We prepare, guide and coordinate legal, tax and financial steps. We are not a law firm, an accountant, an insurer, a bank, a registered agent or a filing authority.",
   "We verify systems we connect. We do not promise revenue, rankings or customers.",
   "AI workers operate inside the limits you set. They are not autonomous employees.",
 ];

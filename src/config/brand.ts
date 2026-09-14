@@ -7,7 +7,7 @@ export const brand = {
   shortName: "Business Builder",
   tagline: "Describe the company you want. We build it, verify it, and hand you the keys.",
   description:
-    "Business Builder researches your idea, assembles your brand, website and business systems, verifies that everything works, and hands over a company you own.",
+    "Start with an idea or a business you already run. Business Builder researches it, keeps what works, assembles the rest across foundation, identity, customer systems, operations and local presence, verifies every part, and hands over a company you own.",
   foundedYear: 2026,
 } as const;
 

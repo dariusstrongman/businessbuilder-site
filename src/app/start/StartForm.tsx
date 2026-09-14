@@ -6,6 +6,7 @@ import { Button } from "@/components/primitives/Button";
 import { CheckIcon } from "@/components/primitives/Icons";
 import { packages, type PackageId } from "@/content/packages";
 import { websiteTiers } from "@/content/websiteTiers";
+import { startingPoints, type StartingPointId } from "@/content/startingPoints";
 import { archetypes } from "@/content/archetypes";
 import { phases } from "@/content/journey";
 import { cta, routes } from "@/config/brand";
@@ -18,6 +19,8 @@ type Props = {
   defaultPackage: PackageId;
   /** Set when the visitor picked a specific website tier. */
   defaultTier?: string;
+  /** Set when the visitor arrived from a starting point. */
+  defaultFrom?: StartingPointId;
 };
 
 /** The four phases, with one marked as where the founder currently is. */
@@ -35,11 +38,12 @@ function NextSteps({ current }: { current: number }) {
   );
 }
 
-export function StartForm({ defaultIdea, defaultPackage, defaultTier }: Props) {
+export function StartForm({ defaultIdea, defaultPackage, defaultTier, defaultFrom = "idea" }: Props) {
   const id = useId();
   const [state, action, pending] = useActionState<StartState, FormData>(startBuild, { status: "idle" });
   const [idea, setIdea] = useState(defaultIdea);
   const [pkg, setPkg] = useState<PackageId>(defaultPackage);
+  const [from, setFrom] = useState<StartingPointId>(defaultFrom);
 
   if (state.status === "received") {
     return (
@@ -60,6 +64,12 @@ export function StartForm({ defaultIdea, defaultPackage, defaultTier }: Props) {
                   <dt>The company</dt>
                   <dd>{state.idea}</dd>
                 </div>
+                {state.from ? (
+                  <div>
+                    <dt>Starting from</dt>
+                    <dd>{startingPoints.find((p) => p.id === state.from)?.label}</dd>
+                  </div>
+                ) : null}
                 <div>
                   <dt>Starting package</dt>
                   <dd>{packages.find((p) => p.id === state.packageId)?.name}</dd>
@@ -119,6 +129,31 @@ export function StartForm({ defaultIdea, defaultPackage, defaultTier }: Props) {
             aria-describedby={state.status === "error" ? `${id}-error` : undefined}
           >
             {defaultTier ? <input type="hidden" name="tier" value={defaultTier} /> : null}
+
+            <fieldset className={styles.fieldset}>
+              <legend className={styles.label}>Where are you starting from?</legend>
+              <div className={styles.packages}>
+                {startingPoints.map((p) => (
+                  <label key={p.id} className={cn(styles.package, from === p.id && styles.packageActive)}>
+                    <input
+                      type="radio"
+                      name="from"
+                      value={p.id}
+                      checked={from === p.id}
+                      onChange={() => setFrom(p.id)}
+                      className={styles.radio}
+                    />
+                    <span className={styles.packageName}>{p.label}</span>
+                    <span className={styles.packageModel}>{p.audits ? "Starts with an audit" : "Starts with research"}</span>
+                  </label>
+                ))}
+              </div>
+              <p className={styles.hint}>
+                This changes what happens next. If you already trade, we inventory what you have before we change
+                anything.
+              </p>
+            </fieldset>
+
             <div className={styles.field}>
               <label htmlFor={`${id}-idea`} className={styles.label}>
                 The company, in your words

@@ -475,3 +475,109 @@ a cleaning company. The "where it transfers" line bridges that, and it is a
 bridge rather than a solution. The real fix is the first three real builds, at
 which point these studies can be retired in favour of work that is both real and
 on-archetype.
+
+---
+
+# Locked scope update
+
+The customer journey and the turnkey scope are now locked, and the site was
+updated to match. The visual system, typography, verification colours, design
+studies, Build Room language, evidence receipt and handoff concept are all
+unchanged.
+
+## The branch comes first
+
+The journey used to assume everyone started from nothing. Most owners do not.
+The first question is now **where are you starting from**, with four answers: an
+idea, a half-finished setup, a business that already trades, and a business you
+want operated for you. Everything after it changes.
+
+This sits at homepage section 01, above the problem statement, because a
+trading owner who reads a from-zero story leaves before reaching anything that
+would have been relevant to them.
+
+## The audit, and two state systems
+
+Owners who already trade get an **Existing Business Audit**: twenty-two systems
+inventoried and classified **Keep, Improve, Replace or Missing**, each with a
+reason. The tally leads with how much is being kept, because the most valuable
+thing an audit does is stop someone buying what they already own.
+
+This introduces a second state system, and the two must never be mixed:
+
+- **Keep / Improve / Replace / Missing** answers *what do we do with the thing
+  you already have?*
+- **Proposed / Executed / Tested / Verified** answers *how far through
+  implementation is it?*
+
+A module can carry both. The audit lives in `audit.ts`, implementation state in
+`buildRoom.ts`, and each file says so at the top.
+
+## Turnkey scope, with an owner on every line
+
+Six lanes, thirty-nine items: Company foundation, Identity, Customer system,
+Operations, Local and launch presence, Proof and ownership. Every item names who
+completes it, because the honest answer varies:
+
+- **Business Builder**, twenty-nine items. We research, prepare, configure,
+  connect, test or verify it.
+- **Founder Action**, five items. A signature, an identity check, a legal
+  acceptance, a regulated account opening or a payment.
+- **External provider**, five items. A government agency, bank, insurer,
+  registered agent, accountant or payment provider performs the final step.
+
+The scope can be filtered by owner, which answers the question a founder
+actually has: what is left for me? Five items.
+
+## The legal boundary, stated rather than implied
+
+We do not say we form companies, file returns, issue tax IDs, open bank accounts
+or place insurance. The verbs are prepare, guide, coordinate, prefill where
+allowed, track, connect and verify completion. The boundary sentence appears on
+the scope, in the trust page, and in the footer: Business Builder is not a law
+firm, an accountant, an insurer, a bank, a registered agent or a filing
+authority.
+
+## Parallel, not sequential
+
+Assembly, Founder Actions and verification used to read as three silos in a row.
+They are now a bracketed band on the journey rail, labelled *runs in parallel*,
+with the three tracks inside it. This matters commercially as much as
+conceptually: a founder waiting three weeks on a government office should not
+believe the whole build is frozen.
+
+## Ready and Fully Set, redefined
+
+**Ready** is no longer about accounts existing. It means a real customer can move
+through the whole path: find you, ask, get a response, book, pay where it
+applies, and receive the confirmation. Six checks, all customer-facing.
+
+**Fully Set** means every agreed customer-facing, operational, ownership and
+administrative item is complete and verified, including foundation steps and
+Founder Actions. The scope a founder approved decides which items count, and the
+site says so rather than implying every business needs every item.
+
+## Never ask twice
+
+The Company Brain principle appears where it is true today: answers are captured
+once and reused by later forms, and a completed Founder Action is recorded so it
+is never requested again. It is stated as a principle rather than marketed as a
+finished integration, because not every downstream path is wired yet.
+
+## What was cut to make room
+
+The homepage gained the starting-point branch and the scope index. To avoid a
+sixteen-section page becoming eighteen, the standalone Ownership section was
+folded into Handoff, where the manifest belongs anyway, and the homepage study
+strip dropped from three rendered sites to two. All five remain on `/work`.
+
+## Known gaps
+
+- The homepage is long: roughly 22,500px at desktop and 32,700px on a phone.
+  Every section earns its place and nothing overflows, but this is a page that
+  rewards scrolling rather than skimming.
+- The starting-point branch changes the copy a visitor reads. It does not yet
+  change the intake beyond carrying the choice through, because the downstream
+  product does not branch yet.
+- The audit shown is illustrative, built from one representative pressure
+  washing company. It is labelled as an example and is not a real customer.

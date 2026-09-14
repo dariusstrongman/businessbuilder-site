@@ -1,4 +1,5 @@
 import { Hero } from "@/components/sections/home/Hero";
+import { StartingPoints } from "@/components/sections/home/StartingPoints";
 import { Fragmentation } from "@/components/sections/home/Fragmentation";
 import { Assembly } from "@/components/sections/home/Assembly";
 import { Journey } from "@/components/sections/home/Journey";
@@ -9,7 +10,6 @@ import { FounderActions } from "@/components/sections/home/FounderActions";
 import { Verification } from "@/components/sections/home/Verification";
 import { Handoff } from "@/components/sections/home/Handoff";
 import { BuildAndRun } from "@/components/sections/home/BuildAndRun";
-import { Ownership } from "@/components/sections/home/Ownership";
 import { Businesses } from "@/components/sections/home/Businesses";
 import { Packages } from "@/components/sections/home/Packages";
 import { Trust } from "@/components/sections/home/Trust";
@@ -19,6 +19,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <StartingPoints />
       <Fragmentation />
       <Assembly />
       <Journey />
@@ -29,7 +30,6 @@ export default function HomePage() {
       <Verification />
       <Handoff />
       <BuildAndRun />
-      <Ownership />
       <Businesses />
       <Packages />
       <Trust />

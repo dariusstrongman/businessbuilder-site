@@ -10,11 +10,11 @@ export function Journey() {
       <Container>
         <div className={styles.head}>
           <SectionHeader
-            index="03"
+            index="04"
             eyebrow="The journey"
             id="journey-title"
-            title="Twelve stages. Four phases. You decide at every gate."
-            lead="This is the whole path from a sentence to a company that runs. The hollow markers are yours: nothing moves past them without you."
+            title="Fifteen stages. Three of them at once."
+            lead="The whole path, from wherever you are starting. Hollow markers are yours and nothing moves past them without you. The bracketed band is where assembly, your Founder Actions and verification all run at the same time."
           />
           <div className={styles.headAction}>
             <Button href={routes.howItWorks} variant="secondary" arrow>

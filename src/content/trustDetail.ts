@@ -88,11 +88,31 @@ export const concerns: Concern[] = [
     ],
   },
   {
+    id: "boundary",
+    question: "Do you form the company and file things for me?",
+    answer: "No. We prepare, guide, coordinate and verify. The filing, the signature and the account opening are yours or a provider's.",
+    detail: [
+      "Business Builder is not a law firm, an accountant, an insurer, a bank, a registered agent or a filing authority.",
+      "For entity formation, EIN, licences, insurance and banking we assemble the information, explain the choice, open the official flow, capture the result and verify it took effect.",
+      "Where a provider allows prefilling, we prefill. Where the law requires you personally, it stays a Founder Action and we say so.",
+    ],
+  },
+  {
+    id: "existing",
+    question: "I already have a website. Will you make me replace it?",
+    answer: "No. The build starts with an audit, and anything working is kept.",
+    detail: [
+      "Every important system is classified Keep, Improve, Replace or Missing, with a reason you can argue with.",
+      "Customer data, reviews and search ranking you have earned are carried across, never reset.",
+      "You approve each call before anything changes, and work is staged so you keep trading throughout.",
+    ],
+  },
+  {
     id: "claims",
     question: "What do you not promise?",
     answer: "Anything we cannot verify.",
     detail: [
-      "We prepare and guide legal, tax and financial steps. We do not give legal or tax advice.",
+      "We prepare, guide and coordinate legal, tax and financial steps. We do not give legal or tax advice, and we do not file on your behalf where the law requires you.",
       "We verify systems we connect. We do not promise revenue, rankings or customers.",
       "AI workers operate inside limits you set. They are not autonomous employees, and we do not describe them as such.",
     ],

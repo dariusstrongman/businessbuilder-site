@@ -1,0 +1,217 @@
+.audit {
+  display: grid;
+  gap: var(--s-6);
+}
+
+/* The tally leads, because the reassuring number is how much is being kept. */
+.tally {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--fg);
+}
+
+.tallyItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "count label"
+    "bar   bar"
+    "mean  mean";
+  align-items: baseline;
+  column-gap: var(--s-3);
+  row-gap: 0.4rem;
+}
+
+.tallyCount {
+  grid-area: count;
+  font-size: var(--text-h2);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg);
+}
+
+.tallyLabel {
+  grid-area: label;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.tallyBar {
+  grid-area: bar;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  position: relative;
+  overflow: hidden;
+}
+
+.tallyBar::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--share);
+  border-radius: 2px;
+  background: var(--fg-4);
+}
+
+.tallyMeaning {
+  grid-area: mean;
+  font-size: var(--text-xs);
+  color: var(--fg-3);
+  line-height: 1.45;
+}
+
+[data-verdict="keep"] .tallyCount,
+[data-verdict="keep"] .tallyLabel {
+  color: var(--accent);
+}
+
+[data-verdict="keep"] .tallyBar::after {
+  background: var(--accent);
+}
+
+[data-verdict="improve"] .tallyCount,
+[data-verdict="improve"] .tallyLabel {
+  color: var(--progress);
+}
+
+[data-verdict="improve"] .tallyBar::after {
+  background: var(--progress);
+}
+
+[data-verdict="replace"] .tallyCount,
+[data-verdict="replace"] .tallyLabel {
+  color: var(--founder);
+}
+
+[data-verdict="replace"] .tallyBar::after {
+  background: var(--founder);
+}
+
+/* Areas */
+.areas {
+  display: grid;
+  gap: var(--s-5);
+}
+
+.lane {
+  display: grid;
+  gap: var(--s-3);
+  /* Shorter lanes must not stretch, or their heading floats away from row one. */
+  align-content: start;
+}
+
+.laneLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fg);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.rows {
+  display: grid;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  grid-template-areas:
+    "verdict label"
+    ".       note";
+  column-gap: var(--s-3);
+  row-gap: 0.1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.verdict {
+  grid-area: verdict;
+  align-self: start;
+  justify-self: start;
+  padding: 0.18rem 0.45rem;
+  border-radius: var(--r-1);
+  border: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-3);
+  white-space: nowrap;
+}
+
+[data-verdict="keep"] .verdict {
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: var(--accent-soft);
+}
+
+[data-verdict="improve"] .verdict {
+  color: var(--progress);
+  border-color: color-mix(in srgb, var(--progress) 45%, transparent);
+  background: var(--progress-soft);
+}
+
+[data-verdict="replace"] .verdict {
+  color: var(--founder);
+  border-color: color-mix(in srgb, var(--founder) 45%, transparent);
+  background: var(--founder-soft);
+}
+
+[data-verdict="missing"] .verdict {
+  border-style: dashed;
+}
+
+.rowLabel {
+  grid-area: label;
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.rowNote {
+  grid-area: note;
+  font-size: var(--text-xs);
+  color: var(--fg-3);
+  line-height: 1.45;
+}
+
+@media (min-width: 48rem) {
+  .tally {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-5);
+  }
+
+  .row {
+    grid-template-columns: 5.5rem minmax(0, 1fr) minmax(0, 1.2fr);
+    grid-template-areas: "verdict label note";
+    align-items: baseline;
+  }
+}
+
+@media (min-width: 64rem) {
+  .areas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-6) var(--s-7);
+  }
+
+  .lane:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .row {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    grid-template-areas:
+      "verdict label"
+      ".       note";
+  }
+}

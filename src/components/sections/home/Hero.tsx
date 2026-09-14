@@ -11,15 +11,15 @@ export function Hero() {
       <Container>
         <div className={styles.grid}>
           <div className={styles.copy}>
-            <Eyebrow>Idea to Fully Set, verified</Eyebrow>
+            <Eyebrow>An idea, or a business you already run</Eyebrow>
             <h1 id="hero-title" className={styles.title}>
               Describe the company you want.
               <span className={styles.promise}>We build it, verify it, and hand you the keys.</span>
             </h1>
             <p className={styles.lead}>
-              Business Builder researches your idea, assembles your brand, website and business systems, verifies that
-              each one works, and hands over a company you own. Built for service businesses: cleaning, detailing, lawn
-              care, painting, photography and more.
+              Start with an idea, a half-finished setup, or a business that already trades. We research it, keep what
+              already works, assemble the rest, verify every part and hand over a company you own. Built for service
+              businesses: cleaning, detailing, lawn care, painting, photography and more.
             </p>
             <IntakeField size="lg" />
             <div className={styles.secondary}>

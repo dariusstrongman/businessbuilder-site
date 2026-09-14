@@ -1,3 +1,70 @@
 .section {
   border-top: 1px solid var(--line);
 }
+
+.ownership {
+  display: grid;
+  gap: var(--s-6);
+  margin-top: var(--s-8);
+  padding-top: var(--s-7);
+  border-top: 2px solid var(--fg);
+  align-items: start;
+}
+
+.ownershipHead {
+  display: grid;
+  gap: var(--s-4);
+  max-width: 30rem;
+}
+
+.ownershipTitle {
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
+  font-weight: 500;
+  font-stretch: 96%;
+}
+
+.ownershipText {
+  color: var(--fg-2);
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+}
+
+.assets {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--fg);
+}
+
+.asset {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.assetName {
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.assetNote {
+  font-size: var(--text-small);
+  color: var(--fg-3);
+}
+
+@media (min-width: 40rem) {
+  .assets {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--s-6);
+  }
+}
+
+@media (min-width: 64rem) {
+  .ownership {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--s-9);
+  }
+}

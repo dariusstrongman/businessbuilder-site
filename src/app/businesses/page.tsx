@@ -21,7 +21,7 @@ export default function BusinessesPage() {
       <PageHero
         eyebrow="Supported businesses"
         title="Ten kinds of service business, built specifically."
-        lead="Each type has its own quote logic, scheduling shape, Founder Actions and verifications. Pick one to see what changes in the build. If your business is close to one of these, it is supported."
+        lead="Each type has its own quote logic, scheduling shape, Founder Actions and verifications. Pick one to see what changes in the build. It makes no difference whether you are starting from an idea or already trading: if you already have systems, they are audited and kept before anything is replaced."
         actions={
           <Button href={routes.start} arrow>
             {cta.primary}

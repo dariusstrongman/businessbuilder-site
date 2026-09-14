@@ -179,12 +179,12 @@
   color: var(--fg-4);
 }
 
-.phaseList {
+.laneList {
   display: grid;
   gap: 0.25rem;
 }
 
-.phaseItem {
+.laneItem {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -193,7 +193,7 @@
   padding: 0.2rem 0;
 }
 
-.phaseMarker {
+.laneMarker {
   display: inline-grid;
   place-items: center;
   width: 0.875rem;
@@ -204,28 +204,28 @@
   transition: all var(--d-2) var(--ease);
 }
 
-.phaseDone {
+.laneDone {
   color: var(--fg-2);
 }
 
-.phaseDone .phaseMarker {
+.phaseDone .laneMarker {
   background: var(--accent);
   border-color: var(--accent);
 }
 
-.phaseCheck {
+.laneCheck {
   width: 0.7rem;
   height: 0.7rem;
   color: var(--accent-fg);
   stroke-width: 2.25;
 }
 
-.phaseCurrent {
+.laneCurrent {
   color: var(--fg);
   font-weight: 500;
 }
 
-.phaseCurrent .phaseMarker {
+.phaseCurrent .laneMarker {
   border-color: var(--fg);
   background: var(--fg);
   box-shadow: inset 0 0 0 2px var(--room-bg);
@@ -321,6 +321,54 @@
   justify-self: end;
   min-width: 5.75rem;
   justify-content: flex-start;
+}
+
+/* Lane grouping inside the module list. */
+.laneGroup {
+  display: grid;
+}
+
+.laneHeading {
+  padding: 0.55rem var(--s-4) 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-4);
+  background: var(--bg);
+  border-bottom: 1px solid var(--room-line);
+}
+
+/* Who completes it, when it is not us. */
+.ownerTag {
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--r-1);
+  border: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-3);
+  white-space: nowrap;
+}
+
+.moduleRow[data-owner="founder"] .ownerTag {
+  color: var(--founder);
+  border-color: color-mix(in srgb, var(--founder) 45%, transparent);
+  background: var(--founder-soft);
+}
+
+.moduleRow[data-owner="external"] .ownerTag {
+  color: var(--progress);
+  border-color: color-mix(in srgb, var(--progress) 45%, transparent);
+  background: var(--progress-soft);
+}
+
+.moduleName {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.1rem;
 }
 
 .actionList {
