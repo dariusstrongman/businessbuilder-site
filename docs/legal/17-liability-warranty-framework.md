@@ -104,6 +104,16 @@ and whether the DTPA affects it. This is a pure legal question.
 
 ### The cap
 
+Benchmark data is in
+[24-market-practice-benchmarks.md](24-market-practice-benchmarks.md), section 2, and
+it changes two things here. **Twelve months of trailing fees is the market anchor**,
+and vendors achieve a cap below that in only about 3.5% of negotiated agreements, so
+attempting less is not realistic. And there is a materially better alternative for a
+nominal-fee engagement: **the greater of six months of revenue for the service giving
+rise to the claim, or the available proceeds of the provider's professional liability
+insurance.** A cap pointing at real insurance proceeds is far less vulnerable to an
+illusory-remedy argument than a flat figure of a few thousand dollars.
+
 `[COUNSEL]` Decide the measure. Options and their consequences:
 
 | Measure | Effect |
@@ -135,6 +145,26 @@ document. An uncapped data-breach liability without insurance behind it is an
 existential exposure for a company at this stage. A capped one may be commercially
 unacceptable to a customer entrusting their whole business. The answer likely
 depends on the insurance position.
+
+### Two traps in the carve-out drafting
+
+From the benchmark research, and both are easy to get wrong.
+
+**Define the super cap by the harm, not by the obligation breached.** Where a service
+failure *causes* a data breach, the claim can be characterised as breach of the general
+service obligations rather than the data-security obligations, which drops it under the
+low general cap. Trigger the higher cap on a security incident affecting customer data,
+not on which clause was breached.
+
+**Name breach-response costs expressly.** Customers recharacterise credit monitoring,
+notification, forensics, reputation management and legal fees as *direct* damages, so
+the consequential-damages exclusion does not reach them. Do not rely on the
+direct/indirect line to do that work.
+
+An operational note that matters as much as the drafting: gross negligence pierces the
+cap and is pleaded specifically for that reason. **A signed risk-acceptance record when
+a customer declines a recommended control** is the practical mitigation, and it uses the
+same approval-record infrastructure the `[BUILD]` list already requires.
 
 ### Consequential damages
 

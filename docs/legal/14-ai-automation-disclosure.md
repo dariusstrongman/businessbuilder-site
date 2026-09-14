@@ -124,6 +124,48 @@ Contract language, more precise than the customer-facing version.
 > enter contracts on Customer's behalf, to make payments outside configured budgets,
 > or to take any action reserved to Customer under this Agreement or by law.
 
+## Numeric ceilings, not only categories
+
+Market research identifies the **numeric authority limit as the single highest-value
+clause** in an AI agent contract, because it is the only control that actually bounds
+the potential loss. A cap expressed as a fee multiple does not, since an agent can
+repeat the same mistake many times inside one billing period.
+
+The Operating Limits above are categorical: what a worker may do, must ask about, and
+may not do. That is necessary and not sufficient. A per-transaction threshold alone
+does not stop a worker making the same error forty times in a day.
+
+Recommended additions, all `[BUILD]`:
+
+- A ceiling **per transaction**
+- A ceiling **per counterparty**, so one customer of the customer cannot be contacted
+  or committed to repeatedly
+- A ceiling **per rolling 24 hours**, across all activity
+- A stated revocation procedure with an effective time
+
+`[COUNSEL]` Confirm these belong in the contract as defined terms rather than only in
+the product, since they are the substance of the bounded-operation promise.
+
+## "The AI did it" is not a defence
+
+Worth stating plainly, because it is counter-intuitive and because it is settled,
+unlike most of this area.
+
+A tribunal has already held a company responsible for what its customer-service
+chatbot told a member of the public, rejecting the argument that the bot was a
+separate entity. A California statute effective January 2026 addresses the same point.
+
+Two consequences, pointing in opposite directions.
+
+**For the customer:** they remain answerable for what a worker said to their own
+customer, and cannot point at the automation. This supports allocating to the customer
+the risk of correct operation within limits they set.
+
+**For Business Builder:** it remains answerable for what its platform did, and cannot
+point at the model provider. This is why enforcing Operating Limits matters more than
+describing them, and it is the practical reason the `[BUILD]` markers in this document
+are liability items rather than product polish.
+
 `[COUNSEL]` The "no authority to bind" clause protects Business Builder as between
 the parties, but it does not necessarily protect the customer against a third party
 who reasonably believed the AI-sent communication bound the customer. Apparent

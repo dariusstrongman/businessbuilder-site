@@ -198,10 +198,27 @@ What a processor will ask for in a dispute, and which of these currently exist.
 | Delivery confirmation | `[BUILD]` |
 | Communications record | `[BUILD]` |
 
-`[COUNSEL]` Confirm the acceptance mechanism meets the evidentiary standard. A
-checkbox with a timestamp and a stored copy of the version accepted is the minimum.
-Storing which version was accepted matters more than it appears, because terms
-change and the question is always what the customer agreed to on that day.
+`[COUNSEL]` Confirm the acceptance mechanism meets the evidentiary standard.
+
+Research changed the recommendation here, and it is the finding with the largest
+engineering consequence in the package. **A checkout checkbox that only links to the
+terms may be rejected by the card issuer as insufficient evidence** that the customer
+knew the policy. There must be reasonable evidence that a full copy was presented
+before purchase.
+
+For a business whose refund policy is restrictive and stage-gated, a link-only checkbox
+means in practice **no enforceable policy against a chargeback.** Present the full text
+on the checkout page or in a modal requiring agreement, capture the consent object and
+timestamp, and **persist a hash or version id of the policy as it read at that moment.**
+See [24-market-practice-benchmarks.md](24-market-practice-benchmarks.md), section 5.
+
+Two further findings bear directly on this policy. The card network monitoring threshold
+is now **five disputes or a 0.5% ratio**, which a business doing under a hundred payments
+a month can breach on one or two disputes, and **monitoring ignores both outcomes and
+refunds**, so winning a dispute does not help the ratio. And for services paid in advance
+the dispute window generally starts on the **service date**, so a build paid for in
+January and delivered in April can be disputed into August. Assemble the evidence package
+per engagement at delivery.
 
 ## Publication
 

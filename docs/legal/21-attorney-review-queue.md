@@ -68,6 +68,17 @@ first because they affect pricing, which affects everything downstream.
     is not a determination of legal compliance.
 18. Confirm the insurance and licensing language, which currently states what a trade
     "typically requires".
+18a. **The Business Opportunity Rule.** Whether it reaches a service that takes payment
+    as a condition of commencing a business. Where it applies, a one-page disclosure
+    must be delivered **in advance of the sale**, so this cannot be repaired later.
+    **Resolve before the first business build is sold.**
+18b. The federal cooling-off rule, if any sale is ever made in person or at an event.
+18c. Whether to adopt a "completeness, not legal sufficiency" characterisation of the
+    operator review step, given that comparable litigation located liability precisely
+    in human review of customer answers.
+18d. Whether a state-specific rider is needed. At least one state disqualifies its
+    safe harbour for non-lawyer document services where the contract carries a
+    liability cap or an out-of-state forum clause.
 
 ---
 
@@ -182,6 +193,12 @@ Mostly **COMMERCIAL** with legal input.
 66. Non-payment notice and cure period.
 67. Out-of-scope work: published rate or quoted each time.
 68. Fair use approach: published expected range, or defined units. From doc 15.
+68a. **Whether to adopt a concurrency cap** as the primary bound rather than volume.
+    One active work item at a time with an open queue self-absorbs both model cost and
+    operator time, and it keeps "unlimited requests" honest while never claiming
+    unlimited throughput. See doc 24, section 4.
+68b. Whether failed or escalated work is free. Recommended, and it removes the most
+    sympathetic dispute narrative a customer can tell.
 69. Whether to commit never to suspend for volume alone.
 70. Service level commitments for Build & Run, currently undefined.
 
@@ -190,6 +207,16 @@ Mostly **COMMERCIAL** with legal input.
 ## Group 8, contract mechanics and dispute
 
 71. Acceptance mechanism, and whether it meets the evidentiary standard. From doc 18.
+    Note the research finding that a **link-only checkbox may be rejected by the card
+    issuer**, which means a restrictive refund policy behind a link is, in practice,
+    unenforceable against a chargeback.
+71a. **The unilateral amendment clause.** A right to change terms by posting can render
+    the whole agreement illusory. Changes prospective only, email notice with an
+    effective date, and **the dispute resolution provisions carved out of the amendment
+    power**. See doc 24, section 9.
+71b. Separate affirmative consent to the recurring charge, not bundled into general
+    terms acceptance. Now required in the largest US market and it strengthens the
+    dispute evidence.
 72. Governing law, and **COMMERCIAL** whether to restrict sales to Texas initially.
 73. Venue.
 74. Arbitration. Recommendation is against at this scale.

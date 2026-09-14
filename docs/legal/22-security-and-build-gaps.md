@@ -43,13 +43,27 @@ Fix: pair by key.
 
 ## Tier 2, contract mechanics that do not exist
 
-### 2.1 No acceptance mechanism
+### 2.1 No acceptance mechanism, and a link is not enough
 
 No terms, no acceptance step, no timestamp, no version record. Without this there is
-no contract, and no chargeback defence.
+no contract and no chargeback defence.
 
-Required: terms presented before commitment, affirmative acceptance, timestamp,
-stored copy of the exact version accepted.
+Research sharpened this requirement. **A checkbox that only links to the terms may be
+rejected by the card issuer as insufficient evidence.** The full text must be presented
+before purchase, not merely linked.
+
+Required:
+
+- Full policy text presented on the checkout page or in a modal requiring agreement
+- Separate affirmative consent to the recurring charge, not bundled into general terms
+- Consent object and timestamp captured
+- **A hash or version id of the policy as it read at that moment, persisted and keyed
+  to the transaction**
+
+The last item is the single highest-leverage engineering investment in the package. It
+serves four purposes at once: the disclosure evidence, the payment-dispute evidence, the
+fix for the illusory-contract problem in doc 18, and the consent-retention record several
+state statutes require.
 
 Blocks: every document in the package.
 

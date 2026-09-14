@@ -65,6 +65,65 @@ only wording, and should be resolved before the first business build.
 `[COUNSEL]` Confirm the same analysis for tax matters. Advising on tax elections is
 a separate regulated activity from legal advice and the boundary is different.
 
+## The Business Opportunity Rule
+
+Not previously considered in this package and it belongs here, because it attaches to
+this offer specifically rather than to the company generally.
+
+A federal rule governs the sale of a "business opportunity". It can reach a service
+that takes a required payment **as a condition of commencing a business**, where the
+seller also makes any representation about providing outlets, accounts or customers,
+or makes any earnings claim. Where it applies it requires a **one-page disclosure
+document delivered in advance of the sale**. A rulemaking to expand its scope was
+proposed in January 2025.
+
+Business Builder sells a service whose whole proposition is assembling a business in
+exchange for an upfront payment, which is the first element. Whether the rule reaches
+it turns substantially on the second: whether any representation is made about
+providing customers, accounts or outlets, or any earnings claim at all.
+
+**The safe posture is the one the site already largely holds.** No representation that
+the business will get customers, accounts or revenue, and no earnings claims anywhere.
+Two places currently drift toward it, both flagged in
+[20-website-copy-audit.md](20-website-copy-audit.md): the search ranking claim, and
+the statement that founders start taking customers while the remaining work finishes.
+
+`[COUNSEL]` Confirm whether the rule reaches this model and whether the disclosure
+obligation attaches. **Resolve before the first business build is sold**, because the
+disclosure has to be delivered in advance of the sale rather than repaired after it.
+
+`[COUNSEL]` A separate federal cooling-off rule gives a three-business-day
+cancellation right for sales of goods and services made at the buyer's residence, or
+above a higher threshold at temporary locations such as trade shows and hotel rooms,
+with required notices at the time of sale. Online and telephone sales from a fixed
+place of business are generally outside it. A founders' event or a home visit pulls
+the sale in. Worth knowing before the first in-person sale.
+
+## Unauthorised practice of law, sharpened
+
+Two findings from the market research in
+[24-market-practice-benchmarks.md](24-market-practice-benchmarks.md), section 8, that
+bear directly on the architecture here.
+
+**Liability has been located in the human review step.** In litigation against an
+online legal document provider, the exposure was located precisely in **human
+employees reviewing customer answers**. That is the core activity of a coordination
+business with an operator-review model, which is what Business Builder is.
+
+**One targeted mitigation used in practice:** state that review is for
+**completeness, not legal sufficiency**. Precise, honest, and a narrow statement of
+what an operator actually does.
+
+`[COUNSEL]` The enumerated advice prohibition used by the major formation providers is
+copied from a state statute rather than improvised. Track the statutory language.
+
+`[COUNSEL]` At least one state disqualifies its safe harbour for non-lawyer document
+services where the contract contains warranty disclaimers, liability caps, damages
+limitations or out-of-state forum clauses. A single national terms document carrying a
+standard limitation of liability cannot claim it. This is a further argument for
+restricting sales to Texas initially. See
+[18-dispute-governing-law.md](18-dispute-governing-law.md).
+
 ## Founder Actions
 
 Certain steps cannot be delegated. The product already treats these as Founder

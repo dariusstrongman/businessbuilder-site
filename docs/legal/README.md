@@ -95,6 +95,7 @@ Start with the risk summary. It is the only document that assumes no prior conte
 | 21 | [Attorney review queue](21-attorney-review-queue.md) | Every `[COUNSEL]` marker, collected |
 | 22 | [Security and build gaps](22-security-and-build-gaps.md) | Every `[BUILD]` marker, collected |
 | 23 | [Launch blockers](23-launch-blockers.md) | What must close before the first paid customer |
+| 24 | [Market practice benchmarks](24-market-practice-benchmarks.md) | What comparable businesses actually do, with sources |
 
 ## Relationship to the product
 

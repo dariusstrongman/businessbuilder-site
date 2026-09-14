@@ -65,8 +65,18 @@ revoked without a password change that breaks everything else.
 
 ## Credential handling requirements
 
-These are security requirements that must be met before the privacy policy or the
-terms can honestly describe the handling. Each is a `[BUILD]` item until verified.
+There is an authority to align to, and alignment is both defensible and marketable.
+**CISA advisory AA22-131A**, issued jointly with NSA, FBI and international partners,
+addresses exactly this relationship: a service provider holding access to many customers'
+environments. It states that customers should **contractually mandate** multi-factor
+authentication on provider accounts, should ensure contracts **prohibit reuse of
+administrative credentials across customers**, and should require **contractual
+provisions disabling obsolete accounts at termination**. It also calls for logging
+visibility into provider presence, retention of important logs for at least six months,
+and express allocation of who owns hardening, detection and incident response.
+
+Each requirement below maps to that advisory. Each is a `[BUILD]` item until verified,
+and none can be described in a published policy before it is true.
 
 - Credentials and tokens encrypted at rest with a managed key service, not
   application-level constants

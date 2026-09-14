@@ -33,6 +33,16 @@ no counterweight.
 and 2 of [22-security-and-build-gaps.md](22-security-and-build-gaps.md) are
 implemented, and an acceptance mechanism with version recording exists.
 
+One refinement from the market research that changes what "acceptance mechanism"
+means. **A checkout checkbox that only links to the terms may be rejected by the card
+issuer as insufficient evidence.** The full text has to be presented before purchase,
+with the consent object, the timestamp, and **a version id of the policy as it read at
+that moment** persisted against the transaction. That last artifact is the single
+highest-leverage engineering investment in the package, because it serves as the
+disclosure evidence, the payment-dispute evidence, the fix for the illusory-contract
+problem, and the consent record several state statutes require. See
+[24-market-practice-benchmarks.md](24-market-practice-benchmarks.md), section 5.
+
 ---
 
 ## Blocker 2, the site states things that are not true
@@ -158,6 +168,22 @@ decorative.
 **To close:** adopt the published-range approach in document 15 and publish it.
 
 ---
+
+## Blocker 8a, the Business Opportunity Rule is unexamined
+
+**Severity: unknown, and that is the problem.**
+
+A federal rule can reach a service that takes a required payment as a condition of
+commencing a business, where the seller also represents that it will provide outlets,
+accounts or customers, or makes any earnings claim. Where it applies, a one-page
+disclosure must be **delivered in advance of the sale**.
+
+An obligation that attaches before the sale cannot be repaired after it. This needs a
+determination rather than an assumption, and the site copy that drifts toward earnings
+and customer-acquisition claims should be corrected either way.
+
+**To close:** counsel determines applicability. See
+[04-service-terms-business.md](04-service-terms-business.md).
 
 ## Blocker 9, the company has no published identity
 

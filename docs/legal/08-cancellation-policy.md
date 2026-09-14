@@ -110,9 +110,22 @@ requirements.
 - A cancellation mechanism at least as easy as the sign-up mechanism
 - A record of what was disclosed and when the customer agreed `[BUILD]`
 
-`[COUNSEL]` Confirm which state auto-renewal statutes reach this business. The
-answer depends on where customers are, not only where Business Builder is. Selling
-to a California or Texas customer can pull in that state's rules.
+**The federal position is now confirmed and it is not what most templates assume.**
+The Federal Trade Commission's click-to-cancel rule was vacated in its entirety in
+July 2025 and no replacement is in force. The underlying statute and the general
+prohibition on deceptive practices still apply, enforcement has increased rather than
+decreased, and **the state patchwork is now stricter than the vacated federal rule
+was.** The findings, the state-by-state table and the recommended design are in
+[24-market-practice-benchmarks.md](24-market-practice-benchmarks.md), section 6.
+
+The item with the most immediate consequence: California requires **separate
+affirmative consent to the auto-renewal term**, not bundled into general terms
+acceptance and not pre-checked, with consent records retained. Bundling is
+non-compliant in the largest US market, and it simultaneously weakens the chargeback
+evidence, because the issuer sees consent to "terms" rather than to recurring billing.
+
+`[COUNSEL]` Confirm which state auto-renewal statutes reach this business. The answer
+depends on where customers are, not only where Business Builder is.
 
 ## Suspension and termination by Business Builder
 
