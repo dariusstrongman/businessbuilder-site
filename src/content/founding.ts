@@ -194,6 +194,18 @@ export const costBoundaries = [
   },
 ];
 
+/**
+ * A one-line price summary for places that introduce pricing without setting
+ * out the whole model. Activation is named on the Build & Run row on purpose:
+ * a headline that mentions only the monthly figure can read as though running
+ * a company costs $299 and nothing else.
+ */
+export const priceSummary = [
+  { label: "Website", figure: "$795" },
+  { label: "Business", figure: "$1,495" },
+  { label: "Run", figure: "from $795 activation + $299/mo" },
+];
+
 /** What the CTA can honestly promise today. */
 export const checkoutTruth =
   "Starting a build opens your intake. Nothing is charged until you have seen the research, approved the scope and confirmed the price with us directly.";

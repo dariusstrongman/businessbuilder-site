@@ -18,3 +18,65 @@
   font-size: var(--text-small);
   max-width: 40em;
 }
+
+/*
+ * The three figures as a rule-separated row. Dividers rather than dots, because
+ * the Build & Run figure is long enough to wrap and a dot separator loses the
+ * grouping the moment it does.
+ */
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-5);
+  margin-top: var(--s-5);
+  /* The emphasised middle card sits proud of the row, so this needs real
+     clearance or the longest figure runs under it. */
+  margin-bottom: var(--s-6);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.summaryItem {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+}
+
+.summaryItem + .summaryItem {
+  padding-left: var(--s-5);
+  border-left: 1px solid var(--line);
+}
+
+.summaryLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+
+.summaryFigure {
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Stacked below the wrap point, where the vertical rules would sit mid-row. */
+@media (max-width: 40rem) {
+  .summary {
+    display: grid;
+    gap: 0;
+  }
+
+  .summaryItem {
+    justify-content: space-between;
+    padding-block: var(--s-3);
+  }
+
+  .summaryItem + .summaryItem {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+}
