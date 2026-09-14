@@ -117,3 +117,75 @@
     gap: var(--s-9);
   }
 }
+
+/* Founding pricing honesty line: no countdown, no seat count. */
+.honesty {
+  display: flex;
+  gap: var(--s-3);
+  align-items: baseline;
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  line-height: 1.55;
+  max-width: 64ch;
+}
+
+.honestyMark {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 1px;
+  background: var(--fg-4);
+  flex: none;
+}
+
+/* Cost boundaries */
+.boundaries {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--fg);
+}
+
+.boundary {
+  display: grid;
+  gap: var(--s-2);
+  align-content: start;
+  padding: var(--s-5) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.boundaryTitle {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--s-3);
+  align-items: baseline;
+  font-size: var(--text-h4);
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.boundaryIndex {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--accent);
+}
+
+.boundaryText {
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  line-height: 1.55;
+  max-width: 54ch;
+}
+
+.matrixWrap {
+  margin-bottom: var(--s-8);
+}
+
+@media (min-width: 48rem) {
+  .boundaries {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--s-7);
+  }
+}

@@ -59,27 +59,39 @@ export const compareGroups: CompareGroup[] = [
 
 export const pricingFaq = [
   {
-    q: "Why is the website priced but the company build is not?",
-    a: "A website has a knowable scope, so it has a published price: $500, $1,000 or $1,500 depending on how many pages your buyers need. A company build depends on what the research finds, so quoting it before the research would be a guess dressed as a number. The figure arrives with your recommendation, and you owe nothing if you stop there.",
+    q: "Why is this called founding customer pricing?",
+    a: "Because that is what it is. Business Builder is early and does not yet have a wall of case studies, so the first customers are taking a chance on us. These prices are set lower on purpose while the product proves itself with real businesses. Founding customer pricing is available during the early launch period. There is no countdown and no seat limit, and when it ends we will say so rather than invent a deadline.",
   },
   {
-    q: "What do I pay for separately?",
-    a: "Third-party costs are yours, at cost: domain registration, business email, payment processing fees and any software subscriptions your company uses. Every one is an approval before it is bought, and every one is registered to you.",
+    q: "Why does Build & Run have an activation fee as well as a monthly plan?",
+    a: "They pay for two different things. Activation covers connecting and configuring the operating system for your company: systems joined up, permissions set per worker, company context built, budgets and approval thresholds agreed, escalation routes defined, everything tested before it can reach a customer. That configuration is durable and stays yours even if you stop the monthly plan. The monthly plan covers the operating layer itself, running the recurring work you have approved.",
   },
   {
-    q: "Do you take a percentage of my payments?",
-    a: "No. Payments go through a processor account in your name, to a bank account in your name. We never hold your money.",
+    q: "Why is activation cheaper in the bundle?",
+    a: "Build my business is $1,495 and Build & Run activation is $795 on its own. Bought together it is $1,995 upfront, which makes activation $500 rather than $795. That is not a promotion. Most of the configuration activation pays for happens during the build itself, so charging the full amount twice would be charging you for the same work twice.",
   },
   {
-    q: "Can I start with the website and upgrade later?",
-    a: "Yes. Every package contains the one before it. The build continues from where it stopped and nothing is rebuilt.",
+    q: "Why is existing-business onboarding a starting price?",
+    a: "Because the work genuinely varies. An Existing Business Audit might find a tidy setup that needs connecting, or four years of accumulated tools that need reconciling, migrating and cleaning up before anything can be operated safely. Onboarding starts at $1,495, and you see the actual figure after the audit and before you commit to it.",
   },
   {
-    q: "What if the research says my idea is weak?",
-    a: "We tell you, with reasons and alternatives, before anything is built. You decide what to do with that. Nothing further is owed if you stop at that point.",
+    q: "What is not included?",
+    a: "Government, provider and third-party fees are separate where they apply: filing fees, registered-agent fees, domains, software subscriptions, insurance, advertising spend, payment-processing fees and professional fees. Every one of them is an approval before it is bought, and every one is registered to you rather than to us.",
+  },
+  {
+    q: "Do you take a percentage of my revenue?",
+    a: "No. A build fee, and an optional monthly plan. No revenue share, no transaction fee, no equity. What your business earns is yours.",
+  },
+  {
+    q: "Is $299 a month unlimited?",
+    a: "No, and we would rather say so than let you find out later. Workers operate inside the permissions, approval thresholds and budgets you set. A fair-use policy covering operating volume will be published before it could ever matter to you. Unusually high external costs, such as heavy advertising spend or provider charges, sit outside the plan and are always approved by you first.",
   },
   {
     q: "What happens if I stop Build & Run?",
-    a: "The workers stop at the end of the period. The company, its systems, its data and its history stay with you. If you come back, the workers resume with the same context and limits.",
+    a: "The workers stop at the end of the period. Your company, customer data, brand, domain, accounts and everything we agreed to deliver stay yours, including the configuration activation paid for. What stays ours is the platform underneath: the builder systems, orchestration, reusable agents and verification infrastructure we use for every customer.",
+  },
+  {
+    q: "Can I start with the website and upgrade later?",
+    a: "Yes. The website build is the front of the company, so nothing is thrown away. If you later want the full build, the work continues from where it stopped rather than starting again.",
   },
 ];

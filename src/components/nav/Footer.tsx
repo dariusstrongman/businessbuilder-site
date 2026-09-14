@@ -64,7 +64,7 @@ export function Footer() {
           © {brand.foundedYear} {brand.name}. We prepare, guide and coordinate legal and financial steps. We are not a
           law firm, accountant, insurer, bank or filing authority, and we do not give legal or tax advice.
         </p>
-        <p className={styles.meta}>Built for service businesses. Verified before handoff.</p>
+        <p className={styles.meta}>Founding customer pricing. Third-party fees separate.</p>
       </div>
     </footer>
   );

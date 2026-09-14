@@ -118,3 +118,26 @@
     padding-left: var(--s-5);
   }
 }
+
+/* The bundle relationship, stated once where activation is explained. */
+.bundle {
+  display: flex;
+  gap: var(--s-3);
+  align-items: baseline;
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--text-lead);
+  line-height: var(--leading-lead);
+  color: var(--fg);
+  max-width: 62ch;
+}
+
+.bundleMark {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 1px;
+  background: var(--accent);
+  flex: none;
+  transform: translateY(-1px);
+}

@@ -6,7 +6,7 @@ import { Container, Section, SectionHeader } from "@/components/primitives/Layou
 import { Split } from "@/components/primitives/Split";
 import { Ledger } from "@/components/primitives/Ledger";
 import { SiteFrame } from "@/components/product/SiteFrame";
-import { WebsiteTiers } from "@/components/diagrams/WebsiteTiers";
+import { FoundingOffers } from "@/components/diagrams/FoundingOffers";
 import { StudyGrid } from "@/components/diagrams/StudyGrid";
 import { CheckIcon } from "@/components/primitives/Icons";
 import { CtaBand } from "@/components/sections/CtaBand";
@@ -38,7 +38,7 @@ export default function WebsitePage() {
       <PageHero
         eyebrow="Build my professional website"
         title="A website built for your business type, verified live."
-        lead="For people who need the website first. Designed for how your kind of business gets found and booked, put on your domain, and checked working before you see the word live."
+        lead="For people who need the website first. $795, one time. Designed for how your kind of business gets found and booked, put on your domain, and checked working before you see the word live."
         actions={
           <>
             <Button href={`${routes.start}?package=website`} arrow>
@@ -136,16 +136,16 @@ export default function WebsitePage() {
         </Container>
       </Section>
 
-      <Section aria-labelledby="tiers-title" tone="paper-2">
+      <Section aria-labelledby="pricing-title" tone="paper-2">
         <Container>
           <SectionHeader
             index="05"
-            eyebrow="Project prices"
-            id="tiers-title"
-            title="Three tiers. Real numbers."
-            lead="Published prices, not a range and not a call to find out. Pick the one that matches how many pages your buyers actually need."
+            eyebrow="Founding customer pricing"
+            id="pricing-title"
+            title="$795, one time."
+            lead="A published price, not a range and not a call to find out. This is founding customer pricing during the early launch period, set lower on purpose while the product proves itself."
           />
-          <WebsiteTiers />
+          <FoundingOffers variant="headline" />
         </Container>
       </Section>
 

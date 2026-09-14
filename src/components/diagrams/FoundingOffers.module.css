@@ -1,0 +1,270 @@
+.wrap {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.swipe {
+  margin-bottom: calc(-1 * var(--s-5));
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+
+/* Narrow: a snapping carousel. Wide: a row. */
+.offers {
+  display: flex;
+  gap: var(--s-4);
+  align-items: stretch;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  margin-inline: calc(-1 * var(--gutter));
+  padding-inline: var(--gutter);
+  padding-block: 0.25rem;
+  scroll-padding-inline: var(--gutter);
+}
+
+.offers:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: var(--r-2);
+}
+
+.offer {
+  flex: 0 0 min(86%, 21rem);
+  scroll-snap-align: start;
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr auto;
+  gap: var(--s-4);
+  padding: var(--s-5);
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-3);
+}
+
+.emphasis {
+  border-color: var(--fg);
+  box-shadow: var(--shadow-2);
+}
+
+.head {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.plain {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.name {
+  font-size: var(--text-h4);
+  line-height: 1.3;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+/*
+ * Upfront and monthly stay in one block. Splitting them across a scroll is the
+ * fastest way to make a two-part price look like a hidden charge.
+ */
+.price {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-bottom: var(--s-4);
+  border-bottom: 1px solid var(--line);
+}
+
+/*
+ * Upfront on one line, recurring on the next with the plus leading it. A plus
+ * left trailing at the end of a line reads as a typo, and a wrapped "Starting
+ * at" at figure size reads as part of the number.
+ */
+.figures {
+  display: grid;
+  justify-items: start;
+  gap: 0.1rem;
+}
+
+.prefix {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.upfront {
+  font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.emphasis .upfront {
+  color: var(--accent);
+}
+
+.plus {
+  color: var(--fg-4);
+  font-weight: 400;
+  margin-right: 0.1rem;
+}
+
+.monthly {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.15rem;
+  font-size: var(--text-h3);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  color: var(--fg-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.per {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-3);
+}
+
+.priceLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-4);
+  line-height: 1.4;
+}
+
+.note {
+  /*
+   * Pushed to the foot of the price block. Under subgrid the block stretches to
+   * the tallest note, and a note left floating mid-box leaves a void beneath it;
+   * against the rule it reads as a deliberate footnote in every card.
+   */
+  margin-top: auto;
+  padding-top: var(--s-3);
+  padding-left: var(--s-3);
+  border-left: 2px solid var(--accent);
+  font-size: var(--text-xs);
+  color: var(--fg-2);
+  line-height: 1.5;
+}
+
+.audience {
+  font-size: var(--text-small);
+  color: var(--fg-3);
+  line-height: 1.5;
+}
+
+.summary {
+  font-size: var(--text-body);
+  font-weight: 500;
+  color: var(--fg);
+  line-height: 1.45;
+}
+
+.list {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem;
+  align-items: start;
+  font-size: var(--text-small);
+  color: var(--fg);
+  line-height: 1.45;
+}
+
+.check {
+  display: inline-grid;
+  place-items: center;
+  width: 0.95rem;
+  height: 0.95rem;
+  margin-top: 0.2rem;
+  border-radius: 3px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.emphasis .check {
+  background: var(--accent);
+  color: #fff;
+}
+
+.check svg {
+  width: 0.65rem;
+  height: 0.65rem;
+  stroke-width: 2.25;
+}
+
+.cta {
+  width: 100%;
+}
+
+.truth {
+  display: flex;
+  gap: var(--s-3);
+  align-items: baseline;
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--line);
+  font-size: var(--text-small);
+  color: var(--fg-2);
+  line-height: 1.55;
+  max-width: 68ch;
+}
+
+.truthMark {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 1px;
+  background: var(--accent);
+  flex: none;
+}
+
+@media (min-width: 64rem) {
+  /*
+   * Subgrid, so the six bands of every card share tracks: the four figures sit
+   * on one baseline, the rules under them line up, and the buttons land on the
+   * same line. Four separate card grids cannot do that, and four prices at four
+   * different heights is the fastest way to make a comparison look careless.
+   */
+  .offers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    grid-template-rows: auto auto auto auto 1fr auto;
+    column-gap: var(--s-5);
+    row-gap: var(--s-4);
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+
+  .swipe {
+    display: none;
+  }
+
+  .offer {
+    flex: initial;
+    grid-row: span 6;
+    grid-template-rows: subgrid;
+    /* Must match the parent row-gap or the subgrid tracks drift out of line. */
+    row-gap: var(--s-4);
+  }
+}

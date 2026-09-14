@@ -166,6 +166,18 @@
   max-width: 34ch;
 }
 
+.choicePrice {
+  font-size: var(--text-h4);
+  font-weight: 500;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  margin-top: var(--s-2);
+}
+
+.choiceActive .choicePrice {
+  color: var(--accent);
+}
+
 .choiceAfter {
   font-family: var(--font-mono);
   font-size: var(--text-mono-xs);
@@ -174,7 +186,19 @@
   margin-top: var(--s-1);
 }
 
-.choiceActive .choiceAfter {
+.choiceActive .choicePrice {
+  font-size: var(--text-h4);
+  font-weight: 500;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  margin-top: var(--s-2);
+}
+
+.choiceActive .choicePrice {
+  color: var(--accent);
+}
+
+.choiceAfter {
   color: var(--accent);
 }
 

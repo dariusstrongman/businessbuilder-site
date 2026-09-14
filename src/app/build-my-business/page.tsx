@@ -31,7 +31,7 @@ export default function BuildMyBusinessPage() {
       <PageHero
         eyebrow="Build my business"
         title="The whole company, assembled and verified."
-        lead="Research that challenges the idea. A direction you approve. Brand, website and every business system built, connected and checked. Founder Actions kept small. A handoff with the evidence. This is the flagship build."
+        lead="$1,495, one time, at founding customer pricing. Research that challenges the idea. A direction you approve. Company foundation, brand, website and every business system built, connected and checked. Founder Actions kept small. A handoff with the evidence. This is the flagship build."
         actions={
           <>
             <Button href={`${routes.start}?package=business`} arrow>

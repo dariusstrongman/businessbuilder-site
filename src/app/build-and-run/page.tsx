@@ -5,6 +5,8 @@ import { Container, Section, SectionHeader } from "@/components/primitives/Layou
 import { Split } from "@/components/primitives/Split";
 import { PermissionsCard } from "@/components/product/PermissionsCard";
 import { WorkerDay } from "@/components/diagrams/WorkerDay";
+import { ActivationSplit } from "@/components/diagrams/ActivationSplit";
+import { activation, runStandalone } from "@/content/founding";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { workerLimits, workers } from "@/content/workers";
 import { routes } from "@/config/brand";
@@ -28,7 +30,7 @@ export default function BuildAndRunPage() {
       <PageHero
         eyebrow="Build & run my business"
         title="AI workers for the recurring work, inside limits you set."
-        lead="Everything in Build my business, and then a small operating team that keeps working after handoff. They answer, draft, sort and follow up. They ask before anything that matters. They are not magic, and this page does not describe them that way."
+        lead="$795 activation, then $299 a month. Or $1,995 upfront with Build my business, because most of the configuration happens during the build. A small operating team that keeps working after handoff: answering, drafting, sorting, following up. They ask before anything that matters, and this page does not describe them as magic."
         actions={
           <>
             <Button href={`${routes.start}?package=run`} arrow>
@@ -41,10 +43,29 @@ export default function BuildAndRunPage() {
         }
       />
 
-      <Section aria-labelledby="roster-title">
+      <Section aria-labelledby="activation-title" tone="paper-2">
         <Container>
           <SectionHeader
             index="01"
+            eyebrow="Two fees, two jobs"
+            id="activation-title"
+            title={activation.title}
+            lead={activation.lead}
+          />
+          <ActivationSplit />
+          <p className={styles.bundle}>
+            <span className={styles.bundleMark} aria-hidden />
+            Bought with Build my business, activation is {runStandalone.bundleActivation} instead of{" "}
+            {runStandalone.activation}, for {"$1,995"} upfront and {runStandalone.monthly} a month. Most of the
+            configuration happens during the build, so charging for it twice would be charging you twice.
+          </p>
+        </Container>
+      </Section>
+
+      <Section aria-labelledby="roster-title">
+        <Container>
+          <SectionHeader
+            index="02"
             eyebrow="The roster"
             id="roster-title"
             title="Four workers. Each one has a permissions card."
@@ -86,7 +107,7 @@ export default function BuildAndRunPage() {
       </Section>
 
       <Split
-        index="03"
+        index="04"
         eyebrow="A working day"
         id="day-title"
         title="What they handle. Where they stop."
@@ -105,7 +126,7 @@ export default function BuildAndRunPage() {
       <Section aria-labelledby="stop-title" tone="paper-2">
         <Container>
           <SectionHeader
-            index="04"
+            index="05"
             eyebrow="Stopping"
             id="stop-title"
             title="Stop any time. The company stays yours."
