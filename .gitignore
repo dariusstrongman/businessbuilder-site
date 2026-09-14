@@ -1,0 +1,15 @@
+node_modules/
+.npm-cache/
+.next/
+out/
+*.tsbuildinfo
+.env*
+!.env.example
+artifacts/browser/
+artifacts/*.log
+# Keep research captures and superseded visual iterations local.
+artifacts/research/
+artifacts/screenshots/initial/
+artifacts/screenshots/typography/
+artifacts/screenshots/readability/
+artifacts/screenshots/refined/

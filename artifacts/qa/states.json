@@ -1,0 +1,22 @@
+[
+  {
+    "width": 375,
+    "violations": []
+  },
+  {
+    "width": 768,
+    "violations": []
+  },
+  {
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "reflow": {
+      "width": 320,
+      "scrollWidth": 320,
+      "overflow": []
+    },
+    "skipLink": "passed"
+  }
+]

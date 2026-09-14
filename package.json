@@ -1,0 +1,29 @@
+{
+  "name": "business-builder-astra",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 3100",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1 --port 3100",
+    "typecheck": "tsc --noEmit",
+    "qa": "node scripts/qa.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.2.8",
+    "@fontsource/ibm-plex-mono": "^5.2.7",
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "lighthouse": "^13.0.0",
+    "prettier": "^3.9.6",
+    "typescript": "^5.9.0"
+  }
+}

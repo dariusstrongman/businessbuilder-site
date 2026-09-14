@@ -1,0 +1,124 @@
+{
+  "viewports": [
+    {
+      "width": 375,
+      "layout": {
+        "width": 375,
+        "scrollWidth": 375,
+        "height": 10995,
+        "font": "manrope, \"manrope Fallback\", sans-serif",
+        "fonts": "loaded",
+        "motion": "auto"
+      },
+      "violations": []
+    },
+    {
+      "width": 768,
+      "layout": {
+        "width": 768,
+        "scrollWidth": 768,
+        "height": 8243,
+        "font": "manrope, \"manrope Fallback\", sans-serif",
+        "fonts": "loaded",
+        "motion": "auto"
+      },
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "layout": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 8362,
+        "font": "manrope, \"manrope Fallback\", sans-serif",
+        "fonts": "loaded",
+        "motion": "auto"
+      },
+      "violations": []
+    }
+  ],
+  "interactions": [
+    {
+      "name": "375: every journey stage changes the explanation",
+      "passed": true
+    },
+    {
+      "name": "375: all build modules, payment dependency visible",
+      "passed": true
+    },
+    {
+      "name": "375: all ten business categories",
+      "passed": true
+    },
+    {
+      "name": "375: verification states and bounded operations",
+      "passed": true
+    },
+    {
+      "name": "375: mobile menu opens, follows anchor, closes",
+      "passed": true
+    },
+    {
+      "name": "375: keyboard and brief preview",
+      "passed": true
+    },
+    {
+      "name": "375: FAQ disclosure and all anchor targets",
+      "passed": true
+    },
+    {
+      "name": "768: every journey stage changes the explanation",
+      "passed": true
+    },
+    {
+      "name": "768: all build modules, payment dependency visible",
+      "passed": true
+    },
+    {
+      "name": "768: all ten business categories",
+      "passed": true
+    },
+    {
+      "name": "768: verification states and bounded operations",
+      "passed": true
+    },
+    {
+      "name": "768: mobile menu opens, follows anchor, closes",
+      "passed": true
+    },
+    {
+      "name": "768: keyboard and brief preview",
+      "passed": true
+    },
+    {
+      "name": "768: FAQ disclosure and all anchor targets",
+      "passed": true
+    },
+    {
+      "name": "1440: every journey stage changes the explanation",
+      "passed": true
+    },
+    {
+      "name": "1440: all build modules, payment dependency visible",
+      "passed": true
+    },
+    {
+      "name": "1440: all ten business categories",
+      "passed": true
+    },
+    {
+      "name": "1440: verification states and bounded operations",
+      "passed": true
+    },
+    {
+      "name": "1440: keyboard and brief preview",
+      "passed": true
+    },
+    {
+      "name": "1440: FAQ disclosure and all anchor targets",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "requests": []
+}

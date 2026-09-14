@@ -1,0 +1,29 @@
+[
+  {
+    "width": 375,
+    "errors": [],
+    "overflow": {
+      "viewport": 375,
+      "document": 375,
+      "elements": []
+    }
+  },
+  {
+    "width": 768,
+    "errors": [],
+    "overflow": {
+      "viewport": 768,
+      "document": 768,
+      "elements": []
+    }
+  },
+  {
+    "width": 1440,
+    "errors": [],
+    "overflow": {
+      "viewport": 1440,
+      "document": 1440,
+      "elements": []
+    }
+  }
+]
