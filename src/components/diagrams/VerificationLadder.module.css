@@ -3,6 +3,59 @@
   gap: var(--s-6);
 }
 
+/* The system currently walking the ladder. */
+.subject {
+  display: grid;
+  gap: 0.35rem;
+  padding: var(--s-4) var(--s-5);
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-3);
+}
+
+.subjectId {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+
+.subjectName {
+  font-size: var(--text-lead);
+  line-height: 1.35;
+  color: var(--fg);
+  max-width: 34ch;
+}
+
+.subjectChip {
+  justify-self: start;
+  margin-top: var(--s-2);
+}
+
+@media (min-width: 48rem) {
+  .subject {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--s-5);
+  }
+
+  .subjectId {
+    grid-column: 1;
+  }
+
+  .subjectName {
+    grid-column: 1;
+  }
+
+  .subjectChip {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    justify-self: end;
+    margin-top: 0;
+  }
+}
+
 .ladder {
   display: grid;
   grid-template-columns: 1fr;
@@ -77,164 +130,10 @@
   color: var(--accent);
 }
 
-/* Example check */
-.example {
-  display: grid;
-  gap: var(--s-4);
-  padding: var(--s-5);
-  background: var(--bg-raised);
-  border: 1px solid var(--line);
-  border-radius: var(--r-3);
-}
-
-.exampleHead {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--s-3);
-  align-items: center;
-}
-
-.exampleLabel {
-  font-family: var(--font-mono);
-  font-size: var(--text-mono-xs);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-  color: var(--fg-3);
-}
-
-.exampleState {
-  font-family: var(--font-mono);
-  font-size: var(--text-mono-xs);
-  letter-spacing: var(--tracking-mono);
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--r-pill);
-  border: 1px solid var(--line-strong);
-  color: var(--fg-2);
-  transition:
-    color var(--d-2) var(--ease),
-    background-color var(--d-2) var(--ease),
-    border-color var(--d-2) var(--ease);
-}
-
-.exampleStateDone {
-  color: var(--accent-fg);
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-.flow {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--s-3);
-}
-
-.flowStep {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  grid-template-areas:
-    "mark actor"
-    "mark text";
-  column-gap: 0.6rem;
-  row-gap: 0.15rem;
-}
-
-.flowMark {
-  grid-area: mark;
-  display: inline-grid;
-  place-items: center;
-  width: 1rem;
-  height: 1rem;
-  margin-top: 0.15rem;
-  border-radius: 3px;
-  border: 1px solid var(--line-strong);
-  color: var(--accent-fg);
-  transition:
-    background-color var(--d-2) var(--ease),
-    border-color var(--d-2) var(--ease);
-}
-
-.flowStepLit .flowMark {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-.flowMark svg {
-  width: 0.7rem;
-  height: 0.7rem;
-  stroke-width: 2.25;
-}
-
-.flowActor {
-  grid-area: actor;
-  font-family: var(--font-mono);
-  font-size: var(--text-mono-xs);
-  letter-spacing: var(--tracking-mono);
-  color: var(--fg-3);
-  transition: color var(--d-2) var(--ease);
-}
-
-.flowStepLit .flowActor {
-  color: var(--accent);
-}
-
-.flowText {
-  grid-area: text;
-  font-size: var(--text-small);
-  color: var(--fg);
-  line-height: 1.45;
-}
-
-.result {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.6rem;
-  align-items: start;
-  padding-top: var(--s-4);
-  border-top: 1px solid var(--line);
-  font-size: var(--text-small);
-  color: var(--fg-3);
-  transition: color var(--d-3) var(--ease);
-}
-
-.resultDone {
-  color: var(--fg);
-}
-
-.resultMark {
-  display: inline-grid;
-  place-items: center;
-  width: 1rem;
-  height: 1rem;
-  margin-top: 0.15rem;
-  border-radius: 3px;
-  border: 1px solid var(--line-strong);
-  color: var(--accent-fg);
-  transition:
-    background-color var(--d-2) var(--ease),
-    border-color var(--d-2) var(--ease);
-}
-
-.resultDone .resultMark {
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-.resultMark svg {
-  width: 0.7rem;
-  height: 0.7rem;
-  stroke-width: 2.25;
-}
-
 @media (min-width: 48rem) {
   .ladder {
     grid-template-columns: repeat(2, 1fr);
     column-gap: var(--s-6);
-  }
-
-  .flow {
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--s-4);
   }
 }
 

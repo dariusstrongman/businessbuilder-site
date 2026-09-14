@@ -1,6 +1,7 @@
 import { Container, Section, SectionHeader } from "@/components/primitives/Layout";
 import { CheckIcon } from "@/components/primitives/Icons";
 import { VerificationLadder } from "@/components/diagrams/VerificationLadder";
+import { EvidenceReceipt } from "@/components/product/EvidenceReceipt";
 import { readiness } from "@/content/buildRoom";
 import { cn } from "@/lib/cn";
 import styles from "./Verification.module.css";
@@ -18,6 +19,14 @@ export function Verification({ index = "07" }: { index?: string }) {
         />
 
         <VerificationLadder />
+
+        <div className={styles.bridge}>
+          <p className={styles.bridgeText}>
+            Every check ends in a receipt. Not every receipt says Verified, and the ones that do not are the reason
+            this is worth reading.
+          </p>
+          <EvidenceReceipt className={styles.receipt} />
+        </div>
 
         <div className={styles.readiness}>
           <div className={styles.state}>

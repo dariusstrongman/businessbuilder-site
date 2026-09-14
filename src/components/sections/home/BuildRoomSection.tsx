@@ -25,7 +25,7 @@ type Props = {
 };
 
 export function BuildRoomSection({
-  index = "03",
+  index = "04",
   eyebrow = "The Build Room",
   title = "Watch your company being assembled.",
   lead = "Every system has a status. Every founder action is explained. Readiness comes from the evidence, not from us saying so.",

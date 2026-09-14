@@ -40,6 +40,10 @@ Captured at 2x.
 
 ![The ten jobs ledger](details/fragmentation.png)
 
+### The Company, Assembled: the signature view
+
+![The Company, Assembled: the signature view](details/company-assembly.png)
+
 ### The journey rail
 
 ![The journey rail](details/journey-rail.png)
@@ -52,10 +56,6 @@ Captured at 2x.
 
 ![Generated versus built](details/built-not-generated.png)
 
-### The bill of materials
-
-![The bill of materials](details/bill-of-materials.png)
-
 ### A Founder Action at real size
 
 ![A Founder Action at real size](details/founder-action.png)
@@ -64,9 +64,13 @@ Captured at 2x.
 
 ![The verification ladder, settled](details/verification.png)
 
-### The handoff fork
+### An evidence receipt, including what is still unresolved
 
-![The handoff fork](details/handoff-fork.png)
+![An evidence receipt, including what is still unresolved](details/evidence-receipt.png)
+
+### The handoff fork: take the keys, or run it for me
+
+![The handoff fork: take the keys, or run it for me](details/handoff-fork.png)
 
 ### An AI worker permissions card
 
@@ -107,3 +111,7 @@ Captured at 2x.
 ### What changes between packages
 
 ![What changes between packages](details/package-comparison.png)
+
+### The bill of materials
+
+![The bill of materials](details/bill-of-materials.png)

@@ -1,9 +1,9 @@
 import { Hero } from "@/components/sections/home/Hero";
 import { Fragmentation } from "@/components/sections/home/Fragmentation";
+import { Assembly } from "@/components/sections/home/Assembly";
 import { Journey } from "@/components/sections/home/Journey";
 import { BuildRoomSection } from "@/components/sections/home/BuildRoomSection";
 import { BuiltNotGenerated } from "@/components/sections/home/BuiltNotGenerated";
-import { WhatWeBuild } from "@/components/sections/home/WhatWeBuild";
 import { FounderActions } from "@/components/sections/home/FounderActions";
 import { Verification } from "@/components/sections/home/Verification";
 import { Handoff } from "@/components/sections/home/Handoff";
@@ -19,10 +19,10 @@ export default function HomePage() {
     <>
       <Hero />
       <Fragmentation />
+      <Assembly />
       <Journey />
       <BuildRoomSection />
       <BuiltNotGenerated />
-      <WhatWeBuild />
       <FounderActions />
       <Verification />
       <Handoff />

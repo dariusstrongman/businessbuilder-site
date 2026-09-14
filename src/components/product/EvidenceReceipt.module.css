@@ -1,0 +1,247 @@
+.receipt {
+  display: grid;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-3);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+  font-size: var(--text-small);
+}
+
+.head {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border-bottom: 1px solid var(--line);
+}
+
+.kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.mode {
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--r-1);
+  border: 1px solid var(--line-strong);
+  color: var(--fg-4);
+  letter-spacing: var(--tracking-mono);
+  text-transform: none;
+}
+
+.title {
+  font-size: var(--text-h3);
+  line-height: var(--leading-h3);
+  letter-spacing: var(--tracking-h3);
+  font-weight: 500;
+  color: var(--fg);
+  max-width: 26ch;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-6);
+}
+
+.meta div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.meta dt {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg-4);
+}
+
+.meta dd {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  color: var(--fg-2);
+}
+
+.block {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border-bottom: 1px solid var(--line);
+}
+
+.blockTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fg-4);
+}
+
+.checks {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.checks li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: start;
+  line-height: 1.45;
+}
+
+.mark {
+  display: inline-grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.15rem;
+  border-radius: 3px;
+}
+
+.mark svg {
+  width: 0.7rem;
+  height: 0.7rem;
+  stroke-width: 2.5;
+}
+
+.pass .mark {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+.blocked .mark {
+  background: transparent;
+  border: 1px solid var(--founder);
+  color: var(--founder);
+}
+
+.step {
+  color: var(--fg);
+}
+
+.blocked .step {
+  color: var(--fg-2);
+}
+
+.verdict {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--accent);
+  white-space: nowrap;
+  padding-top: 0.1rem;
+}
+
+.blocked .verdict {
+  color: var(--founder);
+}
+
+.evidence {
+  display: grid;
+  gap: 0.35rem;
+  padding: var(--s-3) var(--s-4);
+  background: var(--bg-sunken);
+  border-radius: var(--r-2);
+  border: 1px solid var(--line);
+}
+
+.evidence li {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  line-height: 1.5;
+  color: var(--fg-2);
+  overflow-wrap: anywhere;
+}
+
+.dependency {
+  display: grid;
+  gap: var(--s-2);
+  padding: var(--s-5);
+  border-bottom: 1px solid var(--line);
+  border-left: 3px solid var(--founder);
+  background: color-mix(in srgb, var(--founder-soft) 45%, transparent);
+}
+
+.depLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--founder);
+}
+
+.depDot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--founder);
+}
+
+.depTitle {
+  font-size: var(--text-h4);
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.depBody {
+  color: var(--fg-2);
+  line-height: 1.55;
+  max-width: 60ch;
+}
+
+.foot {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  background: var(--bg);
+}
+
+.outcome {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill {
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--r-pill);
+  border: 1px dashed var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-xs);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-3);
+}
+
+.pillOn {
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+.footNote {
+  font-size: var(--text-xs);
+  color: var(--fg-3);
+  line-height: 1.5;
+}
+
+@media (min-width: 48rem) {
+  .receipt {
+    font-size: var(--text-small);
+  }
+}

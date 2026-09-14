@@ -57,7 +57,7 @@ try {
       clientWidth: document.documentElement.clientWidth,
     }));
 
-    await page.screenshot({ path: path.join(dir, "full.png"), fullPage: true });
+    await page.screenshot({ path: path.join(dir, "full.png"), fullPage: true, animations: "disabled" });
 
     const sections = await page.$$("body > header, main > section, main section[aria-labelledby], body > footer");
     let i = 0;
@@ -70,7 +70,7 @@ try {
       const name = `${String(i).padStart(2, "0")}-${id}.png`;
       await s.scrollIntoViewIfNeeded();
       await page.waitForTimeout(500);
-      await s.screenshot({ path: path.join(dir, name) });
+      await s.screenshot({ path: path.join(dir, name), animations: "disabled" });
       i += 1;
     }
 

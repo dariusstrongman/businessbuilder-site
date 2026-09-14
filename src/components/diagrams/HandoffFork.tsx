@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { Button } from "@/components/primitives/Button";
 import { CheckIcon, KeyIcon } from "@/components/primitives/Icons";
 import { handoverItems } from "@/content/buildRoom";
@@ -11,47 +11,80 @@ import styles from "./HandoffFork.module.css";
 
 type Choice = "keys" | "run";
 
-/** The fork: Take the keys, or Run it for me. One control, two futures. */
+const options = [
+  {
+    id: "keys" as const,
+    label: "Take the keys",
+    consequence: "We hand over and step back. You own it and you run it.",
+    after: "No ongoing fee",
+  },
+  {
+    id: "run" as const,
+    label: "Run it for me",
+    consequence: "We keep operating the recurring work, inside limits you set.",
+    after: "Monthly, stop any time",
+  },
+];
+
+/**
+ * The fork: one company, two futures. The branch is drawn rather than implied,
+ * because this is the decision the whole page has been building towards.
+ */
 export function HandoffFork() {
   const [choice, setChoice] = useState<Choice>("keys");
   const id = useId();
+  const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const move = (delta: number) => {
+    const next = options[(options.findIndex((o) => o.id === choice) + delta + options.length) % options.length];
+    setChoice(next.id);
+    tabs.current[options.findIndex((o) => o.id === next.id)]?.focus();
+  };
 
   return (
-    <div className={styles.fork}>
-      <div className={styles.control} role="tablist" aria-label="After the build">
-        <button
-          type="button"
-          role="tab"
-          id={`${id}-keys-tab`}
-          aria-selected={choice === "keys"}
-          aria-controls={`${id}-keys`}
-          tabIndex={choice === "keys" ? 0 : -1}
-          className={cn(styles.option, choice === "keys" && styles.optionActive)}
-          onClick={() => setChoice("keys")}
-          onKeyDown={(e) => {
-            if (e.key === "ArrowRight" || e.key === "ArrowLeft") setChoice("run");
-          }}
-        >
-          <KeyIcon className={styles.optionIcon} />
-          Take the keys
-        </button>
-        <button
-          type="button"
-          role="tab"
-          id={`${id}-run-tab`}
-          aria-selected={choice === "run"}
-          aria-controls={`${id}-run`}
-          tabIndex={choice === "run" ? 0 : -1}
-          className={cn(styles.option, choice === "run" && styles.optionActive)}
-          onClick={() => setChoice("run")}
-          onKeyDown={(e) => {
-            if (e.key === "ArrowRight" || e.key === "ArrowLeft") setChoice("keys");
-          }}
-        >
-          <span className={styles.optionDot} aria-hidden />
-          Run it for me
-        </button>
-        <span className={cn(styles.thumb, choice === "run" && styles.thumbRun)} aria-hidden />
+    <div className={styles.fork} data-choice={choice}>
+      <div className={styles.branch} aria-hidden>
+        <span className={styles.trunk} />
+        <span className={cn(styles.bar, styles.barLeft)} />
+        <span className={cn(styles.bar, styles.barRight)} />
+        <span className={cn(styles.leg, styles.legLeft)} />
+        <span className={cn(styles.leg, styles.legRight)} />
+      </div>
+
+      <div className={styles.choices} role="tablist" aria-label="After the build">
+        {options.map((o, i) => (
+          <button
+            key={o.id}
+            ref={(el) => {
+              tabs.current[i] = el;
+            }}
+            type="button"
+            role="tab"
+            id={`${id}-${o.id}-tab`}
+            aria-selected={choice === o.id}
+            aria-controls={`${id}-${o.id}`}
+            tabIndex={choice === o.id ? 0 : -1}
+            className={cn(styles.choice, choice === o.id && styles.choiceActive)}
+            onClick={() => setChoice(o.id)}
+            onKeyDown={(e) => {
+              if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+                e.preventDefault();
+                move(1);
+              } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+                e.preventDefault();
+                move(-1);
+              }
+            }}
+          >
+            <span className={styles.choiceTop}>
+              {o.id === "keys" ? <KeyIcon className={styles.choiceIcon} /> : <span className={styles.choiceDot} aria-hidden />}
+              <span className={styles.choiceLabel}>{o.label}</span>
+              <span className={styles.choiceState} aria-hidden />
+            </span>
+            <span className={styles.choiceConsequence}>{o.consequence}</span>
+            <span className={styles.choiceAfter}>{o.after}</span>
+          </button>
+        ))}
       </div>
 
       <div
@@ -62,12 +95,11 @@ export function HandoffFork() {
         className={styles.panel}
       >
         <div className={styles.panelCopy}>
-          <h3 className={styles.panelTitle}>We hand over and step back.</h3>
+          <h3 className={styles.panelTitle}>Four things change hands.</h3>
           <p className={styles.panelText}>
-            Handoff is a moment, not a process. Four things change hands, the company is registered to you and hosted
-            for you, and we are done.
+            Handoff is a moment, not a process. The company is registered to you and hosted for you, and we are done.
           </p>
-          <p className={styles.panelText}>You can come back for Build & Run later. Nothing about the build assumes you will.</p>
+          <p className={styles.panelText}>You can come back for Build &amp; Run later. Nothing about the build assumes you will.</p>
           <div className={styles.panelActions}>
             <Button href={routes.start} arrow>
               {cta.primary}
@@ -89,15 +121,15 @@ export function HandoffFork() {
 
       <div id={`${id}-run`} role="tabpanel" aria-labelledby={`${id}-run-tab`} hidden={choice !== "run"} className={styles.panel}>
         <div className={styles.panelCopy}>
-          <h3 className={styles.panelTitle}>We keep parts of the company working.</h3>
+          <h3 className={styles.panelTitle}>The company keeps working.</h3>
           <p className={styles.panelText}>
-            After handoff, AI workers take on the recurring jobs you choose: answering inquiries, drafting quotes,
-            sorting the inbox, asking for reviews. Each one has permissions, a budget and approval rules you set.
+            AI workers take on the recurring jobs you choose: answering enquiries, drafting quotes, sorting the inbox,
+            asking for reviews. Each has permissions, a budget and approval rules you set.
           </p>
           <p className={styles.panelText}>Stop any time. The workers stop. The company stays yours.</p>
           <div className={styles.panelActions}>
             <Button href={routes.buildAndRun} arrow>
-              See Build & Run
+              See Build &amp; Run
             </Button>
           </div>
         </div>

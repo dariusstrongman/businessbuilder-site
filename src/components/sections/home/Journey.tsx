@@ -10,7 +10,7 @@ export function Journey() {
       <Container>
         <div className={styles.head}>
           <SectionHeader
-            index="02"
+            index="03"
             eyebrow="The journey"
             id="journey-title"
             title="Twelve stages. Four phases. You decide at every gate."

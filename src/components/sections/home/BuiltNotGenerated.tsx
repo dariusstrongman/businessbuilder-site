@@ -8,7 +8,7 @@ export function BuiltNotGenerated() {
     <Section tone="paper-2" aria-labelledby="built-title" className={styles.section}>
       <Container>
         <SectionHeader
-          index="04"
+          index="05"
           eyebrow="The difference"
           id="built-title"
           title={

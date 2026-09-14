@@ -34,13 +34,14 @@ const details = [
   { route: "/", sel: "[aria-labelledby='hero-title']", slug: "hero", name: "Hero with the live Build Room", w: 1440 },
   { route: "/", sel: "[aria-labelledby='hero-title'] [role='img']", slug: "build-room-compact", name: "Build Room, compact", w: 1440 },
   { route: "/", sel: "[aria-labelledby='fragmentation-title']", slug: "fragmentation", name: "The ten jobs ledger", w: 1440 },
+  { route: "/", sel: "[aria-labelledby='assembly-title']", slug: "company-assembly", name: "The Company, Assembled: the signature view", w: 1440 },
   { route: "/", sel: "[aria-labelledby='journey-title']", slug: "journey-rail", name: "The journey rail", w: 1440 },
   { route: "/", sel: "[aria-labelledby='buildroom-title'] [role='img']", slug: "build-room-full", name: "Build Room, full", w: 1440 },
   { route: "/", sel: "[aria-labelledby='built-title']", slug: "built-not-generated", name: "Generated versus built", w: 1440 },
-  { route: "/", sel: "[aria-labelledby='bom-title']", slug: "bill-of-materials", name: "The bill of materials", w: 1440 },
   { route: "/", sel: "[aria-labelledby='founder-title']", slug: "founder-action", name: "A Founder Action at real size", w: 1440 },
   { route: "/", sel: "[aria-labelledby='verification-title']", slug: "verification", name: "The verification ladder, settled", w: 1440 },
-  { route: "/", sel: "[aria-labelledby='handoff-title']", slug: "handoff-fork", name: "The handoff fork", w: 1440 },
+  { route: "/", sel: "[aria-labelledby='receipt-title']", slug: "evidence-receipt", name: "An evidence receipt, including what is still unresolved", w: 1440 },
+  { route: "/", sel: "[aria-labelledby='handoff-title']", slug: "handoff-fork", name: "The handoff fork: take the keys, or run it for me", w: 1440 },
   { route: "/", sel: "[aria-labelledby='run-title']", slug: "permissions-card", name: "An AI worker permissions card", w: 1440 },
   { route: "/", sel: "[aria-labelledby='businesses-title']", slug: "archetype-strip", name: "The ten business types", w: 1440 },
   { route: "/", sel: "[aria-labelledby='packages-title']", slug: "packages", name: "The three packages", w: 1440 },
@@ -51,6 +52,7 @@ const details = [
   { route: "/website", sel: "[aria-labelledby='page-title']", slug: "site-frame", name: "What a built website looks like", w: 1440 },
   { route: "/how-it-works", sel: "[aria-labelledby='stages-title']", slug: "stage-ledger", name: "Every stage, what you do, what you get", w: 1440 },
   { route: "/pricing", sel: "[aria-labelledby='compare-title']", slug: "package-comparison", name: "What changes between packages", w: 1440 },
+  { route: "/build-my-business", sel: "[aria-labelledby='bom-title']", slug: "bill-of-materials", name: "The bill of materials", w: 1440 },
 ];
 
 // Full pages at 1x: some are tens of thousands of pixels tall, and 2x makes them
@@ -90,7 +92,7 @@ for (const size of sizes) {
     await page.goto(base + r.path, { waitUntil: "networkidle" });
     await settle(page);
     const file = path.join(OUT, size.label, `${r.slug}.png`);
-    await page.screenshot({ path: file, fullPage: true });
+    await page.screenshot({ path: file, fullPage: true, animations: "disabled" });
     console.log(`${size.label.padEnd(7)} ${r.slug}`);
   }
   await context.close();
@@ -115,7 +117,7 @@ await mkdir(path.join(OUT, "details"), { recursive: true });
     const el = page.locator(d.sel).first();
     await el.scrollIntoViewIfNeeded();
     await page.waitForTimeout(400);
-    await el.screenshot({ path: path.join(OUT, "details", `${d.slug}.png`) });
+    await el.screenshot({ path: path.join(OUT, "details", `${d.slug}.png`), animations: "disabled" });
     console.log(`detail  ${d.slug}`);
   }
   await context.close();

@@ -24,6 +24,9 @@ await page.waitForTimeout(Number(waitArg));
 // Hide the sticky header so it does not overlay the target, unless the target is the header.
 const isHeader = await el.evaluate((n) => n.tagName === "HEADER");
 if (!isHeader) await page.addStyleTag({ content: "body > header { visibility: hidden !important; }" });
-await el.screenshot({ path: out });
+// animations: "disabled" finishes finite animations and pins them to their end
+// state. Without it, Playwright's beyond-viewport capture restarts them and the
+// screenshot catches a half-drawn frame.
+await el.screenshot({ path: out, animations: "disabled" });
 console.log(`saved ${out}`);
 await browser.close();

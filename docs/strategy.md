@@ -312,3 +312,77 @@ src/
 Principles: tokens are the only source of values; components are typed and accept content from `content/`, never hard-code copy; product UI components are shared between marketing and the eventual app shell so the marketing site cannot drift from the product; motion hooks respect reduced motion centrally.
 
 Stack: **Next.js (App Router), React, TypeScript, CSS Modules on top of CSS custom properties, `next/font`.** No UI framework, no Tailwind, no animation library unless a sequence proves impossible in CSS. Screenshots via Playwright at 375 / 768 / 1440 after every significant change.
+
+---
+
+# Refinement pass
+
+The flagship direction above is unchanged and remains canonical. An independent
+challenger implementation surfaced five conceptual ideas worth absorbing. This
+pass took them into the existing system rather than replacing anything: the
+typefaces, status colours, Build Room architecture, information architecture,
+routes and the no-fabricated-proof policy are all as they were.
+
+## What changed, and why
+
+**A new signature section, "The Company, Assembled" (homepage 02).** The page
+had a strong problem statement at 01 and then went straight to process at 03.
+Nothing answered the problem in a single image. The new section is a schematic
+of the whole company in three lanes, Found, Booked and Paid, with a business
+email bar tying the last two together.
+
+The argument it makes is the one the site had been making in words: *a company
+is not its parts, it is the joins*. So verification is attached to the
+connections, not the boxes. Two joins in the Paid lane are deliberately open,
+marked in the founder colour, because payouts wait on an identity check only the
+founder can complete. The diagram tells the truth about its own unfinished
+state, which is the whole product argument in one view.
+
+It is also the answer to "recognisable without the logo". Nothing else on the
+web looks like a verified wiring diagram of a small service business.
+
+**The bill of materials left the homepage.** It was a 26-item inventory sitting
+two sections after the Build Room, so the page explained the same set of parts
+three times in three forms. The schematic now carries the shape, the Build Room
+carries the process, and the full inventory stays on Build my business, which is
+where a buyer actually wants a list. Net effect on page length is close to
+neutral; net effect on repetition is large.
+
+**Verification produces a receipt.** The ladder previously ended in a small
+four-step example that restated what the rungs already said. It now names the
+single system it is walking, and the payoff is an evidence receipt: what was
+checked, the result per line, the raw evidence, and an unresolved dependency.
+
+The receipt deliberately shows a check that did **not** fully pass. Three lines
+pass, the payout line is blocked, and the block is explained and attributed to
+a Founder Action. A verification story that only ever shows green is marketing.
+This one is the product.
+
+**The handoff became an actual fork.** It was a segmented control, which reads
+as a filter rather than a decision. It is now a drawn branch: a trunk descends
+from the section, splits, and the chosen leg runs green into a full-size choice
+block. Each choice carries its consequence and its commitment, "No ongoing fee"
+against "Monthly, stop any time". The page's most important decision now looks
+like a decision.
+
+## What was considered and rejected
+
+- **Rewriting the hero around "The Company, Assembled".** The hero's job is the
+  promise and the first action. The framing works better as the name of the
+  section that proves it, where it can be shown rather than asserted.
+- **A third dark section for the handoff.** Ink is reserved for exactly two
+  moments, both of which show the interior of the system. Spending it on a third
+  would weaken all three.
+- **Animating the schematic on a timer.** The reveal is pure CSS off a per-index
+  delay, so no JavaScript runs, client bundle size is unchanged, and reduced
+  motion collapses it to the finished state.
+
+## A tooling bug this pass exposed
+
+Screenshots taken through Playwright were capturing half-drawn connections.
+The site was correct; the capture was not. Playwright's beyond-viewport capture
+forces a style recalculation that restarts CSS animations, so the screenshot
+caught a frame partway through. All three capture scripts now pass
+`animations: "disabled"`, which finishes finite animations and pins them to
+their end state. Without that fix the review gallery would have shipped images
+of work that looked unfinished.
