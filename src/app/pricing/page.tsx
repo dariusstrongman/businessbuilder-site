@@ -4,27 +4,29 @@ import { Button } from "@/components/primitives/Button";
 import { Container, Section, SectionHeader } from "@/components/primitives/Layout";
 import { Faq } from "@/components/primitives/Faq";
 import { CheckIcon } from "@/components/primitives/Icons";
+import { FoundingOffers } from "@/components/diagrams/FoundingOffers";
+import { ActivationSplit } from "@/components/diagrams/ActivationSplit";
 import { PackageMatrix } from "@/components/diagrams/PackageMatrix";
-import { WebsiteTiers } from "@/components/diagrams/WebsiteTiers";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { packages } from "@/content/packages";
 import { compareGroups, pricingFaq } from "@/content/pricing";
+import { activation, costBoundaries, foundingCopy } from "@/content/founding";
 import { routes } from "@/config/brand";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Three packages: Build my professional website, Build my business, and Build & run my business. One-time builds, a monthly fee for operations, no invented discounts.",
+    "Founding customer pricing. Build my website $795. Build my business $1,495. Build it and run it $1,995 upfront plus $299 a month. Existing businesses from $1,495 plus $299 a month.",
 };
 
 export default function PricingPage() {
   return (
     <>
       <PageHero
-        eyebrow="Pricing"
-        title="Three packages. Each one contains the last."
-        lead="Website and Business are one-time builds. Build & Run adds monthly operations. Prices will be published here; the structure and inclusions below are fixed now."
+        eyebrow={foundingCopy.label}
+        title={foundingCopy.headline}
+        lead={foundingCopy.lead}
         actions={
           <Button href={routes.howItWorks} variant="ghost" arrow>
             How a build works
@@ -32,41 +34,67 @@ export default function PricingPage() {
         }
       />
 
-      <Section aria-labelledby="matrix-title" tone="paper-2" flushTop>
+      <Section aria-labelledby="offers-title" tone="paper-2" flushTop>
         <Container>
-          <h2 id="matrix-title" className="sr-only">
-            Packages
+          <h2 id="offers-title" className="sr-only">
+            Founding customer pricing
           </h2>
-          <PackageMatrix />
-          <p className={styles.note}>
-            Third-party costs such as domain registration, business email and payment processing fees are yours at cost,
-            approved by you before purchase, and registered to you.
+          <FoundingOffers variant="all" />
+          <p className={styles.honesty}>
+            <span className={styles.honestyMark} aria-hidden />
+            {foundingCopy.honesty}
           </p>
         </Container>
       </Section>
 
-      <Section aria-labelledby="tiers-title">
+      <Section aria-labelledby="activation-title">
         <Container>
           <SectionHeader
             index="01"
-            eyebrow="Website project prices"
-            id="tiers-title"
-            title="The website build has three real prices."
-            lead="These are published rates, not a range. A company build is quoted with your recommendation instead, because the scope depends on what the research says you actually need."
+            eyebrow="Two fees, two jobs"
+            id="activation-title"
+            title={activation.title}
+            lead={activation.lead}
           />
-          <WebsiteTiers />
+          <ActivationSplit />
         </Container>
       </Section>
 
-      <Section aria-labelledby="compare-title" tone="paper-2">
+      <Section aria-labelledby="boundaries-title" tone="paper-2">
         <Container>
           <SectionHeader
             index="02"
+            eyebrow="What the price does and does not cover"
+            id="boundaries-title"
+            title="The boundaries, stated up front."
+            lead="A price is only honest if the edges of it are visible. These are the four that matter most, and none of them changes after you have paid."
+          />
+          <dl className={styles.boundaries}>
+            {costBoundaries.map((b, i) => (
+              <div key={b.id} className={styles.boundary}>
+                <dt className={styles.boundaryTitle}>
+                  <span className={styles.boundaryIndex}>{String(i + 1).padStart(2, "0")}</span>
+                  {b.title}
+                </dt>
+                <dd className={styles.boundaryText}>{b.text}</dd>
+              </div>
+            ))}
+          </dl>
+        </Container>
+      </Section>
+
+      <Section aria-labelledby="compare-title">
+        <Container>
+          <SectionHeader
+            index="03"
             eyebrow="Side by side"
             id="compare-title"
             title="What changes between packages."
             lead="Every row is something you receive, or do not. Where a package includes a narrower version, the cell says so."
           />
+          <div className={styles.matrixWrap}>
+            <PackageMatrix />
+          </div>
           {/* Focusable so the comparison can be scrolled by keyboard on narrow screens. */}
           <div className={styles.tableWrap} role="region" aria-label="Package comparison" tabIndex={0}>
             <table className={styles.table}>
@@ -120,10 +148,10 @@ export default function PricingPage() {
         </Container>
       </Section>
 
-      <Section aria-labelledby="faq-title">
+      <Section aria-labelledby="faq-title" tone="paper-2">
         <Container>
           <div className={styles.faqGrid}>
-            <SectionHeader index="03" eyebrow="Questions" id="faq-title" title="Straight answers." />
+            <SectionHeader index="04" eyebrow="Questions" id="faq-title" title="Straight answers." />
             <Faq items={pricingFaq} />
           </div>
         </Container>

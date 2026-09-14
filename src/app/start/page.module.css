@@ -226,6 +226,17 @@
   color: var(--fg-4);
 }
 
+/* The figure leads, the model qualifies it. */
+.packagePrice {
+  color: var(--fg-2);
+  font-weight: 500;
+}
+
+.packageSep {
+  color: var(--fg-4);
+  font-weight: 400;
+}
+
 .hint {
   font-size: var(--text-xs);
   color: var(--fg-3);

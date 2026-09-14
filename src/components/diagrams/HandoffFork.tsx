@@ -16,13 +16,15 @@ const options = [
     id: "keys" as const,
     label: "Take the keys",
     consequence: "We hand over and step back. You own it and you run it.",
-    after: "No ongoing fee",
+    after: "No ongoing fee, ever",
+    price: "Included in your build",
   },
   {
     id: "run" as const,
     label: "Run it for me",
     consequence: "We keep operating the recurring work, inside limits you set.",
-    after: "Monthly, stop any time",
+    after: "Stop any time. The company stays yours.",
+    price: "$795 activation + $299/mo",
   },
 ];
 
@@ -30,6 +32,10 @@ const options = [
  * The fork: one company, two futures. The branch is drawn rather than implied,
  * because this is the decision the whole page has been building towards.
  */
+/** Spelled out so the heading always matches the list it introduces. */
+const numberWords = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"];
+const handoverCount = numberWords[handoverItems.length] ?? String(handoverItems.length);
+
 export function HandoffFork() {
   const [choice, setChoice] = useState<Choice>("keys");
   const id = useId();
@@ -82,6 +88,7 @@ export function HandoffFork() {
               <span className={styles.choiceState} aria-hidden />
             </span>
             <span className={styles.choiceConsequence}>{o.consequence}</span>
+            <span className={styles.choicePrice}>{o.price}</span>
             <span className={styles.choiceAfter}>{o.after}</span>
           </button>
         ))}
@@ -95,11 +102,13 @@ export function HandoffFork() {
         className={styles.panel}
       >
         <div className={styles.panelCopy}>
-          <h3 className={styles.panelTitle}>Four things change hands.</h3>
+          <h3 className={styles.panelTitle}>{handoverCount} things change hands.</h3>
           <p className={styles.panelText}>
             Handoff is a moment, not a process. The company is registered to you and hosted for you, and we are done.
           </p>
-          <p className={styles.panelText}>You can come back for Build &amp; Run later. Nothing about the build assumes you will.</p>
+          <p className={styles.panelText}>
+            No ongoing fee. You can come back for Build &amp; Run later, and nothing about the build assumes you will.
+          </p>
           <div className={styles.panelActions}>
             <Button href={routes.start} arrow>
               {cta.primary}
@@ -126,7 +135,10 @@ export function HandoffFork() {
             AI workers take on the recurring jobs you choose: answering enquiries, drafting quotes, sorting the inbox,
             asking for reviews. Each has permissions, a budget and approval rules you set.
           </p>
-          <p className={styles.panelText}>Stop any time. The workers stop. The company stays yours.</p>
+          <p className={styles.panelText}>
+            $795 activation and $299 a month on its own, or $1,995 upfront with Build my business because most of the
+            configuration happens during the build. Stop any time: the workers stop, the company stays yours.
+          </p>
           <div className={styles.panelActions}>
             <Button href={routes.buildAndRun} arrow>
               See Build &amp; Run

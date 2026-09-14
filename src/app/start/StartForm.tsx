@@ -5,8 +5,8 @@ import { Container, Eyebrow } from "@/components/primitives/Layout";
 import { Button } from "@/components/primitives/Button";
 import { CheckIcon } from "@/components/primitives/Icons";
 import { packages, type PackageId } from "@/content/packages";
-import { websiteTiers } from "@/content/websiteTiers";
 import { startingPoints, type StartingPointId } from "@/content/startingPoints";
+import { checkoutTruth } from "@/content/founding";
 import { archetypes } from "@/content/archetypes";
 import { phases } from "@/content/journey";
 import { cta, routes } from "@/config/brand";
@@ -17,8 +17,6 @@ import styles from "./page.module.css";
 type Props = {
   defaultIdea: string;
   defaultPackage: PackageId;
-  /** Set when the visitor picked a specific website tier. */
-  defaultTier?: string;
   /** Set when the visitor arrived from a starting point. */
   defaultFrom?: StartingPointId;
 };
@@ -38,7 +36,7 @@ function NextSteps({ current }: { current: number }) {
   );
 }
 
-export function StartForm({ defaultIdea, defaultPackage, defaultTier, defaultFrom = "idea" }: Props) {
+export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }: Props) {
   const id = useId();
   const [state, action, pending] = useActionState<StartState, FormData>(startBuild, { status: "idle" });
   const [idea, setIdea] = useState(defaultIdea);
@@ -74,12 +72,6 @@ export function StartForm({ defaultIdea, defaultPackage, defaultTier, defaultFro
                   <dt>Starting package</dt>
                   <dd>{packages.find((p) => p.id === state.packageId)?.name}</dd>
                 </div>
-                {state.tier ? (
-                  <div>
-                    <dt>Website tier</dt>
-                    <dd>{websiteTiers.find((t) => t.id === state.tier)?.name}</dd>
-                  </div>
-                ) : null}
                 <div>
                   <dt>Cost so far</dt>
                   <dd>Nothing. You pay when you approve the direction.</dd>
@@ -128,7 +120,6 @@ export function StartForm({ defaultIdea, defaultPackage, defaultTier, defaultFro
             className={styles.form}
             aria-describedby={state.status === "error" ? `${id}-error` : undefined}
           >
-            {defaultTier ? <input type="hidden" name="tier" value={defaultTier} /> : null}
 
             <fieldset className={styles.fieldset}>
               <legend className={styles.label}>Where are you starting from?</legend>
@@ -192,7 +183,15 @@ export function StartForm({ defaultIdea, defaultPackage, defaultTier, defaultFro
                       className={styles.radio}
                     />
                     <span className={styles.packageName}>{p.name}</span>
-                    <span className={styles.packageModel}>{p.model}</span>
+                    {/* The price belongs next to the choice. Naming only the pricing
+                        model here made the visitor leave to find out what it costs. */}
+                    <span className={styles.packageModel}>
+                      <span className={styles.packagePrice}>{p.price}</span>
+                      <span className={styles.packageSep} aria-hidden>
+                        {" · "}
+                      </span>
+                      {p.model}
+                    </span>
                   </label>
                 ))}
               </div>
@@ -243,7 +242,7 @@ export function StartForm({ defaultIdea, defaultPackage, defaultTier, defaultFro
               <Button type="submit" size="lg" arrow disabled={pending}>
                 {pending ? "Opening your build…" : "Open my build"}
               </Button>
-              <p className={styles.hint}>No payment now. You pay when you approve the direction.</p>
+              <p className={styles.hint}>{checkoutTruth}</p>
             </div>
           </form>
         </div>

@@ -10,7 +10,6 @@ export type StartState = {
   /** Echoed back so a validation error does not wipe what was typed. */
   name?: string;
   email?: string;
-  tier?: string;
   from?: string;
 };
 
@@ -26,9 +25,8 @@ export async function startBuild(_prev: StartState, form: FormData): Promise<Sta
   const name = String(form.get("name") ?? "").trim();
   const email = String(form.get("email") ?? "").trim();
   const pkg = String(form.get("package") ?? "");
-  const tier = String(form.get("tier") ?? "") || undefined;
   const from = String(form.get("from") ?? "") || undefined;
-  const echo = { idea, name, email, tier, from, packageId: packageIds.has(pkg as PackageId) ? (pkg as PackageId) : undefined };
+  const echo = { idea, name, email, from, packageId: packageIds.has(pkg as PackageId) ? (pkg as PackageId) : undefined };
 
   if (idea.length < 12) {
     return {
@@ -48,5 +46,5 @@ export async function startBuild(_prev: StartState, form: FormData): Promise<Sta
     return { ...echo, status: "error", message: "Choose a package to start from. You can change it later." };
   }
 
-  return { status: "received", idea, packageId: echo.packageId, name, email, tier, from };
+  return { status: "received", idea, packageId: echo.packageId, name, email, from };
 }
