@@ -14,7 +14,8 @@ const packageIds = new Set(packages.map((p) => p.id));
 
 export default async function StartPage({ searchParams }: { searchParams: Promise<Search> }) {
   const { idea = "", package: pkg, from } = await searchParams;
-  const packageId: PackageId = pkg && packageIds.has(pkg as PackageId) ? (pkg as PackageId) : "business";
+  const selected: PackageId = pkg && packageIds.has(pkg as PackageId) ? (pkg as PackageId) : "business";
+  const packageId: PackageId = selected === "run" ? "run" : "business";
   const fromId = startingPoints.some((p) => p.id === from) ? (from as StartingPointId) : undefined;
   return <StartForm defaultIdea={idea} defaultPackage={packageId} defaultFrom={fromId} />;
 }

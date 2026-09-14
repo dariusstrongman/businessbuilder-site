@@ -16,6 +16,9 @@ company can be renamed without touching a component.
 The full product interpretation, positioning, information architecture, homepage narrative and
 design system rationale are in [`docs/strategy.md`](docs/strategy.md).
 
+The focused customer-facing residential-cleaning integration contract is in
+[`docs/flagship-journey-integration.md`](docs/flagship-journey-integration.md).
+
 To review it without running anything, [`docs/screens`](docs/screens/README.md) holds every page
 rendered at desktop and mobile, plus the signature surfaces at 2x.
 

@@ -75,3 +75,16 @@
 .altLink:hover {
   border-color: var(--fg);
 }
+
+.error {
+  padding: var(--s-3);
+  border-left: 3px solid var(--danger-600);
+  background: color-mix(in srgb, var(--danger-600) 8%, transparent);
+  font-size: var(--text-small);
+}
+
+.note {
+  color: var(--fg-3);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
