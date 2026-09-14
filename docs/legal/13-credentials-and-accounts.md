@@ -164,6 +164,6 @@ Business Builder should not:
   configuration `[COUNSEL]` confirm the boundary
 - Hold or process a customer's government identity documents beyond what a specific
   Founder Action requires, and then only per
-  [20-sensitive-documents](16-data-retention-deletion.md)
+  the sensitive-document rules in [16-data-retention-deletion.md](16-data-retention-deletion.md)
 - Act as the customer's registered agent
 - Receive legal service of process on the customer's behalf

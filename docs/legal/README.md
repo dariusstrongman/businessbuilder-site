@@ -54,6 +54,17 @@ the table wins and the document is wrong.
 No revenue share. No equity. No percentage of customer revenue. No transaction fee.
 Government, provider and third-party costs are separate where they apply.
 
+## The review page
+
+A navigable summary of this package, suitable for handing to an attorney, is
+published at:
+
+https://claude.ai/code/artifact/2b8eeafa-a38c-42dd-9df6-cf97b23fda42
+
+It carries the risk summary, the tax findings, the site audit with exact
+replacements, the attorney queue and the launch blockers. The full drafts live in
+this directory.
+
 ## Reading order
 
 Start with the risk summary. It is the only document that assumes no prior context.
