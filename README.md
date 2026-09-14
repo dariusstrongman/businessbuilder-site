@@ -21,12 +21,23 @@ rendered at desktop and mobile, plus the signature surfaces at 2x.
 
 ## Design studies
 
-`public/studies/` holds five original design studies made by the studio. They are shown on `/work`
-and in a strip on the homepage, every one stamped and captioned as a study.
+Five original studies, shown on `/work` and in a strip on the homepage.
+
+**Each one is a rendered website, not a photograph.** `StudySite` builds the page in markup:
+navigation, a headline split between the sans and the serif italic, supporting lines, a call to
+action, small print and a band beneath the hero. `public/studies/` holds only the photography that
+sits inside those designs. The layout, type and palette are the work.
+
+Three layouts carry the five studies: `overlay` puts type over a full-bleed photograph, `split`
+sets a type panel beside it, and `display` lets the headline become the image. Each study's palette
+lives in `studies.ts` as content, not as tokens, and is passed in as custom properties so it never
+leaks into the rest of the site. Container queries drive the whole mock, so the same component
+reads as a desktop site in a wide cell and collapses to a phone layout in a narrow one.
 
 They are not clients, not case studies and not companies we have built, and the site says so in
-three separate places. They exist because a founder about to spend money on design should be able
-to judge the work before the sales conversation, not after it.
+three separate places: a stamp on every mock, a disclosure under every grid, and a section on
+`/work`. They exist because a founder about to spend money on design should be able to judge the
+work before the sales conversation, not after it.
 
 ## Stack
 
@@ -83,7 +94,7 @@ src/
     packages.ts            the three packages
     pricing.ts             the comparison matrix and pricing questions
     websiteTiers.ts        the real, published website project prices
-    studies.ts             the five design studies
+    studies.ts             the five design studies, including each rendered page's own content
     workers.ts             AI workers and their limits
     trust.ts trustDetail.ts deliverables.ts
   styles/

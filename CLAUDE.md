@@ -27,7 +27,8 @@ crossed-out prices, or screenshots of customers that do not exist. Where a visua
 a real product surface (`SiteFrame`, `BuildRoom`, `EvidenceLog`) or a diagram of a real process.
 
 **The design studies are the one exception, and only on these terms.** They are original work by
-this studio. They carry a "Study" stamp on the image, a disclosure line under the grid, and a
+this studio, and each is a rendered page rather than a photograph. If a study is ever reduced to
+showing its photograph alone, it stops proving anything about design and should come out. They carry a "Study" stamp on the image, a disclosure line under the grid, and a
 section on `/work` saying plainly what they are and are not. Never describe one as a client, a case
 study, or a company we built. If that framing ever slips, the studies have to come down.
 

@@ -405,8 +405,22 @@ one loses to a site that answers the other.
 
 ## What came across, and why
 
-**The design studies.** FIELD, ARC House, FORM / 01, OUT THERE and CLARITY. They
-are original work by the studio and they are labelled as studies in three places:
+**The design studies, rendered as websites.** FIELD, ARC House, FORM / 01, OUT
+THERE and CLARITY.
+
+The first attempt at this got it wrong. It lifted the photographs out of the
+original's mockups and presented those as the studies, which proved photo
+selection and nothing about web design. The images were never the work; the
+pages around them were.
+
+Each study is now built in markup: navigation, a headline split between the sans
+and the serif italic, supporting lines, a call to action, small print and a band
+beneath the hero. Three layouts carry the five, so they read as five different
+sites rather than one template recoloured. Container queries mean the same
+component is a desktop site in a wide cell and a phone layout in a narrow one,
+which is itself a demonstration.
+
+They are original work by the studio and they are labelled as studies in three places:
 a stamp on every image, a disclosure under every grid, and a section on `/work`
 that says in plain words what they are and are not.
 

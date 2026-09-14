@@ -13,27 +13,13 @@
 
 .frame {
   position: relative;
-  overflow: hidden;
-  border-radius: var(--r-3);
-  background: var(--bg-sunken);
-  border: 1px solid var(--line);
-}
-
-.image {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: transform var(--d-4) var(--ease-out);
-}
-
-.card:hover .image {
-  transform: scale(1.015);
 }
 
 /* Names the work honestly, on the work itself. */
 .stamp {
   position: absolute;
-  top: var(--s-3);
+  z-index: 2;
+  top: calc(-1 * var(--s-2));
   left: var(--s-3);
   padding: 0.25rem 0.55rem;
   border-radius: var(--r-1);
@@ -200,14 +186,6 @@
     grid-column: 1 / -1;
   }
 
-  .card:not(.wide) .frame {
-    aspect-ratio: 4 / 3;
-  }
-
-  .card:not(.wide) .image {
-    height: 100%;
-    object-fit: cover;
-  }
 }
 
 @media (min-width: 64rem) {

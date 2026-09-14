@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { studies, studiesCopy, type Study } from "@/content/studies";
+import { StudySite } from "@/components/product/StudySite";
 import { ArrowIcon } from "@/components/primitives/Icons";
 import { routes } from "@/config/brand";
 import { cn } from "@/lib/cn";
@@ -15,27 +15,18 @@ type Props = {
 
 function StudyCard({ study, index, full, priority }: { study: Study; index: number; full: boolean; priority: boolean }) {
   return (
-    <figure className={cn(styles.card, styles[study.scale])} data-tone={study.tone}>
+    <figure className={cn(styles.card, styles[study.scale])}>
       <div className={styles.frame}>
-        <Image
-          src={study.image}
-          alt={`${study.name}, a ${study.discipline.toLowerCase()} design study`}
-          width={study.width}
-          height={study.height}
-          sizes="(min-width: 64rem) 48vw, 100vw"
-          className={styles.image}
-          priority={priority}
-        />
+        <StudySite study={study} priority={priority} />
         <span className={styles.stamp}>Study</span>
       </div>
       <figcaption className={styles.caption}>
         <span className={styles.index}>{String(index + 1).padStart(2, "0")}</span>
         <h3 className={styles.name}>{study.name}</h3>
         <p className={styles.discipline}>{study.discipline}</p>
-        <p className={styles.line}>{study.line}</p>
+        <p className={styles.line}>{study.site.bandHead}</p>
         {full ? (
           <>
-            <p className={styles.premise}>{study.premise}</p>
             <div className={styles.notes}>
               <h4 className={styles.notesTitle}>What it demonstrates</h4>
               <ul className={styles.notesList}>

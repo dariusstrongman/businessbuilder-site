@@ -129,8 +129,8 @@ export default function WebsitePage() {
             index="04"
             eyebrow="The craft"
             id="craft-title"
-            title="What the design actually looks like."
-            lead="Structure is half of it. This is the other half: original studies from the studio, so you can judge the work before you buy it rather than after."
+            title="Five sites we designed, rendered in full."
+            lead="Structure is half of it. This is the other half. Every one of these is a designed page rather than a photograph, built by this studio to test an idea, so you can judge the work before you buy it rather than after."
           />
           <StudyGrid variant="strip" limit={3} />
         </Container>
