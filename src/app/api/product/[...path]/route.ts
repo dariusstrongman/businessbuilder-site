@@ -7,10 +7,12 @@ const ID = "[A-Za-z0-9_-]{1,128}";
 const ACTION = "founder_action_cleaning_[A-Za-z0-9_-]{1,100}";
 const SUBMISSION = "cleaning_submission_[A-Za-z0-9_-]{1,100}";
 const ALLOWED = [
-  /^(me|organizations|memberships|companies|orders|subscriptions|entitlements)$/,
+  /^(me|organizations|memberships|companies|orders|subscriptions|entitlements|pricing)$/,
+  new RegExp(`^orders/${ID}(?:/(?:offer|checkout))?$`),
   new RegExp(`^companies/${ID}$`),
   new RegExp(`^companies/${ID}/(build-room|founder-actions|readiness)$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot(?:/approve)?$`),
+  new RegExp(`^companies/${ID}/residential-cleaning-pilot/existing-business-audit$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot/support-grants$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot/founder-actions/${ACTION}(?:/(?:explain|launch|complete))?$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot/founder-actions/${ACTION}/evidence-submissions(?:/${SUBMISSION}(?:/access)?)?$`),
@@ -28,7 +30,7 @@ async function forward(request: Request, context: { params: Promise<{ path: stri
   if (!permitted(path)) return Response.json({ status: "error", error: "not_found" }, { status: 404 });
   const incoming = new URL(request.url);
   const query = new URLSearchParams();
-  if (["orders", "subscriptions", "entitlements"].includes(path)) {
+  if (["orders", "subscriptions", "entitlements"].includes(path) || path.startsWith("orders/")) {
     const company = incoming.searchParams.getAll("company_id");
     if (company.length === 1 && new RegExp(`^${ID}$`).test(company[0])) query.set("company_id", company[0]);
   }

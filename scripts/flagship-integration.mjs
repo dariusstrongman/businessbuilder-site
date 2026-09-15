@@ -1,6 +1,7 @@
 import http from "node:http";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
+import { mkdir } from "node:fs/promises";
 import { chromium } from "playwright";
 import AxeBuilder from "@axe-core/playwright";
 
@@ -25,6 +26,12 @@ const state = {
   scanReads: 0,
   verified: false,
   leakedAuthorityHeader: false,
+  offerCode: "new_business_build_v1",
+  checkoutAttempts: 0,
+  eligible: false,
+  taxReady: false,
+  checkoutKey: null,
+  orderStatus: "draft",
 };
 
 function action() {
@@ -59,7 +66,7 @@ function journey() {
     research: { record_id: "research_residential_cleaning_denton_v1", kind: "market", knowledge_class: "fact", confidence: null, version: 1, data: { status: "bounded_prelaunch_research", limitations: ["Official requirements must be confirmed before launch."], findings: [{ finding_id: "market_context", statement: "Denton has a material residential base; this supports a bounded test but does not prove demand.", source_ids: ["census_denton_quickfacts"] }], open_research: [], sources: [{ source_id: "census_denton_quickfacts", publisher: "United States Census Bureau", title: "QuickFacts: Denton city, Texas", url: "https://www.census.gov/quickfacts/fact/table/dentoncitytexas/LFE046224", observed_at: new Date().toISOString() }] } },
     recommendation: { record_id: "recommendation_residential_cleaning_v1", kind: "strategy", knowledge_class: "inference", confidence: 0.55, version: 1, data: { state: "awaiting_founder_approval", target_customer: { description: "Busy Denton households seeking checklist-based recurring residential cleaning.", responsibility: "BUSINESS_BUILDER" }, service_area: { center: "Denton, Texas", radius_miles: 12, outside_area_behavior: "Route outside-area quotes to founder review.", responsibility: "FOUNDER_ACTION" }, offers: [{ offer_id: "recurring", name: "Recurring maintenance clean", responsibility: "BUSINESS_BUILDER" }, { offer_id: "deep", name: "Initial or deep clean", responsibility: "FOUNDER_ACTION" }], starting_price_logic: { formula: "estimated labor hours × founder-approved target hourly revenue + supplies + adjustments", rules: ["Do not publish prices before founder approval."], responsibility: "FOUNDER_ACTION" }, positioning: { statement: "Reliable checklist-based residential cleaning inside a bounded Denton service area.", prohibited_unverified_claims: ["insured"] }, risks: ["Home condition can exceed intake assumptions.", "Insurance and local requirements require confirmation."], startup_admin_requirements: [{ requirement: "entity/admin path", responsibility: "FOUNDER_ACTION", authority: "EXTERNAL_PROVIDER/AUTHORITY" }], recommended_systems: [{ system: "customer website and lead form", responsibility: "BUSINESS_BUILDER" }, { system: "founder-owned business email", responsibility: "FOUNDER_ACTION", authority: "EXTERNAL_PROVIDER/AUTHORITY" }], approval_effect: "Approval commits this exact bounded scope and permits creation of the pending Build My Business order. It does not make the company Ready." } },
     scope_commit: { state: state.approved ? "scope_committed" : "awaiting_founder_approval", job_id: "job_scope", job_status: state.approved ? "succeeded" : "waiting_approval", approval_id: "approval_scope", approval_state: state.approved ? "granted" : "requested" },
-    order: state.approved ? { order_id: "order_build_1", product_code: "BUILD_BUSINESS", status: "draft", mode: "awaiting_authoritative_billing_event" } : null,
+    order: state.approved ? { order_id: "order_build_1", product_code: "BUILD_BUSINESS", status: state.orderStatus, mode: "awaiting_authoritative_billing_event" } : null,
     entitlements: [],
     founder_actions: state.approved ? [action()] : [],
     verification: { authority: "verification", ready: false, fully_set: false, unmet_ready: ["customer journey not verified"], unmet_fully_set: ["Founder Actions remain"], blocking_ids: ["pilot.not_ready"], evaluated_at: new Date().toISOString() },
@@ -67,7 +74,7 @@ function journey() {
 }
 
 function room() {
-  return { schema_version: "build-room.projection.v1", generated_at: new Date().toISOString(), company: journey().company, summary: { total: state.approved ? 2 : 1, complete: state.approved ? 1 : 0, active: 0, blocked: 1, progress_percent: state.approved ? 50 : 0 }, readiness: { ready: false, fully_set: false, unmet_ready: ["customer journey not verified"], unmet_fully_set: ["Founder Actions remain"], explanation: "Verification is authoritative." }, work_items: [{ id: "job_scope", kind: "job", title: "Residential Cleaning Scope Commit", description: "Commit the founder-approved scope", owner: "Runtime", status: state.approved ? "succeeded" : "waiting_approval", status_group: state.approved ? "done" : "blocked" }], approvals: [{ approval_id: "approval_scope", title: "Approval required", summary: "Review exact Runtime subject", state: state.approved ? "granted" : "requested", required_approver_role: "founder" }], founder_actions: state.approved ? [action()] : [], handoff: { state: "incomplete", authority: "verification", verification_id: null } };
+  return { schema_version: "build-room.projection.v1", generated_at: new Date().toISOString(), company: journey().company, summary: { total: state.approved ? 2 : 1, complete: state.approved ? 1 : 0, active: 0, blocked: 1, progress_percent: state.approved ? 50 : 0 }, readiness: { ready: false, fully_set: false, unmet_ready: ["customer journey not verified"], unmet_fully_set: ["Founder Actions remain"], explanation: "Verification is authoritative." }, commercial: { authority: "commercial", orders: state.approved ? [{ order_id: "order_build_1", status: state.orderStatus, offer_code: state.offerCode, payment_eligibility: state.eligible ? "PAY_NOW_ELIGIBLE" : "PAYMENT_DELAY_REQUIRED" }] : [], active_entitlements: 0 }, work_items: [{ id: "job_scope", kind: "job", title: "Residential Cleaning Scope Commit", description: "Commit the founder-approved scope", owner: "Runtime", status: state.approved ? "succeeded" : "waiting_approval", status_group: state.approved ? "done" : "blocked" }], approvals: [{ approval_id: "approval_scope", title: "Approval required", summary: "Review exact Runtime subject", state: state.approved ? "granted" : "requested", required_approver_role: "founder" }], founder_actions: state.approved ? [action()] : [], handoff: { state: "incomplete", authority: "verification", verification_id: null } };
 }
 
 function json(res, status, body, extra = {}) {
@@ -89,6 +96,32 @@ const api = http.createServer(async (req, res) => {
   if (url.pathname === "/api/v1/me") return json(res, 200, { user: { user_id: `user_${user}`, email: `${user}@example.test`, status: "active", email_verified: true } });
   if (url.pathname === "/api/v1/memberships") return json(res, 200, { memberships: [{ membership_id: `membership_${user}`, organization_id: "org_founder", role: user === "founder" ? "owner" : "support", status: "active" }] });
   if (url.pathname === "/api/v1/companies" && req.method === "GET") return json(res, 200, { companies: state.started ? [journey().company] : [] });
+  if (url.pathname === "/api/v1/pricing" && req.method === "GET") return json(res, 200, { offers: [
+    { offer_code: "website_build_v1", name: "Build My Website", price_kind: "fixed", currency: "USD", upfront_minor: 79500, monthly_minor: null, starting_at_minor: null, third_party_costs_separate: true },
+    { offer_code: "new_business_build_v1", name: "Build My Business", price_kind: "fixed", currency: "USD", upfront_minor: 149500, monthly_minor: null, starting_at_minor: null, third_party_costs_separate: true },
+    { offer_code: "new_business_build_run_v1", name: "Build My Business + Run", price_kind: "fixed", currency: "USD", upfront_minor: 199500, monthly_minor: 29900, starting_at_minor: null, third_party_costs_separate: true },
+    { offer_code: "existing_business_run_v1", name: "Existing Business + Run", price_kind: "quote_required", currency: "USD", upfront_minor: null, monthly_minor: 29900, starting_at_minor: 149500, third_party_costs_separate: true },
+  ] });
+  if (url.pathname === "/api/v1/orders/order_build_1" && req.method === "GET") {
+    if (!state.approved || user !== "founder" || url.searchParams.get("company_id") !== companyId) return json(res, 404, { status: "error", error: "not_found" });
+    return json(res, 200, { order: { order_id: "order_build_1", company_id: companyId, status: state.orderStatus, offer_code: state.offerCode, quote_id: null, payment_eligibility: state.eligible ? "PAY_NOW_ELIGIBLE" : "PAYMENT_DELAY_REQUIRED", eligible_at: null, tax_disposition: state.taxReady ? "non_taxable" : "manual_review", total: { currency: "USD", minor_units: state.offerCode === "new_business_build_run_v1" ? 229400 : 149500 }, items: [{ product_code: "BUILD_BUSINESS", package_name: "Build My Business", billing_mode: "one_time", quantity: 1 }], updated_at: new Date().toISOString(), version: 1 } });
+  }
+  if (url.pathname === "/api/v1/orders/order_build_1/checkout") {
+    if (!state.approved || user !== "founder" || url.searchParams.get("company_id") !== companyId) return json(res, 404, { status: "error", error: "not_found" });
+    if (req.method === "GET") return json(res, 200, { checkout: state.checkoutKey ? { checkout_intent_id: "checkout_test_1", status: "open", retry_key: state.checkoutKey, redirect_url: "https://checkout.stripe.com/c/pay/fixture", created_at: new Date().toISOString() } : null });
+    state.checkoutAttempts += 1;
+    if (!state.eligible || !state.taxReady) return json(res, 409, { status: "error", error: "commercial_conflict", message: "payment eligibility delay is active" });
+    if (state.checkoutKey && state.checkoutKey !== body.idempotency_key) return json(res, 409, { status: "error", error: "commercial_conflict", message: "idempotency collision" });
+    state.checkoutKey = body.idempotency_key;
+    state.orderStatus = "pending_payment";
+    return json(res, 201, { checkout: { checkout_intent_id: "checkout_test_1", status: "open", retry_key: state.checkoutKey, redirect_url: "https://checkout.stripe.com/c/pay/fixture", created_at: new Date().toISOString() } });
+  }
+  if (url.pathname === "/api/v1/orders/order_build_1/offer" && req.method === "POST") {
+    if (!state.approved || user !== "founder" || url.searchParams.get("company_id") !== companyId) return json(res, 403, { status: "error", error: "forbidden" });
+    if (!["new_business_build_v1", "new_business_build_run_v1"].includes(body.offer_code)) return json(res, 400, { status: "error", error: "invalid_request" });
+    state.offerCode = body.offer_code;
+    return json(res, 200, { order: { order_id: "order_build_1", offer_code: state.offerCode, status: "draft" } });
+  }
   if (url.pathname === "/api/v1/pilots/residential-cleaning/intakes" && req.method === "POST") {
     if (user !== "founder") return json(res, 403, { status: "error", error: "forbidden" });
     if (state.intakeKey && (body.idempotency_key !== state.intakeKey || JSON.stringify(body.intake) !== JSON.stringify(state.intakeBody))) return json(res, 409, { status: "error", error: "journey_conflict" });
@@ -187,7 +220,12 @@ try {
   await page.getByRole("button", { name: "Approve this exact direction" }).click();
   await page.getByText("Order order_build_1 is").waitFor();
   if (state.orderCreates !== 1) throw new Error("duplicate order created");
-  await page.getByText("Active entitlements: 0").waitFor();
+  await page.getByText("Active entitlements: 0").first().waitFor();
+  await page.getByText("Payment delayed pending supervised", { exact: false }).waitFor();
+  if (await page.getByRole("button", { name: "Open supervised test-mode checkout" }).count()) throw new Error("delayed payment was exposed as pay-now");
+  await page.getByRole("button", { name: "Select Build My Business + Run" }).click();
+  await page.getByText("First payment due: $2,294", { exact: false }).waitFor();
+  if (state.checkoutAttempts !== 0) throw new Error("package click attempted payment");
 
   const card = page.locator("article").filter({ has: page.getByRole("heading", { name: "Complete the entity and administrative path" }) });
   for (const button of ["I understand this action", "Open the prepared handoff", "I completed the external step"]) {
@@ -209,6 +247,35 @@ try {
     const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
     const serious = axe.violations.filter((item) => item.impact === "serious" || item.impact === "critical");
     if (serious.length) throw new Error(`accessibility violations at ${width}: ${serious.map((item) => item.id).join(",")}`);
+    if (process.env.CHECKOUT_SHOTS_DIR) {
+      await mkdir(process.env.CHECKOUT_SHOTS_DIR, { recursive: true });
+      await page.locator("#order").screenshot({ path: `${process.env.CHECKOUT_SHOTS_DIR}/order-${width}.png` });
+    }
+  }
+  // The harness changes only its authoritative backend state, never browser authority.
+  state.eligible = true;
+  state.taxReady = true;
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.reload({ waitUntil: "networkidle" });
+  await page.getByRole("button", { name: "Open supervised test-mode checkout" }).waitFor();
+  await page.route("https://checkout.stripe.com/**", (route) => route.fulfill({
+    status: 200, contentType: "text/html", body: "<html><body>Sandbox provider destination; no payment event.</body></html>",
+  }));
+  await page.getByRole("button", { name: "Open supervised test-mode checkout" }).click();
+  await page.waitForURL("https://checkout.stripe.com/**");
+  if (state.checkoutAttempts !== 1 || state.orderStatus !== "pending_payment" || journey().entitlements.length) throw new Error("checkout redirect fabricated entitlement");
+  await page.goto(`${siteBase}/build-room/${companyId}`, { waitUntil: "networkidle" });
+  await page.getByText("Commercial projection: order_build_1 Pending Payment", { exact: false }).waitFor();
+  await page.getByText("Active entitlements: 0").first().waitFor();
+  const retried = await page.evaluate(({ key, id }) => fetch(`/api/product/orders/order_build_1/checkout?company_id=${id}`, {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ idempotency_key: key }),
+  }).then((response) => response.status), { key: state.checkoutKey, id: companyId });
+  if (retried !== 201 || state.orderStatus !== "pending_payment") throw new Error("checkout retry was not stable");
+  if (process.env.CHECKOUT_SHOTS_DIR) {
+    for (const width of [375, 768, 1440]) {
+      await page.setViewportSize({ width, height: width === 375 ? 812 : width === 768 ? 1024 : 900 });
+      await page.locator("#order").screenshot({ path: `${process.env.CHECKOUT_SHOTS_DIR}/order-pending-${width}.png` });
+    }
   }
   await page.reload({ waitUntil: "networkidle" });
   await page.getByText("Clear Day Cleaning").waitFor();

@@ -30,7 +30,7 @@ export default function BuildAndRunPage() {
       <PageHero
         eyebrow="Build & run my business"
         title="AI workers for the recurring work, inside limits you set."
-        lead="$795 activation, then $299 a month. Or $1,995 upfront with Build my business, because most of the configuration happens during the build. A small operating team that keeps working after handoff: answering, drafting, sorting, following up. They ask before anything that matters, and this page does not describe them as magic."
+        lead="For an existing business, onboarding starts from $1,495 after an audit and exact quote, then $299 a month. With a new Build my business project, the separate fixed bundle is $1,995 upfront plus $299 a month. A small operating team keeps working inside limits you set: answering, drafting, sorting, following up."
         actions={
           <>
             <Button href={`${routes.start}?package=run`} arrow>
@@ -55,9 +55,8 @@ export default function BuildAndRunPage() {
           <ActivationSplit />
           <p className={styles.bundle}>
             <span className={styles.bundleMark} aria-hidden />
-            Bought with Build my business, activation is {runStandalone.bundleActivation} instead of{" "}
-            {runStandalone.activation}, for {"$1,995"} upfront and {runStandalone.monthly} a month. Most of the
-            configuration happens during the build, so charging for it twice would be charging you twice.
+            A new-business build and Run package is {runStandalone.bundleActivation} upfront plus {runStandalone.monthly} a month.
+            Existing-business onboarding is a {runStandalone.activation} after the audit, starting from $1,495; the starting figure is not a chargeable fixed price.
           </p>
         </Container>
       </Section>

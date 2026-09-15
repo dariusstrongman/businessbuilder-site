@@ -79,7 +79,7 @@ export const offers: Offer[] = [
       "Founder Actions prepared, explained and captured",
       "Continuous verification, Ready and Fully Set, then handoff",
     ],
-    note: "No monthly fee. You take the keys and run the company yourself. Build & Run can be added later at $795 activation.",
+    note: "No monthly fee. You take the keys and run the company yourself. Adding Build & Run later requires a separate scoped recommendation and quote.",
     emphasis: true,
   },
   {
@@ -99,7 +99,7 @@ export const offers: Offer[] = [
       "Ongoing operation of the recurring work you approve",
       "Stop the monthly plan any time. The company stays yours.",
     ],
-    note: "Activation is $500 here instead of $795, because most of the configuration happens during the build itself.",
+    note: "The $1,995 upfront is the fixed new-business bundle price. The first charge also includes the first $299 monthly period; ongoing periods are $299 a month.",
   },
   {
     id: "existing",
@@ -123,15 +123,15 @@ export const offers: Offer[] = [
   },
 ];
 
-/** Build & Run on its own, for founders who already finished a build elsewhere in the journey. */
+/** An existing-business operating layer requires an audit and exact quote, not a fixed activation charge. */
 export const runStandalone = {
   name: "Build & Run",
-  activation: "$795",
+  activation: "Scoped quote",
   monthly: "$299",
-  activationLabel: "One-time activation",
+  activationLabel: "Onboarding after an Existing Business Audit",
   monthlyLabel: "Per month",
-  bundleActivation: "$500",
-  summary: "Activation configures the operating layer. The monthly plan keeps it running.",
+  bundleActivation: "$1,995",
+  summary: "Quoted onboarding configures the operating layer. The monthly plan keeps it running.",
 };
 
 /**
@@ -203,7 +203,7 @@ export const costBoundaries = [
 export const priceSummary = [
   { label: "Website", figure: "$795" },
   { label: "Business", figure: "$1,495" },
-  { label: "Run", figure: "from $795 activation + $299/mo" },
+  { label: "Existing business + Run", figure: "from $1,495 quoted onboarding + $299/mo" },
 ];
 
 /** What the CTA can honestly promise today. */

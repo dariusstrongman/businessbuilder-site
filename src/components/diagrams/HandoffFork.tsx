@@ -24,7 +24,7 @@ const options = [
     label: "Run it for me",
     consequence: "We keep operating the recurring work, inside limits you set.",
     after: "Stop any time. The company stays yours.",
-    price: "$795 activation + $299/mo",
+    price: "Scoped onboarding + $299/mo",
   },
 ];
 
@@ -136,8 +136,9 @@ export function HandoffFork() {
             asking for reviews. Each has permissions, a budget and approval rules you set.
           </p>
           <p className={styles.panelText}>
-            $795 activation and $299 a month on its own, or $1,995 upfront with Build my business because most of the
-            configuration happens during the build. Stop any time: the workers stop, the company stays yours.
+            With a new Build my business project, the fixed bundle is $1,995 upfront plus $299 a month.
+            For an existing business, onboarding starts from $1,495 only after an audit and exact quote, plus $299 a month.
+            Stop any time: the workers stop, the company stays yours.
           </p>
           <div className={styles.panelActions}>
             <Button href={routes.buildAndRun} arrow>

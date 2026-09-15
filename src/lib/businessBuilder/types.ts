@@ -107,6 +107,13 @@ export type ResidentialCleaningJourney = {
     open_research: Array<{ task: string; responsibility: string }>;
   }>;
   recommendation: JourneyRecord<Recommendation>;
+  existing_business_audit?: null | JourneyRecord<{
+    vertical: "residential_cleaning";
+    state: string;
+    source_class: string;
+    content_digest: string;
+    systems: Array<{ system: string; assessment: string; issue: string; provider_reference: string | null }>;
+  }>;
   scope_commit: {
     state: string;
     job_id: string;
@@ -128,6 +135,40 @@ export type ResidentialCleaningJourney = {
   };
 };
 
+export type CommercialOrder = {
+  order_id: string;
+  company_id: string;
+  status: string;
+  offer_code: string | null;
+  quote_id: string | null;
+  payment_eligibility: "PAY_NOW_ELIGIBLE" | "PAYMENT_DELAY_REQUIRED";
+  eligible_at: string | null;
+  tax_disposition: "taxable" | "non_taxable" | "provider_calculated" | "manual_review";
+  total: { currency: string; minor_units: number } | null;
+  items: Array<{ product_code: string; package_name: string; billing_mode: string; quantity: number }>;
+  updated_at: string;
+  version: number;
+};
+
+export type CommercialOffer = {
+  offer_code: string;
+  name: string;
+  price_kind: "fixed" | "quote_required";
+  currency: string;
+  upfront_minor: number | null;
+  monthly_minor: number | null;
+  starting_at_minor: number | null;
+  third_party_costs_separate: boolean;
+};
+
+export type CommercialCheckout = {
+  checkout_intent_id: string;
+  status: "open" | "completed" | "expired" | "canceled";
+  retry_key: string | null;
+  redirect_url: string | null;
+  created_at: string;
+};
+
 export type BuildRoomProjection = {
   schema_version: string;
   generated_at: string;
@@ -138,6 +179,7 @@ export type BuildRoomProjection = {
   approvals: Array<{ approval_id: string; title: string; summary: string; state: string; required_approver_role: string }>;
   founder_actions: FounderAction[];
   handoff: { state: string; authority: string; verification_id: string | null };
+  commercial?: null | { authority: "commercial"; orders: Array<{ order_id: string; status: string; offer_code: string | null; payment_eligibility: string }>; active_entitlements: number };
 };
 
 export type SessionStatus = {

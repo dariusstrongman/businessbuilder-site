@@ -67,8 +67,8 @@ export const pricingFaq = [
     a: "They pay for two different things. Activation covers connecting and configuring the operating system for your company: systems joined up, permissions set per worker, company context built, budgets and approval thresholds agreed, escalation routes defined, everything tested before it can reach a customer. That configuration is durable and stays yours even if you stop the monthly plan. The monthly plan covers the operating layer itself, running the recurring work you have approved.",
   },
   {
-    q: "Why is activation cheaper in the bundle?",
-    a: "Build my business is $1,495 and Build & Run activation is $795 on its own. Bought together it is $1,995 upfront, which makes activation $500 rather than $795. That is not a promotion. Most of the configuration activation pays for happens during the build itself, so charging the full amount twice would be charging you for the same work twice.",
+    q: "How does the new-business bundle differ from existing-business onboarding?",
+    a: "Build my business is $1,495 one time. Build my business + Run is a separate fixed offer at $1,995 upfront plus $299 a month. An existing business needs an audit and an exact onboarding quote, starting from $1,495, before its $299 monthly operating plan can be considered. The starting figure is not a fixed charge.",
   },
   {
     q: "Why is existing-business onboarding a starting price?",

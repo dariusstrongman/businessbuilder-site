@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Container, Eyebrow } from "@/components/primitives/Layout";
 import { Button } from "@/components/primitives/Button";
 import { ProductApiError, newCommandKey, productRequest, sha256Hex } from "@/lib/businessBuilder/client";
 import type {
   BuildRoomProjection,
+  CommercialCheckout,
+  CommercialOffer,
+  CommercialOrder,
   EvidenceSubmission,
   FounderAction,
   ResidentialCleaningJourney,
@@ -29,6 +32,10 @@ function label(value: string): string {
   return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
+function money(minor: number | null | undefined): string {
+  return minor == null ? "Quoted after the audit" : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(minor / 100);
+}
+
 function readFile(file: File): Promise<{ content: ArrayBuffer; encoded: string }> {
   return file.arrayBuffer().then((content) => {
     const bytes = new Uint8Array(content);
@@ -45,27 +52,51 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
   const [journey, setJourney] = useState<ResidentialCleaningJourney | null>(null);
   const [room, setRoom] = useState<BuildRoomProjection | null>(null);
   const [session, setSession] = useState<SessionStatus | null>(null);
+  const [commercialOrder, setCommercialOrder] = useState<CommercialOrder | null>(null);
+  const [checkout, setCheckout] = useState<CommercialCheckout | null>(null);
+  const [offers, setOffers] = useState<CommercialOffer[]>([]);
+  const [existingSystems, setExistingSystems] = useState([
+    { system: "website", assessment: "missing", issue: "", provider_reference: "" },
+    { system: "inbox", assessment: "missing", issue: "", provider_reference: "" },
+    { system: "crm", assessment: "missing", issue: "", provider_reference: "" },
+    { system: "scheduling", assessment: "missing", issue: "", provider_reference: "" },
+    { system: "payments", assessment: "missing", issue: "", provider_reference: "" },
+  ]);
+  const checkoutRetryKey = useRef<string | null>(null);
   const [notice, setNotice] = useState<Notice>(null);
   const [busy, setBusy] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     setLoadState("loading");
     try {
-      const [journeyResult, roomResult, sessionResult] = await Promise.all([
+      const [journeyResult, roomResult, sessionResult, pricingResult] = await Promise.all([
         productRequest<{ journey: ResidentialCleaningJourney }>(`companies/${companyId}/residential-cleaning-pilot`),
         productRequest<{ build_room: BuildRoomProjection }>(`companies/${companyId}/build-room`),
         productRequest<SessionStatus>("session"),
+        productRequest<{ offers: CommercialOffer[] }>("pricing"),
       ]);
+      const orderId = journeyResult.journey.order?.order_id;
+      let order: CommercialOrder | null = null;
+      let checkoutState: CommercialCheckout | null = null;
+      if (orderId && !operatorMode) {
+        const orderResult = await productRequest<{ order: CommercialOrder }>(`orders/${orderId}?company_id=${companyId}`);
+        order = orderResult.order;
+        const checkoutResult = await productRequest<{ checkout: CommercialCheckout | null }>(`orders/${orderId}/checkout?company_id=${companyId}`);
+        checkoutState = checkoutResult.checkout;
+      }
       setJourney(journeyResult.journey);
       setRoom(roomResult.build_room);
       setSession(sessionResult);
+      setCommercialOrder(order);
+      setCheckout(checkoutState);
+      setOffers(pricingResult.offers);
       setLoadState("ready");
     } catch (error) {
       if (error instanceof ProductApiError && error.status === 401) setLoadState("unauthenticated");
       else if (error instanceof ProductApiError && [403, 404].includes(error.status)) setLoadState("unauthorized");
       else setLoadState("error");
     }
-  }, [companyId]);
+  }, [companyId, operatorMode]);
 
   useEffect(() => {
     const scheduled = window.setTimeout(() => void load(), 0);
@@ -97,6 +128,46 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
     } finally {
       setBusy(null);
     }
+  };
+
+  const chooseOffer = (code: string) => {
+    if (!journey?.order) return;
+    void mutate("offer", () => productRequest(`orders/${journey.order!.order_id}/offer?company_id=${companyId}`, {
+      method: "POST", body: JSON.stringify({ offer_code: code }),
+    }), "The selected offer was recorded in the Commercial ledger. No payment occurred.");
+  };
+
+  const openCheckout = () => {
+    if (!commercialOrder) return;
+    if (checkout?.status === "open" && checkout.redirect_url?.startsWith("https://checkout.stripe.com/")) {
+      window.location.assign(checkout.redirect_url);
+      return;
+    }
+    const key = checkout?.retry_key ?? checkoutRetryKey.current ?? newCommandKey(`checkout-${commercialOrder.order_id}`);
+    checkoutRetryKey.current = key;
+    void mutate("checkout", async () => {
+      const response = await productRequest<{ checkout: CommercialCheckout }>(
+        `orders/${commercialOrder.order_id}/checkout?company_id=${companyId}`,
+        { method: "POST", body: JSON.stringify({ idempotency_key: key }) },
+      );
+      const redirect = response.checkout.redirect_url;
+      if (!redirect || !redirect.startsWith("https://checkout.stripe.com/")) {
+        throw new Error("The payment provider did not return an authorized test-mode checkout destination.");
+      }
+      window.location.assign(redirect);
+      return response;
+    }, "The provider checkout opened. Only a verified payment webhook can activate the order.");
+  };
+
+  const captureExistingAudit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void mutate("existing-audit", () => productRequest(
+      `companies/${companyId}/residential-cleaning-pilot/existing-business-audit`,
+      { method: "POST", body: JSON.stringify({ systems: existingSystems.map((item) => ({
+        system: item.system, assessment: item.assessment, issue: item.issue,
+        provider_reference: item.provider_reference || null,
+      })) }) },
+    ), "Your existing-system inventory was recorded in Company Brain. It is founder-supplied, not an approved quote or verification.");
   };
 
   if (loadState === "loading") {
@@ -175,16 +246,46 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
         </section>
 
         <section id="order" className={styles.section} aria-labelledby="order-title">
-          <div className={styles.sectionHeading}><div><Eyebrow>Commercial</Eyebrow><h2 id="order-title">Build My Business order.</h2></div><span className={styles.status}>{journey.order ? label(journey.order.status) : "Not created"}</span></div>
+          <div className={styles.sectionHeading}><div><Eyebrow>Commercial authority</Eyebrow><h2 id="order-title">Your approved scope and payment state.</h2></div><span className={styles.status}>{commercialOrder ? label(commercialOrder.status) : journey.order ? label(journey.order.status) : "Not created"}</span></div>
           <div className={styles.priceCard}>
-            <div><strong>$1,495</strong><span>Founding price · one-time Build My Business</span></div>
-            <div><strong>$1,995 + $299/month</strong><span>Build My Business + Build & Run, when authoritatively purchased</span></div>
+            {offers.filter((offer) => ["new_business_build_v1", "new_business_build_run_v1"].includes(offer.offer_code)).map((offer) => (
+              <div key={offer.offer_code}><strong>{money(offer.upfront_minor)}{offer.monthly_minor ? ` + ${money(offer.monthly_minor)}/month` : ""}</strong><span>{offer.name} · {offer.price_kind}</span></div>
+            ))}
           </div>
-          {journey.order ? <p className={styles.notice}>Order {journey.order.order_id} is <strong>{journey.order.status}</strong> in <strong>{label(journey.order.mode)}</strong> mode. No payment or entitlement has been fabricated. Active entitlements: {journey.entitlements.length}.</p> : <p className={styles.notice}>Browsing the recommendation has not created an order. Approve the exact scope first.</p>}
+          {journey.order ? <p className={styles.notice}>Order {journey.order.order_id} is <strong>{commercialOrder?.status ?? journey.order.status}</strong>. Active entitlements: {journey.entitlements.filter((item) => item.status === "active").length}. Browsing, selecting a package, or returning from checkout never activates entitlement.</p> : <p className={styles.notice}>{approved && journey.intake.data.starting_point === "running" ? "The approved direction is not a chargeable existing-business quote. Audit and scoped pricing must come first." : "Browsing the recommendation has not created an order. Approve the exact scope first."}</p>}
+          {journey.intake.data.starting_point === "running" && approved && !journey.order ? <div className={styles.commercialControls}>
+            <h3>Existing Business Audit before a quote</h3>
+            <p>“From $1,495” is not a charge. We need your current systems, then a scoped operator recommendation and an exact quote you approve. Payment remains unavailable until that work is done.</p>
+            {journey.existing_business_audit ? <p role="status">Founder inventory captured in Company Brain: {journey.existing_business_audit.data.systems.length} systems · {label(journey.existing_business_audit.data.state)}. This is an assertion, not Verification.</p> : !operatorMode ? <form onSubmit={captureExistingAudit} className={styles.auditForm}>
+              {existingSystems.map((item, index) => <fieldset key={item.system}>
+                <legend>{label(item.system)}</legend>
+                <label>Current assessment<select value={item.assessment} onChange={(event) => setExistingSystems((values) => values.map((value, position) => position === index ? { ...value, assessment: event.target.value } : value))}><option value="missing">Missing</option><option value="keep">Keep</option><option value="improve">Improve</option><option value="replace">Replace</option></select></label>
+                <label>What exists or needs work?<input value={item.issue} maxLength={500} minLength={3} required onChange={(event) => setExistingSystems((values) => values.map((value, position) => position === index ? { ...value, issue: event.target.value } : value))} /></label>
+                <label>Opaque provider/account reference (optional)<input value={item.provider_reference} maxLength={160} onChange={(event) => setExistingSystems((values) => values.map((value, position) => position === index ? { ...value, provider_reference: event.target.value } : value))} /></label>
+              </fieldset>)}
+              <Button type="submit" disabled={busy !== null}>Capture existing-system inventory</Button>
+            </form> : null}
+          </div> : null}
+          {commercialOrder ? <div className={styles.commercialControls}>
+            <p><strong>Selected package:</strong> {offers.find((offer) => offer.offer_code === commercialOrder.offer_code)?.name ?? "Awaiting selection"}</p>
+            <p><strong>First payment due:</strong> {money(commercialOrder.total?.minor_units)}. Government, domain, insurance, provider, advertising, processing, and professional fees are separate.</p>
+            <p><strong>Payment eligibility:</strong> {commercialOrder.payment_eligibility === "PAY_NOW_ELIGIBLE" ? "Eligible after supervised review" : "Payment delayed pending supervised eligibility/disclosure review"}{commercialOrder.eligible_at ? ` until ${new Date(commercialOrder.eligible_at).toLocaleString()}` : ""}.</p>
+            <p><strong>Tax:</strong> {commercialOrder.tax_disposition === "manual_review" ? "Manual tax review required before payment" : label(commercialOrder.tax_disposition)}.</p>
+            {checkout ? <p><strong>Provider checkout:</strong> {label(checkout.status)}. {checkout.status === "completed" ? "Payment is still verified separately through the signed webhook." : ""}</p> : null}
+            {!operatorMode && commercialOrder.status === "draft" ? <div className={styles.offerChoices} aria-label="Choose an approved commercial package">
+              {offers.filter((offer) => ["new_business_build_v1", "new_business_build_run_v1"].includes(offer.offer_code)).map((offer) => (
+                <Button key={offer.offer_code} variant="secondary" disabled={busy !== null || commercialOrder.offer_code === offer.offer_code} onClick={() => chooseOffer(offer.offer_code)}>{commercialOrder.offer_code === offer.offer_code ? `Selected: ${offer.name}` : `Select ${offer.name}`}</Button>
+              ))}
+            </div> : null}
+            {!operatorMode && commercialOrder.payment_eligibility === "PAY_NOW_ELIGIBLE" && commercialOrder.tax_disposition !== "manual_review" && ["draft", "payment_failed", "pending_payment"].includes(commercialOrder.status) ? <Button disabled={busy !== null} onClick={openCheckout}>{checkout?.redirect_url ? "Resume test-mode checkout" : "Open supervised test-mode checkout"}</Button> : null}
+            {checkout?.redirect_url && checkout.status === "open" ? <a href={checkout.redirect_url} rel="noreferrer" className={styles.checkoutLink}>Resume the provider-hosted test checkout</a> : null}
+            <p className={styles.muted}>The site cannot mark an order paid. Only an authenticated provider event may advance Commercial and Build Room state.</p>
+          </div> : null}
         </section>
 
         <section id="build" className={styles.section} aria-labelledby="build-title">
           <div className={styles.sectionHeading}><div><Eyebrow>Real projection</Eyebrow><h2 id="build-title">Build Room.</h2></div><span className={styles.status}>{room.summary.progress_percent}% verified work</span></div>
+          {room.commercial?.orders.length ? <p className={styles.notice}>Commercial projection: {room.commercial.orders.map((item) => `${item.order_id} ${label(item.status)}`).join(" · ")}. Active entitlements: {room.commercial.active_entitlements}. Payment status does not count as Verified work.</p> : null}
           <div
             className={styles.meter}
             role="progressbar"
