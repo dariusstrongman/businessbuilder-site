@@ -413,16 +413,17 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
         </section>
 
         <section id="build" className={styles.section} aria-labelledby="build-title">
-          <div className={styles.sectionHeading}><div><Eyebrow>Real projection</Eyebrow><h2 id="build-title">Build Room.</h2></div><span className={styles.status}>{room.summary.progress_percent}% verified work</span></div>
+          <div className={styles.sectionHeading}><div><Eyebrow>Real projection</Eyebrow><h2 id="build-title">Build Room.</h2></div><span className={styles.status}>{room.summary.complete}/{room.summary.total} tracked Runtime/Verification steps</span></div>
           {room.commercial?.orders.length ? <p className={styles.notice}>Commercial projection: {room.commercial.orders.map((item) => `${item.order_id} ${label(item.status)}`).join(" · ")}. Active entitlements: {room.commercial.active_entitlements}. {room.commercial.subscriptions?.length ? `Recurring service: ${room.commercial.subscriptions.map((item) => `${label(item.status)} (${label(item.renewal_state)})`).join(" · ")}. ` : ""}Payment status does not count as Verified work.</p> : null}
           <div
             className={styles.meter}
             role="progressbar"
-            aria-label="Projected work complete"
+            aria-label="Tracked Runtime and Verification work items only; Founder Actions and launch readiness are separate"
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={room.summary.progress_percent}
           ><span style={{ width: `${room.summary.progress_percent}%` }} /></div>
+          <p className={styles.muted}>This meter covers tracked Runtime and Verification work items, not Founder Actions or customer readiness. Only Verification decides Ready and Fully Set.</p>
           <ul className={styles.workList}>{room.work_items.map((item) => <li key={item.id}><div><strong>{item.title}</strong><span>{item.owner} · {item.kind}</span></div><em data-state={item.status_group}>{label(item.status)}</em></li>)}</ul>
           {!room.work_items.length ? <p className={styles.notice}>No executable build work has been admitted. Pending payment is not shown as progress.</p> : null}
         </section>

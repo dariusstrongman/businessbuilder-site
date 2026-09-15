@@ -206,6 +206,7 @@ try {
     throw new Error(`signed webhook/entitlement acceptance did not complete (${order.status})`);
   }
   result.webhook = "signed_reconciled_exact_order";
+  if (result.checkout === "pending") result.checkout = "already_reconciled_on_restart";
   result.order_status = order.status;
   result.active_entitlements = grants.filter((item) => item.status === "active").length;
   const room = requireStatus(await product(founder, `companies/${companyId}/build-room`), [200], "Build Room projection").build_room;
@@ -216,6 +217,9 @@ try {
   }
   result.build_room = "persisted_commercial_authority_no_fabricated_ready";
   if (offer !== "business") {
+    if (!room.commercial.subscriptions?.some((item) => item.order_id === orderId && item.status === "active")) {
+      throw new Error("Build Room omitted authoritative recurring subscription state");
+    }
     const subscriptions = requireStatus(await product(founder, `subscriptions?company_id=${companyId}`), [200], "Build & Run subscription").subscriptions;
     if (!subscriptions.some((item) => item.order_id === orderId && item.status === "active")) {
       throw new Error("Build & Run subscription not active after signed event");

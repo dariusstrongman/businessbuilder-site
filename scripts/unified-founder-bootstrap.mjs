@@ -65,7 +65,7 @@ try {
     { key: "business", from: "idea", package: "business", name: `Pilot Cleaning Build ${marker}` },
     { key: "business_run", from: "idea", package: "run", name: `Pilot Cleaning Run ${marker}` },
     { key: "existing_run", from: "running", package: "run", name: `Pilot Cleaning Existing ${marker}` },
-  ]) {
+  ].filter((item) => !process.env.UNIFIED_ONLY || process.env.UNIFIED_ONLY === item.key)) {
     await page.goto(`${site}/start?from=${scenario.from}&package=${scenario.package}`, { waitUntil: "networkidle" });
     await page.getByLabel("The company, in your words").fill(`A supervised Denton residential cleaning pilot for ${scenario.name}, using test-only commercial state.`);
     await page.getByLabel("Your name").fill("Pilot Founder");

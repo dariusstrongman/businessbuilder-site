@@ -36,6 +36,13 @@ try {
       await page.goto(`${site}${path}`, { waitUntil: "networkidle" });
       await page.getByRole("main").first().waitFor();
       await page.screenshot({ path: join(output, `${name}-${width}.png`), fullPage: true });
+      if (name === "build-room") {
+        if (await page.getByText(/\d+% verified work/).count()) throw new Error("Runtime-only progress presented as verified business work");
+        await page.getByText("tracked Runtime/Verification steps", { exact: false }).waitFor();
+        for (const section of ["recommendation", "order", "build", "actions", "verification"]) {
+          await page.locator(`#${section}`).screenshot({ path: join(output, `${section}-${width}.png`) });
+        }
+      }
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
       const navGeometry = name === "build-room" ? await page.evaluate(() => {
         const nav = document.querySelector('nav[class*="sectionNav"]');

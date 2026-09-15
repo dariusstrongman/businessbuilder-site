@@ -290,6 +290,8 @@ try {
 
   await page.reload({ waitUntil: "networkidle" });
   await page.getByText("Clean", { exact: true }).waitFor();
+  await page.getByText("tracked Runtime/Verification steps", { exact: false }).waitFor();
+  if (await page.getByText(/\d+% verified work/).count()) throw new Error("Runtime progress mislabeled as Verification completion");
   for (const width of [375, 768, 1440]) {
     await page.setViewportSize({ width, height: width === 375 ? 812 : width === 768 ? 1024 : 900 });
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
