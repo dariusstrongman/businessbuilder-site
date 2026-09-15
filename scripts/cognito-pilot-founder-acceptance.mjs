@@ -94,6 +94,25 @@ try {
   result.persistedJourney = "passed";
   result.verificationRemainsAuthoritative = true;
 
+  if (process.env.COGNITO_PILOT_CREATE_SUPPORT_GRANT === "1") {
+    const operatorId = process.env.COGNITO_PILOT_OPERATOR_USER_ID;
+    if (!operatorId) throw new Error("pilot operator internal user ID is required for founder grant");
+    const grant = await page.evaluate(({ id, supportUserId }) => fetch(`/api/product/companies/${encodeURIComponent(id)}/residential-cleaning-pilot/support-grants`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ support_user_id: supportUserId, reason: "I authorize a supervised evidence review for my pilot company", duration_minutes: 480 }),
+    }).then(async response => ({ status: response.status, body: await response.json() })), { id: companyId, supportUserId: operatorId });
+    if (grant.status !== 201 || !grant.body.grant_id || grant.body.company_id !== companyId) throw new Error(`authenticated founder grant failed (${grant.status}:${grant.body.error ?? "invalid_response"}:${grant.body.message ?? ""})`);
+    result.founderCreatedSupportGrant = "passed";
+    result.supportGrantId = grant.body.grant_id;
+    const forgedGrant = await page.evaluate(({ id, supportUserId }) => fetch(`/api/product/companies/${encodeURIComponent(id)}/residential-cleaning-pilot/support-grants`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Tenant-ID": "tenant_forged", "X-Role": "owner", "X-Company-ID": "company_forged" },
+      body: JSON.stringify({ support_user_id: supportUserId, reason: "forged authority", duration_minutes: 480, permissions: ["billing.view", "founder_decision.approve"] }),
+    }).then(response => response.status), { id: companyId, supportUserId: operatorId });
+    if (forgedGrant < 400) throw new Error("forged support-grant authority was accepted");
+    result.forgedSupportGrantAuthority = "denied";
+  }
+
   const forged = await page.evaluate(() => fetch("/api/product/companies/company_forged_tenant/residential-cleaning-pilot", { headers: { "X-Tenant-ID": "tenant_forged", "X-Company-ID": "company_forged_tenant", "X-Role": "owner" }, cache: "no-store" }).then(response => response.status));
   if (forged !== 404) throw new Error("forged tenant/company authority was not denied safely");
   result.forgedAuthority = "denied";

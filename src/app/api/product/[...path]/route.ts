@@ -11,6 +11,7 @@ const ALLOWED = [
   new RegExp(`^companies/${ID}$`),
   new RegExp(`^companies/${ID}/(build-room|founder-actions|readiness)$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot(?:/approve)?$`),
+  new RegExp(`^companies/${ID}/residential-cleaning-pilot/support-grants$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot/founder-actions/${ACTION}(?:/(?:explain|launch|complete))?$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot/founder-actions/${ACTION}/evidence-submissions(?:/${SUBMISSION}(?:/access)?)?$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot/founder-actions/${ACTION}/evidence-reviews$`),
