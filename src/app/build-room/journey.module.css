@@ -244,6 +244,7 @@
 .notice { color: var(--fg-2); }
 .commercialControls { display: grid; gap: var(--s-3); padding: var(--s-4); border: 1px solid var(--line-strong); border-radius: var(--r-3); background: var(--bg); }
 .commercialControls p { margin: 0; overflow-wrap: anywhere; }
+.quoteCard { display: grid; gap: var(--s-3); padding: var(--s-3); border: 1px solid var(--line); border-radius: var(--r-2); background: var(--bg-raised); }
 .offerChoices { display: flex; flex-wrap: wrap; gap: var(--s-3); }
 .checkoutLink { width: fit-content; min-height: 2.75rem; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: 0.2em; }
 .auditForm { display: grid; gap: var(--s-4); }

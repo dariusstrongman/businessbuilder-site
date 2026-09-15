@@ -114,6 +114,12 @@ export type ResidentialCleaningJourney = {
     content_digest: string;
     systems: Array<{ system: string; assessment: string; issue: string; provider_reference: string | null }>;
   }>;
+  existing_business_scope?: null | JourneyRecord<{
+    state: string;
+    citation_ids: string[];
+    findings: Array<{ system: string; decision: string; reason: string }>;
+    responsibility: "BUSINESS_BUILDER";
+  }>;
   scope_commit: {
     state: string;
     job_id: string;
@@ -121,7 +127,7 @@ export type ResidentialCleaningJourney = {
     approval_id: string;
     approval_state: string;
   };
-  order: null | { order_id: string; product_code: string; status: string; mode: string };
+  order: null | { order_id: string; product_code: string; status: string; mode: string; quote_id?: string | null; quote_status?: "proposed" | "approved" | "superseded" | null; payment_eligibility?: "PAY_NOW_ELIGIBLE" | "PAYMENT_DELAY_REQUIRED"; admission_present?: boolean };
   entitlements: Array<{ entitlement_id: string; code: string; class: string; status: string }>;
   founder_actions: FounderAction[];
   verification: {
@@ -143,7 +149,7 @@ export type CommercialOrder = {
   quote_id: string | null;
   payment_eligibility: "PAY_NOW_ELIGIBLE" | "PAYMENT_DELAY_REQUIRED";
   eligible_at: string | null;
-  tax_disposition: "taxable" | "non_taxable" | "provider_calculated" | "manual_review";
+  tax_disposition: "taxable" | "non_taxable" | "provider_calculated" | "manual_review" | "test_mode_undetermined";
   total: { currency: string; minor_units: number } | null;
   items: Array<{ product_code: string; package_name: string; billing_mode: string; quantity: number }>;
   updated_at: string;
@@ -167,6 +173,17 @@ export type CommercialCheckout = {
   retry_key: string | null;
   redirect_url: string | null;
   created_at: string;
+};
+
+export type CommercialQuote = {
+  quote_id: string;
+  order_id: string;
+  status: "proposed" | "approved" | "superseded";
+  upfront: { currency: string; minor_units: number };
+  monthly: { currency: string; minor_units: number };
+  recommendation_digest: string;
+  expires_at: string;
+  approved_at: string | null;
 };
 
 export type BuildRoomProjection = {

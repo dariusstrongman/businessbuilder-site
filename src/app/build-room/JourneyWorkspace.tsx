@@ -10,6 +10,7 @@ import type {
   CommercialCheckout,
   CommercialOffer,
   CommercialOrder,
+  CommercialQuote,
   EvidenceSubmission,
   FounderAction,
   ResidentialCleaningJourney,
@@ -54,6 +55,7 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
   const [session, setSession] = useState<SessionStatus | null>(null);
   const [commercialOrder, setCommercialOrder] = useState<CommercialOrder | null>(null);
   const [checkout, setCheckout] = useState<CommercialCheckout | null>(null);
+  const [quote, setQuote] = useState<CommercialQuote | null>(null);
   const [offers, setOffers] = useState<CommercialOffer[]>([]);
   const [existingSystems, setExistingSystems] = useState([
     { system: "website", assessment: "missing", issue: "", provider_reference: "" },
@@ -62,7 +64,15 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
     { system: "scheduling", assessment: "missing", issue: "", provider_reference: "" },
     { system: "payments", assessment: "missing", issue: "", provider_reference: "" },
   ]);
+  const [operatorGrantId, setOperatorGrantId] = useState("");
+  const [operatorFindings, setOperatorFindings] = useState<Array<{ system: string; decision: string; reason: string }>>([]);
+  const [operatorCitationId, setOperatorCitationId] = useState("");
+  const [quoteUpfrontDollars, setQuoteUpfrontDollars] = useState("");
+  const [operatorDecisionRef, setOperatorDecisionRef] = useState("");
+  const [operatorEligibility, setOperatorEligibility] = useState<"PAYMENT_DELAY_REQUIRED" | "PAY_NOW_ELIGIBLE">("PAYMENT_DELAY_REQUIRED");
   const checkoutRetryKey = useRef<string | null>(null);
+  const quoteExpiry = useRef<string | null>(null);
+  const releaseTimes = useRef<{ eligibility: string; eligible_at: string | null; expires_at: string } | null>(null);
   const [notice, setNotice] = useState<Notice>(null);
   const [busy, setBusy] = useState<string | null>(null);
 
@@ -78,17 +88,27 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
       const orderId = journeyResult.journey.order?.order_id;
       let order: CommercialOrder | null = null;
       let checkoutState: CommercialCheckout | null = null;
+      let quoteState: CommercialQuote | null = null;
       if (orderId && !operatorMode) {
         const orderResult = await productRequest<{ order: CommercialOrder }>(`orders/${orderId}?company_id=${companyId}`);
         order = orderResult.order;
         const checkoutResult = await productRequest<{ checkout: CommercialCheckout | null }>(`orders/${orderId}/checkout?company_id=${companyId}`);
         checkoutState = checkoutResult.checkout;
+        if (order.quote_id) {
+          const quoteResult = await productRequest<{ quote: CommercialQuote }>(`orders/${orderId}/quote?company_id=${companyId}`);
+          quoteState = quoteResult.quote;
+        }
       }
       setJourney(journeyResult.journey);
+      if (operatorMode && journeyResult.journey.existing_business_audit) {
+        setOperatorFindings((current) => current.length ? current : journeyResult.journey.existing_business_audit!.data.systems.map((item) => ({ system: item.system, decision: item.assessment === "missing" ? "add" : item.assessment, reason: "" })));
+        setOperatorCitationId((current) => current || journeyResult.journey.research.data.sources[0]?.source_id || "");
+      }
       setRoom(roomResult.build_room);
       setSession(sessionResult);
       setCommercialOrder(order);
       setCheckout(checkoutState);
+      setQuote(quoteState);
       setOffers(pricingResult.offers);
       setLoadState("ready");
     } catch (error) {
@@ -170,6 +190,78 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
     ), "Your existing-system inventory was recorded in Company Brain. It is founder-supplied, not an approved quote or verification.");
   };
 
+  const createExistingOrder = () => {
+    void mutate("existing-order", () => productRequest(
+      `companies/${companyId}/residential-cleaning-pilot/existing-order`,
+      { method: "POST", body: JSON.stringify({}) },
+    ), "An unpriced, operator-scoped order was recorded. It cannot be paid until an exact quote is approved and Commercial releases payment.");
+  };
+
+  const approveExistingQuote = () => {
+    if (!commercialOrder || !quote || quote.status !== "proposed") return;
+    void mutate("existing-quote", () => productRequest(
+      `orders/${commercialOrder.order_id}/quote/approve?company_id=${companyId}`,
+      { method: "POST", body: JSON.stringify({
+        quote_id: quote.quote_id, recommendation_digest: quote.recommendation_digest,
+      }) },
+    ), "You approved the exact quote and current scoped recommendation digest. Payment is still pending operator admission and a verified webhook.");
+  };
+
+  const publishExistingScope = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void mutate("operator-scope", () => productRequest(
+      `operator/companies/${companyId}/residential-cleaning/existing-scope`,
+      { method: "POST", body: JSON.stringify({
+        grant_id: operatorGrantId, findings: operatorFindings,
+        citation_ids: [operatorCitationId],
+      }) },
+    ), "The appointed operator assessment and research citation were persisted as a proposed Company Brain scope. No quote or payment was created.");
+  };
+
+  const publishExistingQuote = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!journey?.order) return;
+    const upfront = Number(quoteUpfrontDollars);
+    if (!Number.isSafeInteger(upfront * 100) || upfront < 1495) {
+      setNotice({ tone: "error", text: "Enter an exact onboarding amount of at least $1,495. The marketing floor is not a charge." });
+      return;
+    }
+    void mutate("operator-quote", () => productRequest(
+      `operator/companies/${companyId}/orders/${journey.order!.order_id}/quote`,
+      { method: "POST", body: JSON.stringify({
+        grant_id: operatorGrantId, upfront_minor: Math.round(upfront * 100),
+        expires_at: quoteExpiry.current ?? (quoteExpiry.current = new Date(Date.now() + 3 * 86_400_000).toISOString()),
+      }) },
+    ), "An exact audit-backed quote was recorded. Only the founder may approve it; payment remains blocked until Commercial admission.");
+  };
+
+  const releaseExistingPayment = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!journey?.order) return;
+    const delayed = operatorEligibility === "PAYMENT_DELAY_REQUIRED";
+    if (!releaseTimes.current || releaseTimes.current.eligibility !== operatorEligibility) {
+      const now = Date.now();
+      releaseTimes.current = {
+        eligibility: operatorEligibility,
+        eligible_at: delayed ? new Date(now + 30 * 60_000).toISOString() : null,
+        expires_at: new Date(now + 45 * 60_000).toISOString(),
+      };
+    }
+    void mutate("operator-release", () => productRequest(
+      `operator/companies/${companyId}/orders/${journey.order!.order_id}/release`,
+      { method: "POST", body: JSON.stringify({
+        grant_id: operatorGrantId, eligibility: operatorEligibility,
+        eligible_at: releaseTimes.current!.eligible_at,
+        tax_disposition: delayed ? "manual_review" : "test_mode_undetermined",
+        tax_review_state: delayed ? "TAX_REVIEW_REQUIRED" : "TEST_MODE_UNDETERMINED",
+        decision_ref: operatorDecisionRef,
+        expires_at: releaseTimes.current!.expires_at,
+      }) },
+    ), delayed
+      ? "The expiring operator admission recorded PAYMENT_DELAY_REQUIRED. Checkout remains blocked. No legal applicability was decided."
+      : "Test-mode-only admission was recorded. The server rejects this tax boundary in production configuration; only a verified Stripe test webhook can activate entitlement.");
+  };
+
   if (loadState === "loading") {
     return <div className={styles.shell}><Container><p className={styles.notice} role="status">Loading Company Brain, Runtime, Commercial, Founder Actions, and Verification…</p></Container></div>;
   }
@@ -247,11 +339,11 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
 
         <section id="order" className={styles.section} aria-labelledby="order-title">
           <div className={styles.sectionHeading}><div><Eyebrow>Commercial authority</Eyebrow><h2 id="order-title">Your approved scope and payment state.</h2></div><span className={styles.status}>{commercialOrder ? label(commercialOrder.status) : journey.order ? label(journey.order.status) : "Not created"}</span></div>
-          <div className={styles.priceCard}>
+          {!operatorMode && journey.intake.data.starting_point !== "running" ? <div className={styles.priceCard}>
             {offers.filter((offer) => ["new_business_build_v1", "new_business_build_run_v1"].includes(offer.offer_code)).map((offer) => (
               <div key={offer.offer_code}><strong>{money(offer.upfront_minor)}{offer.monthly_minor ? ` + ${money(offer.monthly_minor)}/month` : ""}</strong><span>{offer.name} · {offer.price_kind}</span></div>
             ))}
-          </div>
+          </div> : null}
           {journey.order ? <p className={styles.notice}>Order {journey.order.order_id} is <strong>{commercialOrder?.status ?? journey.order.status}</strong>. Active entitlements: {journey.entitlements.filter((item) => item.status === "active").length}. Browsing, selecting a package, or returning from checkout never activates entitlement.</p> : <p className={styles.notice}>{approved && journey.intake.data.starting_point === "running" ? "The approved direction is not a chargeable existing-business quote. Audit and scoped pricing must come first." : "Browsing the recommendation has not created an order. Approve the exact scope first."}</p>}
           {journey.intake.data.starting_point === "running" && approved && !journey.order ? <div className={styles.commercialControls}>
             <h3>Existing Business Audit before a quote</h3>
@@ -265,14 +357,51 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
               </fieldset>)}
               <Button type="submit" disabled={busy !== null}>Capture existing-system inventory</Button>
             </form> : null}
+            {journey.existing_business_scope ? <div role="status">
+              <p><strong>Operator-scoped recommendation:</strong> {journey.existing_business_scope.data.findings.length} system decisions, citing {journey.existing_business_scope.data.citation_ids.join(", ")}. This is an assessed scope, not a fixed charge.</p>
+              <ul>{journey.existing_business_scope.data.findings.map((item) => <li key={item.system}>{label(item.system)}: {label(item.decision)} — {item.reason}</li>)}</ul>
+              {!operatorMode ? <Button disabled={busy !== null} onClick={createExistingOrder}>Start an unpriced scoped order</Button> : null}
+            </div> : journey.existing_business_audit ? <p>Waiting for an appointed operator to publish a cited, scoped recommendation. There is no chargeable order yet.</p> : null}
+            {operatorMode && canReview && journey.existing_business_audit && !journey.existing_business_scope ? <form onSubmit={publishExistingScope} className={styles.auditForm}>
+              <h3>Appointed operator: publish a cited scope</h3>
+              <p>SUPPORT membership alone does not authorize this. An expiring, company-scoped commercial appointment is rechecked by the backend.</p>
+              <label>Commercial appointment ID<input value={operatorGrantId} required maxLength={128} onChange={(event) => setOperatorGrantId(event.target.value)} /></label>
+              <label>Research citation<select value={operatorCitationId} required onChange={(event) => setOperatorCitationId(event.target.value)}>{journey.research.data.sources.map((source) => <option key={source.source_id} value={source.source_id}>{source.publisher}: {source.title}</option>)}</select></label>
+              {operatorFindings.map((finding, index) => <fieldset key={finding.system}>
+                <legend>{label(finding.system)}</legend>
+                <label>Scoped decision<select value={finding.decision} onChange={(event) => setOperatorFindings((items) => items.map((item, position) => position === index ? { ...item, decision: event.target.value } : item))}><option value="keep">Keep</option><option value="improve">Improve</option><option value="replace">Replace</option><option value="add">Add</option></select></label>
+                <label>Assessment rationale<input value={finding.reason} required minLength={12} maxLength={500} onChange={(event) => setOperatorFindings((items) => items.map((item, position) => position === index ? { ...item, reason: event.target.value } : item))} /></label>
+              </fieldset>)}
+              <Button type="submit" disabled={busy !== null}>Publish operator-scoped assessment</Button>
+            </form> : null}
           </div> : null}
+          {operatorMode && canReview && journey.intake.data.starting_point === "running" && journey.order && !journey.order.quote_id ? <form onSubmit={publishExistingQuote} className={styles.auditForm}>
+            <h3>Appointed operator: issue the exact quote</h3>
+            <p>The founder-supplied inventory and cited operator assessment are bound to this unpriced order. “From $1,495” is only a floor.</p>
+            <label>Commercial appointment ID<input value={operatorGrantId} required maxLength={128} onChange={(event) => setOperatorGrantId(event.target.value)} /></label>
+            <label>Exact onboarding price, USD<input type="number" min="1495" step="0.01" value={quoteUpfrontDollars} required onChange={(event) => setQuoteUpfrontDollars(event.target.value)} /></label>
+            <Button type="submit" disabled={busy !== null}>Issue exact scoped quote</Button>
+          </form> : null}
+          {operatorMode && canReview && journey.intake.data.starting_point === "running" && journey.order?.quote_status === "approved" && !journey.order.admission_present ? <form onSubmit={releaseExistingPayment} className={styles.auditForm}>
+            <h3>Appointed operator: commercial admission</h3>
+            <p>The founder has approved the exact quote. A release is separate, expiring, audited, and bound to the current order and quote digest. No tax or disclosure law is inferred here.</p>
+            <label>Commercial appointment ID<input value={operatorGrantId} required maxLength={128} onChange={(event) => setOperatorGrantId(event.target.value)} /></label>
+            <label>Technical payment eligibility<select value={operatorEligibility} onChange={(event) => setOperatorEligibility(event.target.value as "PAYMENT_DELAY_REQUIRED" | "PAY_NOW_ELIGIBLE")}><option value="PAYMENT_DELAY_REQUIRED">Payment delay required</option><option value="PAY_NOW_ELIGIBLE">Test-mode pay-now only</option></select></label>
+            <label>Opaque review/decision reference<input value={operatorDecisionRef} required maxLength={160} onChange={(event) => setOperatorDecisionRef(event.target.value)} /></label>
+            <Button type="submit" disabled={busy !== null}>Record expiring operator decision</Button>
+          </form> : null}
           {commercialOrder ? <div className={styles.commercialControls}>
             <p><strong>Selected package:</strong> {offers.find((offer) => offer.offer_code === commercialOrder.offer_code)?.name ?? "Awaiting selection"}</p>
             <p><strong>First payment due:</strong> {money(commercialOrder.total?.minor_units)}. Government, domain, insurance, provider, advertising, processing, and professional fees are separate.</p>
             <p><strong>Payment eligibility:</strong> {commercialOrder.payment_eligibility === "PAY_NOW_ELIGIBLE" ? "Eligible after supervised review" : "Payment delayed pending supervised eligibility/disclosure review"}{commercialOrder.eligible_at ? ` until ${new Date(commercialOrder.eligible_at).toLocaleString()}` : ""}.</p>
             <p><strong>Tax:</strong> {commercialOrder.tax_disposition === "manual_review" ? "Manual tax review required before payment" : label(commercialOrder.tax_disposition)}.</p>
+            {journey.intake.data.starting_point === "running" ? quote ? <div className={styles.quoteCard} role="status">
+              <p><strong>Exact existing-business quote:</strong> {money(quote.upfront.minor_units)} upfront + {money(quote.monthly.minor_units)}/month. Expires {new Date(quote.expires_at).toLocaleString()}. {label(quote.status)}.</p>
+              <p>Review the operator scope above before approving. Viewing this quote does not authorize spending.</p>
+              {!operatorMode && quote.status === "proposed" ? <Button disabled={busy !== null} onClick={approveExistingQuote}>Approve this exact scoped quote</Button> : null}
+            </div> : <p role="status">The scoped order is unpriced. An appointed operator must issue an exact quote before founder approval.</p> : null}
             {checkout ? <p><strong>Provider checkout:</strong> {label(checkout.status)}. {checkout.status === "completed" ? "Payment is still verified separately through the signed webhook." : ""}</p> : null}
-            {!operatorMode && commercialOrder.status === "draft" ? <div className={styles.offerChoices} aria-label="Choose an approved commercial package">
+            {!operatorMode && journey.intake.data.starting_point !== "running" && commercialOrder.status === "draft" ? <div className={styles.offerChoices} aria-label="Choose an approved commercial package">
               {offers.filter((offer) => ["new_business_build_v1", "new_business_build_run_v1"].includes(offer.offer_code)).map((offer) => (
                 <Button key={offer.offer_code} variant="secondary" disabled={busy !== null || commercialOrder.offer_code === offer.offer_code} onClick={() => chooseOffer(offer.offer_code)}>{commercialOrder.offer_code === offer.offer_code ? `Selected: ${offer.name}` : `Select ${offer.name}`}</Button>
               ))}

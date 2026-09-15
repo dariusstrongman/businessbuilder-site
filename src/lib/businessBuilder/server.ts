@@ -36,7 +36,10 @@ function canonicalJson(value: unknown): string {
   return JSON.stringify(value);
 }
 
-export async function authenticatedBackendFetch(path: string, init: RequestInit = {}): Promise<Response> {
+export async function authenticatedBackendFetch(
+  path: string, init: RequestInit = {},
+  options: { includeSupportImpersonation?: boolean } = {},
+): Promise<Response> {
   const jar = await cookies();
   const token = jar.get(CUSTOMER_SESSION_COOKIE)?.value;
   if (!token) {
@@ -52,7 +55,7 @@ export async function authenticatedBackendFetch(path: string, init: RequestInit 
   headers.set("X-Request-ID", requestId);
   headers.set("X-Correlation-ID", headers.get("X-Correlation-ID") || requestId);
   const support = jar.get(SUPPORT_SESSION_COOKIE)?.value;
-  if (support) headers.set("X-Support-Impersonation-Session", support);
+  if (support && options.includeSupportImpersonation !== false) headers.set("X-Support-Impersonation-Session", support);
 
   try {
     return await fetch(new URL(path, backendBaseUrl()), {

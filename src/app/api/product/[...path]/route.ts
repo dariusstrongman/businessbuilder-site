@@ -8,11 +8,14 @@ const ACTION = "founder_action_cleaning_[A-Za-z0-9_-]{1,100}";
 const SUBMISSION = "cleaning_submission_[A-Za-z0-9_-]{1,100}";
 const ALLOWED = [
   /^(me|organizations|memberships|companies|orders|subscriptions|entitlements|pricing)$/,
-  new RegExp(`^orders/${ID}(?:/(?:offer|checkout))?$`),
+  new RegExp(`^orders/${ID}(?:/(?:offer|checkout|quote(?:/approve)?))?$`),
   new RegExp(`^companies/${ID}$`),
   new RegExp(`^companies/${ID}/(build-room|founder-actions|readiness)$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot(?:/approve)?$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot/existing-business-audit$`),
+  new RegExp(`^companies/${ID}/residential-cleaning-pilot/existing-order$`),
+  new RegExp(`^operator/companies/${ID}/residential-cleaning/existing-scope$`),
+  new RegExp(`^operator/companies/${ID}/orders/${ID}/(?:quote|release)$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot/support-grants$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot/founder-actions/${ACTION}(?:/(?:explain|launch|complete))?$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot/founder-actions/${ACTION}/evidence-submissions(?:/${SUBMISSION}(?:/access)?)?$`),
@@ -44,7 +47,7 @@ async function forward(request: Request, context: { params: Promise<{ path: stri
     method,
     body,
     headers: body ? { "Content-Type": "application/json" } : undefined,
-  });
+  }, { includeSupportImpersonation: !path.startsWith("operator/") });
   return passthrough(upstream);
 }
 
