@@ -4,7 +4,7 @@ import { useActionState, useId, useState } from "react";
 import { Container, Eyebrow } from "@/components/primitives/Layout";
 import { Button } from "@/components/primitives/Button";
 import { CheckIcon } from "@/components/primitives/Icons";
-import { packages, type PackageId } from "@/content/packages";
+import { existingStart, packages, type StartPackageId } from "@/content/packages";
 import { startingPoints, type StartingPointId } from "@/content/startingPoints";
 import { checkoutTruth } from "@/content/founding";
 import { archetypes } from "@/content/archetypes";
@@ -16,7 +16,7 @@ import styles from "./page.module.css";
 
 type Props = {
   defaultIdea: string;
-  defaultPackage: PackageId;
+  defaultPackage: StartPackageId;
   /** Set when the visitor arrived from a starting point. */
   defaultFrom?: StartingPointId;
 };
@@ -40,7 +40,9 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
   const id = useId();
   const [state, action, pending] = useActionState<StartState, FormData>(startBuild, { status: "idle" });
   const [idea, setIdea] = useState(defaultIdea);
-  const [pkg, setPkg] = useState<PackageId>(defaultPackage);
+  const [pkg, setPkg] = useState<StartPackageId>(defaultPackage);
+  /* The ladder, plus the existing-business route, which is priced after an audit. */
+  const startOptions = [...packages.map((p) => ({ id: p.id, name: p.name, price: p.price, model: p.model })), existingStart];
   const [from, setFrom] = useState<StartingPointId>(defaultFrom);
 
   if (state.status === "received") {
@@ -49,13 +51,13 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
         <Container>
           <div className={styles.grid}>
             <div className={styles.copy}>
-              <Eyebrow>Received</Eyebrow>
+              <Eyebrow>Not sent</Eyebrow>
               <h1 id="received-title" className={styles.title}>
-                Your build is opened.
+                Intake is not open yet.
               </h1>
               <p className={styles.lead}>
-                We will come back by email with a few questions, then research and a recommendation. Nothing is built
-                until you approve the direction.
+                We cannot receive this yet, so nothing has been sent and nothing has been stored. Your description is
+                below. Copy it if you want to keep it.
               </p>
               <dl className={styles.summary}>
                 <div>
@@ -70,11 +72,11 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
                 ) : null}
                 <div>
                   <dt>Starting package</dt>
-                  <dd>{packages.find((p) => p.id === state.packageId)?.name}</dd>
+                  <dd>{startOptions.find((p) => p.id === state.packageId)?.name}</dd>
                 </div>
                 <div>
                   <dt>Cost so far</dt>
-                  <dd>Nothing. You pay when you approve the direction.</dd>
+                  <dd>Nothing. You pay after you approve a written scope.</dd>
                 </div>
               </dl>
               <Button href={routes.howItWorks} variant="ghost" arrow>
@@ -82,14 +84,11 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
               </Button>
             </div>
 
-            <aside className={styles.received} aria-label="Where your build is">
-              <span className={styles.receivedMark} aria-hidden>
-                <CheckIcon />
-              </span>
+            <aside className={styles.received} aria-label="What happens to this">
               <p className={styles.receivedNote}>
-                Your build sits at the first phase. You will see the Build Room as soon as the direction is approved.
+                Nothing has been stored and no one has been notified. We will open intake here when we can receive it
+                properly.
               </p>
-              <NextSteps current={0} />
             </aside>
           </div>
         </Container>
@@ -172,7 +171,7 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
             <fieldset className={styles.fieldset}>
               <legend className={styles.label}>Start from</legend>
               <div className={styles.packages}>
-                {packages.map((p) => (
+                {startOptions.map((p) => (
                   <label key={p.id} className={cn(styles.package, pkg === p.id && styles.packageActive)}>
                     <input
                       type="radio"
@@ -196,7 +195,7 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
                 ))}
               </div>
               <p className={styles.hint}>
-                You can change this after the recommendation. Every package contains the one before it.
+                You can change this after the recommendation.
               </p>
             </fieldset>
 
@@ -240,7 +239,7 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
 
             <div className={styles.actions}>
               <Button type="submit" size="lg" arrow disabled={pending}>
-                {pending ? "Opening your build…" : "Open my build"}
+                {pending ? "Checking…" : "Check my description"}
               </Button>
               <p className={styles.hint}>{checkoutTruth}</p>
             </div>

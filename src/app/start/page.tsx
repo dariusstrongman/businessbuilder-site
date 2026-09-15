@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { StartForm } from "./StartForm";
-import { packages, type PackageId } from "@/content/packages";
+import { existingStart, packages, type StartPackageId } from "@/content/packages";
 import { startingPoints, type StartingPointId } from "@/content/startingPoints";
 
 export const metadata: Metadata = {
@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 
 type Search = { idea?: string; package?: string; from?: string };
 
-const packageIds = new Set(packages.map((p) => p.id));
+const packageIds = new Set<string>([...packages.map((p) => p.id), existingStart.id]);
 
 export default async function StartPage({ searchParams }: { searchParams: Promise<Search> }) {
   const { idea = "", package: pkg, from } = await searchParams;
-  const packageId: PackageId = pkg && packageIds.has(pkg as PackageId) ? (pkg as PackageId) : "business";
+  const packageId: StartPackageId = pkg && packageIds.has(pkg) ? (pkg as StartPackageId) : "business";
   const fromId = startingPoints.some((p) => p.id === from) ? (from as StartingPointId) : undefined;
   return <StartForm defaultIdea={idea} defaultPackage={packageId} defaultFrom={fromId} />;
 }

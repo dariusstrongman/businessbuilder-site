@@ -208,4 +208,4 @@ export const priceSummary = [
 
 /** What the CTA can honestly promise today. */
 export const checkoutTruth =
-  "Starting a build opens your intake. Nothing is charged until you have seen the research, approved the scope and confirmed the price with us directly.";
+  "Nothing is charged until you have seen the research, approved the scope and confirmed the price with us directly.";

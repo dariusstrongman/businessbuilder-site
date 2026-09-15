@@ -1,24 +1,28 @@
 "use server";
 
-import { packages, type PackageId } from "@/content/packages";
+import { existingStart, packages, type StartPackageId } from "@/content/packages";
 
 export type StartState = {
   status: "idle" | "error" | "received";
   message?: string;
   idea?: string;
-  packageId?: PackageId;
+  packageId?: StartPackageId;
   /** Echoed back so a validation error does not wipe what was typed. */
   name?: string;
   email?: string;
   from?: string;
 };
 
-const packageIds = new Set(packages.map((p) => p.id));
+const packageIds = new Set<string>([...packages.map((p) => p.id), existingStart.id]);
 
 /**
- * Receives an intake. This is the seam between the marketing site and the product:
- * wire it to the account-creation flow when the product backend is available.
- * Until then it validates and acknowledges without persisting anything.
+ * Validates an intake. This is the seam between the marketing site and the product.
+ *
+ * IT PERSISTS NOTHING AND SENDS NOTHING. There is no database, no mail service and
+ * no deploy target configured, so there is nowhere durable to put a submission. The
+ * confirmation screen in StartForm says so plainly, and must keep saying so until
+ * this function actually writes somewhere that survives the request. Do not restore
+ * "your build is opened" copy before that is true.
  */
 export async function startBuild(_prev: StartState, form: FormData): Promise<StartState> {
   const idea = String(form.get("idea") ?? "").trim();
@@ -26,7 +30,7 @@ export async function startBuild(_prev: StartState, form: FormData): Promise<Sta
   const email = String(form.get("email") ?? "").trim();
   const pkg = String(form.get("package") ?? "");
   const from = String(form.get("from") ?? "") || undefined;
-  const echo = { idea, name, email, from, packageId: packageIds.has(pkg as PackageId) ? (pkg as PackageId) : undefined };
+  const echo = { idea, name, email, from, packageId: packageIds.has(pkg) ? (pkg as StartPackageId) : undefined };
 
   if (idea.length < 12) {
     return {
@@ -39,7 +43,7 @@ export async function startBuild(_prev: StartState, form: FormData): Promise<Sta
     return {
       ...echo,
       status: "error",
-      message: "We need a working email address to send the research and recommendation to.",
+      message: "That does not look like a working email address.",
     };
   }
   if (!echo.packageId) {

@@ -18,7 +18,7 @@ export type StartingPoint = {
   /** Shown when the audit applies. */
   audits: boolean;
   /** Which package this usually points at. */
-  suggests: "website" | "business" | "run";
+  suggests: "website" | "business" | "run" | "existing";
 };
 
 export const startingPoints: StartingPoint[] = [
@@ -76,7 +76,9 @@ export const startingPoints: StartingPoint[] = [
       "You can stop at any time and keep everything",
     ],
     audits: true,
-    suggests: "run",
+    /* An existing business taking on Build & Run is quoted after the audit, so this
+       must not inherit the new-business bundle price. */
+    suggests: "existing",
   },
 ];
 

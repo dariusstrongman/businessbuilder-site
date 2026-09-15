@@ -2,6 +2,14 @@ import { routes } from "@/config/brand";
 
 export type PackageId = "website" | "business" | "run";
 
+/**
+ * The start form offers one more route than the three-package ladder: an existing
+ * business taking on Build & Run. It is priced after an audit, so it cannot sit in
+ * `packages`, which is the fixed-price ladder rendered by PackageMatrix and the
+ * comparison table.
+ */
+export type StartPackageId = PackageId | "existing";
+
 export type Package = {
   id: PackageId;
   name: string;
@@ -18,6 +26,17 @@ export type Package = {
   href: string;
   ctaLabel: string;
   emphasis?: boolean;
+};
+
+/**
+ * Not a package in the ladder sense. Onboarding is quoted after an Existing
+ * Business Audit, so the figure is a floor rather than a price.
+ */
+export const existingStart = {
+  id: "existing" as const,
+  name: "Existing business + Build & Run",
+  price: "From $1,495 + $299/mo",
+  model: "Onboarding quoted after the audit, then monthly",
 };
 
 export const packages: Package[] = [
@@ -83,8 +102,8 @@ export const packages: Package[] = [
     shortName: "Build & Run",
     audience: "For people who want parts of the company operated after handoff.",
     model: "Activation, then monthly operations",
-    price: "$795 + $299/mo",
-    priceNote: "Activation once, then monthly while it runs. $1,995 upfront when bought with Build my business.",
+    price: "$1,995 + $299/mo",
+    priceNote: "Build and activation together, then monthly while it runs. Build & Run on its own is $795 activation plus $299 a month.",
     summary: "Everything in Build my business, plus AI workers operating inside limits you set.",
     includesLabel: "Everything in Business, plus",
     includes: [
