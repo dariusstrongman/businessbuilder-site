@@ -37,12 +37,23 @@ try {
       await page.getByRole("main").first().waitFor();
       await page.screenshot({ path: join(output, `${name}-${width}.png`), fullPage: true });
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
-      const overflowElements = overflow ? await page.evaluate(() => [...document.querySelectorAll("main *")]
-        .filter((element) => element.getBoundingClientRect().right > document.documentElement.clientWidth + 1)
-        .slice(0, 8).map((element) => ({ tag: element.tagName.toLowerCase(), class_name: String(element.className).slice(0, 80),
-          right: Math.round(element.getBoundingClientRect().right), width: Math.round(element.getBoundingClientRect().width) }))) : [];
+      const navGeometry = name === "build-room" ? await page.evaluate(() => {
+        const nav = document.querySelector('nav[class*="sectionNav"]');
+        return { document_scroll: document.documentElement.scrollWidth, body_scroll: document.body.scrollWidth,
+          main_scroll: document.querySelector("main")?.scrollWidth ?? 0,
+          document_client: document.documentElement.clientWidth,
+          nav_right: Math.round(nav?.getBoundingClientRect().right ?? 0),
+          nav_client: nav?.clientWidth ?? 0, nav_scroll: nav?.scrollWidth ?? 0 };
+      }) : null;
+      const overflowElements = overflow ? await page.evaluate(() => [...document.querySelectorAll("body *")]
+        .filter((element) => element.getBoundingClientRect().right > document.documentElement.clientWidth + 1
+          || (element.scrollWidth > element.clientWidth + 2 && getComputedStyle(element).overflowX === "visible"))
+        .slice(0, 15).map((element) => ({ tag: element.tagName.toLowerCase(), class_name: String(element.className).slice(0, 80),
+          parent_class: String(element.parentElement?.className ?? "").slice(0, 80),
+          right: Math.round(element.getBoundingClientRect().right), width: Math.round(element.getBoundingClientRect().width),
+          scroll: element.scrollWidth, client: element.clientWidth }))) : [];
       const violations = (await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze()).violations;
-      results.push({ name, width, overflow, overflow_elements: overflowElements, accessibility_violations: violations.map((item) => item.id) });
+      results.push({ name, width, overflow, nav_geometry: navGeometry, overflow_elements: overflowElements, accessibility_violations: violations.map((item) => item.id) });
     }
   }
   console.log(JSON.stringify({ screenshots: output, results }, null, 2));

@@ -246,7 +246,7 @@
 .sources span { color: var(--fg-4); font-family: var(--font-mono); font-size: var(--text-mono-xs); }
 
 .decision { display: grid; gap: var(--s-4); align-items: center; border-left: 4px solid var(--founder); }
-.notice { color: var(--fg-2); }
+.notice { color: var(--fg-2); overflow-wrap: anywhere; }
 .commercialControls { display: grid; gap: var(--s-3); padding: var(--s-4); border: 1px solid var(--line-strong); border-radius: var(--r-3); background: var(--bg); }
 .commercialControls p { margin: 0; overflow-wrap: anywhere; }
 .quoteCard { display: grid; gap: var(--s-3); padding: var(--s-3); border: 1px solid var(--line); border-radius: var(--r-2); background: var(--bg-raised); }
