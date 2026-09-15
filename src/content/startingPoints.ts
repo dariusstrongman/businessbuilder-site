@@ -76,6 +76,10 @@ export const startingPoints: StartingPoint[] = [
       "You can stop at any time and keep everything",
     ],
     audits: true,
+    /* An existing business taking on Build & Run wants the run package, but not the
+       new-business bundle price. The authenticated intake posts a fixed set of package
+       values to the pilot endpoint, so the correction is stated beside the choice in
+       StartForm rather than carried as a fourth package. */
     suggests: "run",
   },
 ];

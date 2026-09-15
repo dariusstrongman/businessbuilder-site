@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Container, Eyebrow } from "@/components/primitives/Layout";
 import { Button } from "@/components/primitives/Button";
 import { CheckIcon } from "@/components/primitives/Icons";
-import { packages, type PackageId } from "@/content/packages";
+import { existingStart, packages, type PackageId } from "@/content/packages";
 import { startingPoints, type StartingPointId } from "@/content/startingPoints";
 import { checkoutTruth } from "@/content/founding";
 import { phases } from "@/content/journey";
@@ -250,6 +250,17 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea", p
                   </label>
                 ))}
               </div>
+              {from === "running" ? (
+                /*
+                  A business that already trades is not priced like a new one. Onboarding
+                  is quoted after the Existing Business Audit, so the bundle figure above
+                  would overstate what they are committing to.
+                */
+                <p className={styles.hint}>
+                  You already trade, so this is priced differently. {existingStart.price}, with onboarding quoted after
+                  the Existing Business Audit.
+                </p>
+              ) : null}
               <p className={styles.hint}>This proof creates only the pending Build My Business order. Build & Run remains inactive until authoritative checkout.</p>
             </fieldset>
 

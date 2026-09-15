@@ -20,6 +20,18 @@ export type Package = {
   emphasis?: boolean;
 };
 
+/**
+ * Not a package in the ladder sense. Onboarding for a business that already trades is
+ * quoted after an Existing Business Audit, so the figure is a floor rather than a
+ * price. Stated beside the package choice in StartForm when the founder arrives from
+ * the "run it for me" starting point.
+ */
+export const existingStart = {
+  name: "Existing business + Build & Run",
+  price: "From $1,495 + $299/mo",
+  model: "Onboarding quoted after the audit, then monthly",
+};
+
 export const packages: Package[] = [
   {
     id: "website",
@@ -83,8 +95,8 @@ export const packages: Package[] = [
     shortName: "Build & Run",
     audience: "For people who want parts of the company operated after handoff.",
     model: "Activation, then monthly operations",
-    price: "$795 + $299/mo",
-    priceNote: "Activation once, then monthly while it runs. $1,995 upfront when bought with Build my business.",
+    price: "$1,995 + $299/mo",
+    priceNote: "Build and activation together, then monthly while it runs. Build & Run on its own is $795 activation plus $299 a month.",
     summary: "Everything in Build my business, plus AI workers operating inside limits you set.",
     includesLabel: "Everything in Business, plus",
     includes: [
