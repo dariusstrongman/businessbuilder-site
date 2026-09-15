@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { sameOriginMutation } from "@/lib/businessBuilder/auth";
+import { sameOriginMutation, secureCookie } from "@/lib/businessBuilder/auth";
 import { backendBaseUrl, CUSTOMER_SESSION_COOKIE, SUPPORT_SESSION_COOKIE } from "@/lib/businessBuilder/server";
 
 export async function POST(request: Request) {
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     if (!result.support_session_id || !result.expires_at) throw new Error("invalid support session");
     jar.set(SUPPORT_SESSION_COOKIE, result.support_session_id, {
       httpOnly: true,
-      secure: new URL(request.url).protocol === "https:",
+      secure: secureCookie(request.url),
       sameSite: "strict",
       path: "/",
       expires: new Date(result.expires_at),

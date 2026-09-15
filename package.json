@@ -14,6 +14,10 @@
     "keyboard": "node scripts/keyboard.mjs",
     "integration": "node scripts/flagship-integration.mjs",
     "auth:integration": "node scripts/production-auth-integration.mjs",
+    "auth:pilot:founder": "node scripts/cognito-pilot-founder-acceptance.mjs",
+    "auth:pilot:operator": "node scripts/cognito-pilot-operator-acceptance.mjs",
+    "auth:pilot:adversarial": "node scripts/cognito-pilot-adversarial.mjs",
+    "auth:pilot:concurrent": "node scripts/cognito-pilot-concurrent-sessions.mjs",
     "verify": "npm run typecheck && npm run lint && npm run a11y && npm run keyboard"
   },
   "dependencies": {

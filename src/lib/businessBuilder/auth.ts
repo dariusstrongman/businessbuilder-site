@@ -69,7 +69,7 @@ export function beginAuth(config: CognitoConfig, intent: AuthIntent, next: strin
   authorization.search = new URLSearchParams({
     client_id: config.clientId,
     response_type: "code",
-    scope: "openid email profile",
+    scope: "openid email profile aws.cognito.signin.user.admin",
     redirect_uri: config.redirectUri,
     state: transaction.state,
     nonce: transaction.nonce,
@@ -159,19 +159,36 @@ export function sameOriginMutation(request: Request): boolean {
   if (!origin || fetchSite === "cross-site") return false;
   try {
     const supplied = new URL(origin);
-    const host = request.headers.get("host") || new URL(request.url).host;
+    const configured = process.env.NEXT_PUBLIC_SITE_URL;
+    if (!configured && process.env.NODE_ENV === "production") return false;
+    const requestUrl = new URL(request.url);
     const forwardedProtocol = request.headers.get("x-forwarded-proto")?.split(",", 1)[0]?.trim();
-    const protocol = forwardedProtocol ? `${forwardedProtocol}:` : new URL(request.url).protocol;
-    return supplied.host === host && supplied.protocol === protocol;
+    const protocol = forwardedProtocol ? `${forwardedProtocol}:` : requestUrl.protocol;
+    const host = request.headers.get("host") || requestUrl.host;
+    const expected = configured ? new URL(configured) : new URL(`${protocol}//${host}`);
+    return supplied.origin === expected.origin;
   } catch { return false; }
 }
 
 export function sessionCookieOptions(requestUrl: string, expires: Date) {
-  return { httpOnly: true, secure: new URL(requestUrl).protocol === "https:", sameSite: "lax" as const, path: "/", expires, priority: "high" as const };
+  return { httpOnly: true, secure: secureCookie(requestUrl), sameSite: "lax" as const, path: "/", expires, priority: "high" as const };
 }
 
 export function providerCookieOptions(requestUrl: string) {
-  return { httpOnly: true, secure: new URL(requestUrl).protocol === "https:", sameSite: "strict" as const, path: "/api/auth", maxAge: 30 * 24 * 60 * 60, priority: "high" as const };
+  return { httpOnly: true, secure: secureCookie(requestUrl), sameSite: "strict" as const, path: "/api/auth", maxAge: 24 * 60 * 60, priority: "high" as const };
+}
+
+export function secureCookie(requestUrl: string): boolean {
+  return process.env.NODE_ENV === "production" || new URL(requestUrl).protocol === "https:";
+}
+
+export function externalUrl(path: string, requestUrl: string): URL {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL;
+  const base = configured ? new URL(configured) : new URL(requestUrl);
+  if (process.env.NODE_ENV === "production" && base.protocol !== "https:") {
+    throw new Error("production site URL must use HTTPS");
+  }
+  return new URL(path, base);
 }
 
 function seal(value: AuthTransaction, key: string): string {

@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { AUTH_TRANSACTION_COOKIE, beginAuth, cognitoConfig } from "@/lib/businessBuilder/auth";
+import { AUTH_TRANSACTION_COOKIE, beginAuth, cognitoConfig, externalUrl, secureCookie } from "@/lib/businessBuilder/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     const response = Response.redirect(started.authorization);
     (await cookies()).set(AUTH_TRANSACTION_COOKIE, started.cookie, {
       httpOnly: true,
-      secure: new URL(request.url).protocol === "https:",
+      secure: secureCookie(request.url),
       sameSite: "lax",
       path: "/api/auth/callback",
       maxAge: 10 * 60,
@@ -21,6 +21,6 @@ export async function GET(request: Request) {
     });
     return response;
   } catch {
-    return Response.redirect(new URL("/login?auth_error=unavailable", request.url));
+    return Response.redirect(externalUrl("/login?auth_error=unavailable", request.url));
   }
 }

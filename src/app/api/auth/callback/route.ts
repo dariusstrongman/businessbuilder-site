@@ -3,6 +3,7 @@ import {
   AUTH_TRANSACTION_COOKIE,
   PROVIDER_REFRESH_COOKIE,
   cognitoConfig,
+  externalUrl,
   establishBusinessBuilderSession,
   exchangeAuthorizationCode,
   providerCookieOptions,
@@ -31,11 +32,11 @@ export async function GET(request: Request) {
     jar.set(CUSTOMER_SESSION_COOKIE, session.token, sessionCookieOptions(request.url, session.expiresAt));
     jar.set(PROVIDER_REFRESH_COOKIE, provider.refreshToken, providerCookieOptions(request.url));
     jar.delete(SUPPORT_SESSION_COOKIE);
-    return Response.redirect(new URL(transaction.next, request.url));
+    return Response.redirect(externalUrl(transaction.next, request.url));
   } catch {
     jar.delete(CUSTOMER_SESSION_COOKIE);
     jar.delete(PROVIDER_REFRESH_COOKIE);
     jar.delete(SUPPORT_SESSION_COOKIE);
-    return Response.redirect(new URL("/login?auth_error=callback", request.url));
+    return Response.redirect(externalUrl("/login?auth_error=callback", request.url));
   }
 }
