@@ -21,6 +21,7 @@ import { SessionActions } from "./SessionActions";
 
 type LoadState = "loading" | "ready" | "unauthenticated" | "unauthorized" | "error";
 type Notice = { tone: "info" | "error" | "success"; text: string } | null;
+type PaidPilotRelease = { status: "NOT_READY" | "READY_FOR_SUPERVISED_PILOT" | "HOLD" | "APPROVED_FOR_LIVE_CHARGE"; blocking_gates_pending: string[]; live_charge_allowed: boolean };
 
 const actionStep = ["prepared", "explained", "linked", "founder_completed", "result_captured", "verified"];
 const transition: Record<string, { operation: string; label: string } | undefined> = {
@@ -55,6 +56,7 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
   const [session, setSession] = useState<SessionStatus | null>(null);
   const [commercialOrder, setCommercialOrder] = useState<CommercialOrder | null>(null);
   const [checkout, setCheckout] = useState<CommercialCheckout | null>(null);
+  const [paidPilotRelease, setPaidPilotRelease] = useState<PaidPilotRelease | null>(null);
   const [quote, setQuote] = useState<CommercialQuote | null>(null);
   const [offers, setOffers] = useState<CommercialOffer[]>([]);
   const [existingSystems, setExistingSystems] = useState([
@@ -88,12 +90,17 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
       const orderId = journeyResult.journey.order?.order_id;
       let order: CommercialOrder | null = null;
       let checkoutState: CommercialCheckout | null = null;
+      let paidPilotReleaseState: PaidPilotRelease | null = null;
       let quoteState: CommercialQuote | null = null;
       if (orderId && !operatorMode) {
         const orderResult = await productRequest<{ order: CommercialOrder }>(`orders/${orderId}?company_id=${companyId}`);
         order = orderResult.order;
         const checkoutResult = await productRequest<{ checkout: CommercialCheckout | null }>(`orders/${orderId}/checkout?company_id=${companyId}`);
         checkoutState = checkoutResult.checkout;
+        const releaseResult = await productRequest<{ paid_pilot_release: PaidPilotRelease }>(
+          `orders/${orderId}/paid-pilot-release?company_id=${companyId}`,
+        ).catch(() => null);
+        paidPilotReleaseState = releaseResult?.paid_pilot_release ?? null;
         if (order.quote_id) {
           const quoteResult = await productRequest<{ quote: CommercialQuote }>(`orders/${orderId}/quote?company_id=${companyId}`);
           quoteState = quoteResult.quote;
@@ -108,6 +115,7 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
       setSession(sessionResult);
       setCommercialOrder(order);
       setCheckout(checkoutState);
+      setPaidPilotRelease(paidPilotReleaseState);
       setQuote(quoteState);
       setOffers(pricingResult.offers);
       setLoadState("ready");
@@ -395,6 +403,7 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
             <p><strong>First payment due:</strong> {money(commercialOrder.total?.minor_units)}. Government, domain, insurance, provider, advertising, processing, and professional fees are separate.</p>
             <p><strong>Payment eligibility:</strong> {commercialOrder.payment_eligibility === "PAY_NOW_ELIGIBLE" ? "Eligible after supervised review" : "Payment delayed pending supervised eligibility/disclosure review"}{commercialOrder.eligible_at ? ` until ${new Date(commercialOrder.eligible_at).toLocaleString()}` : ""}.</p>
             <p><strong>Tax:</strong> {commercialOrder.tax_disposition === "manual_review" ? "Manual tax review required before payment" : label(commercialOrder.tax_disposition)}.</p>
+            <p role="status"><strong>First paid pilot:</strong> {paidPilotRelease ? paidPilotRelease.status === "APPROVED_FOR_LIVE_CHARGE" ? "A scoped supervised live-charge release has been recorded; this Build Room still uses test Checkout only." : paidPilotRelease.status === "HOLD" ? "On hold. Live charging is blocked." : paidPilotRelease.status === "READY_FOR_SUPERVISED_PILOT" ? "All blocking reviews are current; a separate operator go/no-go ceremony is still required." : `Not ready. ${paidPilotRelease.blocking_gates_pending.length} blocking reviews remain.` : "Production release status unavailable. Live charging is not inferred."}</p>
             {journey.intake.data.starting_point === "running" ? quote ? <div className={styles.quoteCard} role="status">
               <p><strong>Exact existing-business quote:</strong> {money(quote.upfront.minor_units)} upfront + {money(quote.monthly.minor_units)}/month. Expires {new Date(quote.expires_at).toLocaleString()}. {label(quote.status)}.</p>
               <p>Review the operator scope above before approving. Viewing this quote does not authorize spending.</p>

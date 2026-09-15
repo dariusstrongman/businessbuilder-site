@@ -8,7 +8,7 @@ const ACTION = "founder_action_cleaning_[A-Za-z0-9_-]{1,100}";
 const SUBMISSION = "cleaning_submission_[A-Za-z0-9_-]{1,100}";
 const ALLOWED = [
   /^(me|organizations|memberships|companies|orders|subscriptions|entitlements|pricing)$/,
-  new RegExp(`^orders/${ID}(?:/(?:offer|checkout|quote(?:/approve)?))?$`),
+  new RegExp(`^orders/${ID}(?:/(?:offer|checkout|paid-pilot-release|quote(?:/approve)?))?$`),
   new RegExp(`^companies/${ID}$`),
   new RegExp(`^companies/${ID}/(build-room|founder-actions|readiness)$`),
   new RegExp(`^companies/${ID}/residential-cleaning-pilot(?:/approve)?$`),

@@ -151,6 +151,10 @@ const api = http.createServer(async (req, res) => {
     if (user !== "founder" || url.searchParams.get("company_id") !== companyId) return json(res, 404, { status: "error", error: "not_found" });
     return json(res, 200, { checkout: null });
   }
+  if (["order_existing_1", "order_build_1"].some((id) => url.pathname === `/api/v1/orders/${id}/paid-pilot-release`)) {
+    if (req.method !== "GET" || user !== "founder" || url.searchParams.get("company_id") !== companyId) return json(res, 404, { status: "error", error: "not_found" });
+    return json(res, 200, { paid_pilot_release: { status: "NOT_READY", blocking_gates_pending: ["ftc_business_opportunity_legal", "texas_tax_package_classification", "production_stripe", "production_cognito", "operator_provisioning", "evidence_privacy_retention", "monitoring_alert_ownership", "rollback_migration", "customer_terms_refund_cancellation"], live_charge_allowed: false } });
+  }
   if (url.pathname === "/api/v1/orders/order_build_1" && req.method === "GET") {
     if (!state.approved || user !== "founder" || url.searchParams.get("company_id") !== companyId) return json(res, 404, { status: "error", error: "not_found" });
     return json(res, 200, { order: { order_id: "order_build_1", company_id: companyId, status: state.orderStatus, offer_code: state.offerCode, quote_id: null, payment_eligibility: state.eligible ? "PAY_NOW_ELIGIBLE" : "PAYMENT_DELAY_REQUIRED", eligible_at: null, tax_disposition: state.taxReady ? "non_taxable" : "manual_review", total: { currency: "USD", minor_units: state.offerCode === "new_business_build_run_v1" ? 229400 : 149500 }, items: [{ product_code: "BUILD_BUSINESS", package_name: "Build My Business", billing_mode: "one_time", quantity: 1 }], updated_at: new Date().toISOString(), version: 1 } });
@@ -272,6 +276,9 @@ try {
   if (state.orderCreates !== 1) throw new Error("duplicate order created");
   await page.getByText("Active entitlements: 0").first().waitFor();
   await page.getByText("Payment delayed pending supervised", { exact: false }).waitFor();
+  await page.getByText("Not ready. 9 blocking reviews remain.", { exact: false }).waitFor();
+  const forgedRelease = await page.evaluate((id) => fetch(`/api/product/orders/order_build_1/paid-pilot-release?company_id=${id}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "APPROVED_FOR_LIVE_CHARGE" }) }).then((response) => response.status), companyId);
+  if (![403, 404, 405].includes(forgedRelease)) throw new Error(`founder browser could mutate paid-pilot release status (${forgedRelease})`);
   if (await page.getByRole("button", { name: "Open supervised test-mode checkout" }).count()) throw new Error("delayed payment was exposed as pay-now");
   await page.getByRole("button", { name: "Select Build My Business + Run" }).click();
   await page.getByText("First payment due: $2,294", { exact: false }).waitFor();
