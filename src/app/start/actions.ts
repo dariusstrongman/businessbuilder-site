@@ -7,9 +7,6 @@ export type StartState = {
   message?: string;
   idea?: string;
   packageId?: StartPackageId;
-  /** Echoed back so a validation error does not wipe what was typed. */
-  name?: string;
-  email?: string;
   from?: string;
 };
 
@@ -18,19 +15,22 @@ const packageIds = new Set<string>([...packages.map((p) => p.id), existingStart.
 /**
  * Validates an intake. This is the seam between the marketing site and the product.
  *
- * IT PERSISTS NOTHING AND SENDS NOTHING. There is no database, no mail service and
- * no deploy target configured, so there is nowhere durable to put a submission. The
- * confirmation screen in StartForm says so plainly, and must keep saying so until
- * this function actually writes somewhere that survives the request. Do not restore
- * "your build is opened" copy before that is true.
+ * IT PERSISTS NOTHING AND SENDS NOTHING, so it deliberately does not accept a name
+ * or an email address. There is nowhere durable to put them, and collecting contact
+ * details only to discard them is worse than not collecting them.
+ *
+ * The durable path already exists on the production founder auth branch, which posts
+ * the intake to the backend behind an authenticated session. It needs a live API URL
+ * and Cognito configuration, so it lands with that branch rather than here.
+ *
+ * When it lands: restore the contact fields, restore the confirmation copy, and
+ * delete this note. Not before.
  */
 export async function startBuild(_prev: StartState, form: FormData): Promise<StartState> {
   const idea = String(form.get("idea") ?? "").trim();
-  const name = String(form.get("name") ?? "").trim();
-  const email = String(form.get("email") ?? "").trim();
   const pkg = String(form.get("package") ?? "");
   const from = String(form.get("from") ?? "") || undefined;
-  const echo = { idea, name, email, from, packageId: packageIds.has(pkg) ? (pkg as StartPackageId) : undefined };
+  const echo = { idea, from, packageId: packageIds.has(pkg) ? (pkg as StartPackageId) : undefined };
 
   if (idea.length < 12) {
     return {
@@ -39,16 +39,9 @@ export async function startBuild(_prev: StartState, form: FormData): Promise<Sta
       message: "Tell us a little more about the company. A sentence is enough: what you do and roughly where.",
     };
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return {
-      ...echo,
-      status: "error",
-      message: "That does not look like a working email address.",
-    };
-  }
   if (!echo.packageId) {
     return { ...echo, status: "error", message: "Choose a package to start from. You can change it later." };
   }
 
-  return { status: "received", idea, packageId: echo.packageId, name, email, from };
+  return { status: "received", idea, packageId: echo.packageId, from };
 }

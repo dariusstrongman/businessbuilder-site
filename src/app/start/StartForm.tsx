@@ -199,37 +199,16 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
               </p>
             </fieldset>
 
-            <div className={styles.row}>
-              <div className={styles.field}>
-                <label htmlFor={`${id}-name`} className={styles.label}>
-                  Your name
-                </label>
-                {/* React resets uncontrolled fields after an action, so re-seed from the echoed state. */}
-                <input
-                  key={`name-${state.status}`}
-                  id={`${id}-name`}
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  defaultValue={state.name ?? ""}
-                  className={styles.input}
-                />
-              </div>
-              <div className={styles.field}>
-                <label htmlFor={`${id}-email`} className={styles.label}>
-                  Email
-                </label>
-                <input
-                  key={`email-${state.status}`}
-                  id={`${id}-email`}
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  defaultValue={state.email ?? ""}
-                  className={styles.input}
-                />
-              </div>
-            </div>
+            {/*
+              No name or email field on purpose. Nothing here is persisted or sent yet,
+              and collecting contact details only to discard them is worse than not
+              collecting them. Both fields return with the production auth integration,
+              which posts the intake to the backend behind an authenticated session.
+            */}
+            <p className={styles.hint}>
+              We are not taking contact details yet, because intake is not open. Nothing you enter here is sent or
+              stored.
+            </p>
 
             {state.status === "error" ? (
               <p id={`${id}-error`} className={styles.error} role="alert">
