@@ -65,6 +65,10 @@ It carries the risk summary, the tax findings, the site audit with exact
 replacements, the attorney queue and the launch blockers. The full drafts live in
 this directory.
 
+The one-page decision matrix for the first pilot is published separately at:
+
+https://claude.ai/code/artifact/aa905f4e-0e77-4739-ac67-891ef33913d8
+
 ## Reading order
 
 Start with the risk summary. It is the only document that assumes no prior context.
@@ -97,6 +101,7 @@ Start with the risk summary. It is the only document that assumes no prior conte
 | 23 | [Launch blockers](23-launch-blockers.md) | What must close before the first paid customer |
 | 24 | [Market practice benchmarks](24-market-practice-benchmarks.md) | What comparable businesses actually do, with sources |
 | 25 | [Texas consumer, privacy, UPL and communications](25-texas-consumer-privacy-upl.md) | Statutes and cases, with citations |
+| 26 | [Pilot launch matrix](26-pilot-launch-matrix.md) | One page. Go, hold or counsel, for the first pilot |
 
 ## Relationship to the product
 
