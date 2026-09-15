@@ -1,249 +1,278 @@
 "use client";
 
-import { useActionState, useId, useState } from "react";
+import { useEffect, useId, useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { Container, Eyebrow } from "@/components/primitives/Layout";
 import { Button } from "@/components/primitives/Button";
 import { CheckIcon } from "@/components/primitives/Icons";
 import { packages, type PackageId } from "@/content/packages";
 import { startingPoints, type StartingPointId } from "@/content/startingPoints";
 import { checkoutTruth } from "@/content/founding";
-import { archetypes } from "@/content/archetypes";
 import { phases } from "@/content/journey";
-import { cta, routes } from "@/config/brand";
+import { cta } from "@/config/brand";
+import { ProductApiError, productRequest } from "@/lib/businessBuilder/client";
+import type { ResidentialCleaningJourney } from "@/lib/businessBuilder/types";
 import { cn } from "@/lib/cn";
-import { startBuild, type StartState } from "./actions";
 import styles from "./page.module.css";
 
 type Props = {
   defaultIdea: string;
   defaultPackage: PackageId;
-  /** Set when the visitor arrived from a starting point. */
   defaultFrom?: StartingPointId;
+  productionAuth: boolean;
+  resume?: boolean;
 };
 
-/** The four phases, with one marked as where the founder currently is. */
+const pilotPackages = packages.filter((item) => item.id === "business" || item.id === "run");
+const pilotPrice = {
+  business: "$1,495 founding price",
+  run: "$1,995 upfront + $299/month",
+} as const;
+
 function NextSteps({ current }: { current: number }) {
   return (
     <ol className={styles.next}>
-      {phases.map((p, i) => (
-        <li key={p.id} className={cn(styles.nextItem, i === current && styles.nextCurrent, i < current && styles.nextDone)}>
-          <span className={styles.nextIndex}>{i < current ? <CheckIcon /> : `0${i + 1}`}</span>
-          <span className={styles.nextLabel}>{p.label}</span>
-          <span className={styles.nextText}>{p.summary}</span>
+      {phases.map((phase, index) => (
+        <li
+          key={phase.id}
+          className={cn(styles.nextItem, index === current && styles.nextCurrent, index < current && styles.nextDone)}
+        >
+          <span className={styles.nextIndex}>{index < current ? <CheckIcon /> : `0${index + 1}`}</span>
+          <span className={styles.nextLabel}>{phase.label}</span>
+          <span className={styles.nextText}>{phase.summary}</span>
         </li>
       ))}
     </ol>
   );
 }
 
-export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }: Props) {
+const DRAFT_KEY = "businessbuilder.residential-cleaning-intake.v1";
+
+export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea", productionAuth, resume = false }: Props) {
   const id = useId();
-  const [state, action, pending] = useActionState<StartState, FormData>(startBuild, { status: "idle" });
+  const router = useRouter();
   const [idea, setIdea] = useState(defaultIdea);
-  const [pkg, setPkg] = useState<PackageId>(defaultPackage);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [pkg, setPkg] = useState<"business" | "run">(defaultPackage === "run" ? "run" : "business");
   const [from, setFrom] = useState<StartingPointId>(defaultFrom);
+  const [radius, setRadius] = useState(12);
+  const [weeklyHours, setWeeklyHours] = useState(30);
+  const [budget, setBudget] = useState(2500);
+  const [avoidSundays, setAvoidSundays] = useState(true);
+  const [ownerOperated, setOwnerOperated] = useState(true);
+  const [proof, setProof] = useState("");
+  const [authRequired, setAuthRequired] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
-  if (state.status === "received") {
-    return (
-      <section className={styles.page} aria-labelledby="received-title">
-        <Container>
-          <div className={styles.grid}>
-            <div className={styles.copy}>
-              <Eyebrow>Received</Eyebrow>
-              <h1 id="received-title" className={styles.title}>
-                Your build is opened.
-              </h1>
-              <p className={styles.lead}>
-                We will come back by email with a few questions, then research and a recommendation. Nothing is built
-                until you approve the direction.
-              </p>
-              <dl className={styles.summary}>
-                <div>
-                  <dt>The company</dt>
-                  <dd>{state.idea}</dd>
-                </div>
-                {state.from ? (
-                  <div>
-                    <dt>Starting from</dt>
-                    <dd>{startingPoints.find((p) => p.id === state.from)?.label}</dd>
-                  </div>
-                ) : null}
-                <div>
-                  <dt>Starting package</dt>
-                  <dd>{packages.find((p) => p.id === state.packageId)?.name}</dd>
-                </div>
-                <div>
-                  <dt>Cost so far</dt>
-                  <dd>Nothing. You pay when you approve the direction.</dd>
-                </div>
-              </dl>
-              <Button href={routes.howItWorks} variant="ghost" arrow>
-                What happens at each stage
-              </Button>
-            </div>
+  useEffect(() => {
+    if (!resume) return;
+    const scheduled = window.setTimeout(() => {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || "null") as Record<string, unknown> | null;
+        if (!saved) return;
+        if (typeof saved.idea === "string") setIdea(saved.idea);
+        if (typeof saved.name === "string") setName(saved.name);
+        if (typeof saved.email === "string") setEmail(saved.email);
+        if (typeof saved.companyName === "string") setCompanyName(saved.companyName);
+        if (saved.pkg === "business" || saved.pkg === "run") setPkg(saved.pkg);
+        if (startingPoints.some((item) => item.id === saved.from)) setFrom(saved.from as StartingPointId);
+        if (typeof saved.radius === "number") setRadius(saved.radius);
+        if (typeof saved.weeklyHours === "number") setWeeklyHours(saved.weeklyHours);
+        if (typeof saved.budget === "number") setBudget(saved.budget);
+        if (typeof saved.avoidSundays === "boolean") setAvoidSundays(saved.avoidSundays);
+        if (typeof saved.ownerOperated === "boolean") setOwnerOperated(saved.ownerOperated);
+        setMessage("Your intake draft was restored. Review it, then open the persisted build.");
+      } catch { sessionStorage.removeItem(DRAFT_KEY); }
+    }, 0);
+    return () => window.clearTimeout(scheduled);
+  }, [resume]);
 
-            <aside className={styles.received} aria-label="Where your build is">
-              <span className={styles.receivedMark} aria-hidden>
-                <CheckIcon />
-              </span>
-              <p className={styles.receivedNote}>
-                Your build sits at the first phase. You will see the Build Room as soon as the direction is approved.
-              </p>
-              <NextSteps current={0} />
-            </aside>
-          </div>
-        </Container>
-      </section>
-    );
-  }
+  const startJourney = async () => {
+    if (idea.trim().length < 12 || !name.trim() || !companyName.trim()) {
+      setMessage("Add your name, a company working name, and a sentence describing the company.");
+      return;
+    }
+    if (!productionAuth && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setMessage("Enter the email address attached to your founder session.");
+      return;
+    }
+    setPending(true);
+    setMessage(null);
+    try {
+      const result = await productRequest<{ journey: ResidentialCleaningJourney }>("journey/start", {
+        method: "POST",
+        body: JSON.stringify({
+          intake: {
+            starting_point: from,
+            idea: idea.trim(),
+            founder_display_name: name.trim(),
+            organization_name: `${companyName.trim()} Organization`,
+            company_name: companyName.trim(),
+            country: "US",
+            region: "TX",
+            locality: "Denton",
+            service_radius_miles: radius,
+            weekly_hours: weeklyHours,
+            startup_budget_minor: Math.round(budget * 100),
+            working_preferences: {
+              avoid_sundays: avoidSundays,
+              owner_operated_at_launch: ownerOperated,
+              requested_package: pkg,
+            },
+          },
+        }),
+      });
+      sessionStorage.removeItem(DRAFT_KEY);
+      router.push(`/build-room/${encodeURIComponent(result.journey.company.company_id)}`);
+    } catch (error) {
+      if (error instanceof ProductApiError && error.status === 401) {
+        if (productionAuth) {
+          sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ idea, name, email, companyName, pkg, from, radius, weeklyHours, budget, avoidSundays, ownerOperated }));
+          router.push("/login?next=/start?resume=1");
+          return;
+        }
+        setAuthRequired(true);
+        setMessage("Your intake is still here. Authenticate to open the persisted build.");
+      } else {
+        setMessage(error instanceof ProductApiError ? error.message : "The build could not be opened. Retrying is safe.");
+      }
+    } finally {
+      setPending(false);
+    }
+  };
+
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void startJourney();
+  };
+
+  const authenticate = async () => {
+    setPending(true);
+    setMessage(null);
+    try {
+      await productRequest<{ authenticated: true }>("session", {
+        method: "POST",
+        body: JSON.stringify({ email, proof }),
+      });
+      setAuthRequired(false);
+      await startJourney();
+    } catch (error) {
+      setMessage(error instanceof ProductApiError ? error.message : "Authentication could not be completed.");
+      setPending(false);
+    }
+  };
 
   return (
     <section className={styles.page} aria-labelledby="start-title">
       <Container>
         <div className={styles.grid}>
           <div className={styles.copy}>
-            <Eyebrow>Start a build</Eyebrow>
-            <h1 id="start-title" className={styles.title}>
-              Describe the company you want.
-            </h1>
+            <Eyebrow>Residential cleaning pilot</Eyebrow>
+            <h1 id="start-title" className={styles.title}>Describe the company you want.</h1>
             <p className={styles.lead}>
-              A sentence is enough. We will ask a few questions, research the market, and come back with a
-              recommendation you can approve or change. {cta.reassurance}
+              This focused pilot supports residential cleaning in Denton, Texas. We persist your starting point,
+              research the bounded market, and ask you to approve the exact recommendation. {cta.reassurance}
             </p>
             <NextSteps current={0} />
           </div>
 
-          {/* Validation runs in the server action so the error is designed and announced, not a browser tooltip. */}
-          <form
-            action={action}
-            noValidate
-            className={styles.form}
-            aria-describedby={state.status === "error" ? `${id}-error` : undefined}
-          >
-
-            <fieldset className={styles.fieldset}>
+          <form onSubmit={submit} noValidate className={styles.form} aria-describedby={message ? `${id}-status` : undefined}>
+            <fieldset className={styles.fieldset} disabled={pending}>
               <legend className={styles.label}>Where are you starting from?</legend>
               <div className={styles.packages}>
-                {startingPoints.map((p) => (
-                  <label key={p.id} className={cn(styles.package, from === p.id && styles.packageActive)}>
-                    <input
-                      type="radio"
-                      name="from"
-                      value={p.id}
-                      checked={from === p.id}
-                      onChange={() => setFrom(p.id)}
-                      className={styles.radio}
-                    />
-                    <span className={styles.packageName}>{p.label}</span>
-                    <span className={styles.packageModel}>{p.audits ? "Starts with an audit" : "Starts with research"}</span>
+                {startingPoints.map((point) => (
+                  <label key={point.id} className={cn(styles.package, from === point.id && styles.packageActive)}>
+                    <input type="radio" name="from" value={point.id} checked={from === point.id} onChange={() => setFrom(point.id)} className={styles.radio} />
+                    <span className={styles.packageName}>{point.label}</span>
+                    <span className={styles.packageModel}>{point.audits ? "Records an audit starting point" : "Starts with cited research"}</span>
                   </label>
                 ))}
               </div>
-              <p className={styles.hint}>
-                This changes what happens next. If you already trade, we inventory what you have before we change
-                anything.
-              </p>
+              <p className={styles.hint}>This selection is saved with the Company Brain intake. It grants no authority.</p>
             </fieldset>
 
             <div className={styles.field}>
-              <label htmlFor={`${id}-idea`} className={styles.label}>
-                The company, in your words
-              </label>
-              <textarea
-                id={`${id}-idea`}
-                name="idea"
-                rows={3}
-                className={styles.textarea}
-                value={idea}
-                onChange={(e) => setIdea(e.target.value)}
-                placeholder={archetypes[1].examplePrompt}
-              />
-              <ul className={styles.chips} aria-label="Start from a business type">
-                {archetypes.map((a) => (
-                  <li key={a.slug}>
-                    <button type="button" className={styles.chip} onClick={() => setIdea(a.examplePrompt)}>
-                      {a.short}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              <label htmlFor={`${id}-idea`} className={styles.label}>The company, in your words</label>
+              <textarea id={`${id}-idea`} name="idea" rows={4} className={styles.textarea} value={idea} onChange={(event) => setIdea(event.target.value)} placeholder="A reliable residential cleaning company for busy Denton households." />
             </div>
-
-            <fieldset className={styles.fieldset}>
-              <legend className={styles.label}>Start from</legend>
-              <div className={styles.packages}>
-                {packages.map((p) => (
-                  <label key={p.id} className={cn(styles.package, pkg === p.id && styles.packageActive)}>
-                    <input
-                      type="radio"
-                      name="package"
-                      value={p.id}
-                      checked={pkg === p.id}
-                      onChange={() => setPkg(p.id)}
-                      className={styles.radio}
-                    />
-                    <span className={styles.packageName}>{p.name}</span>
-                    {/* The price belongs next to the choice. Naming only the pricing
-                        model here made the visitor leave to find out what it costs. */}
-                    <span className={styles.packageModel}>
-                      <span className={styles.packagePrice}>{p.price}</span>
-                      <span className={styles.packageSep} aria-hidden>
-                        {" · "}
-                      </span>
-                      {p.model}
-                    </span>
-                  </label>
-                ))}
-              </div>
-              <p className={styles.hint}>
-                You can change this after the recommendation. Every package contains the one before it.
-              </p>
-            </fieldset>
 
             <div className={styles.row}>
               <div className={styles.field}>
-                <label htmlFor={`${id}-name`} className={styles.label}>
-                  Your name
-                </label>
-                {/* React resets uncontrolled fields after an action, so re-seed from the echoed state. */}
-                <input
-                  key={`name-${state.status}`}
-                  id={`${id}-name`}
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  defaultValue={state.name ?? ""}
-                  className={styles.input}
-                />
+                <label htmlFor={`${id}-name`} className={styles.label}>Your name</label>
+                <input id={`${id}-name`} value={name} onChange={(event) => setName(event.target.value)} autoComplete="name" className={styles.input} />
+              </div>
+              {!productionAuth ? <div className={styles.field}>
+                <label htmlFor={`${id}-email`} className={styles.label}>Founder account email</label>
+                <input id={`${id}-email`} value={email} onChange={(event) => setEmail(event.target.value)} type="email" autoComplete="email" className={styles.input} />
+              </div> : <p className={styles.hint}>Your verified provider identity will be attached server-side. This form cannot choose tenant, company, or role authority.</p>}
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor={`${id}-company`} className={styles.label}>Working company name</label>
+              <input id={`${id}-company`} value={companyName} onChange={(event) => setCompanyName(event.target.value)} className={styles.input} />
+              <p className={styles.hint}>A working name, not a legal-name claim. Naming and registration checks remain Founder Actions.</p>
+            </div>
+
+            <div className={styles.row}>
+              <div className={styles.field}>
+                <label htmlFor={`${id}-radius`} className={styles.label}>Denton service radius · miles</label>
+                <input id={`${id}-radius`} type="number" min={1} max={25} value={radius} onChange={(event) => setRadius(Number(event.target.value))} className={styles.input} />
               </div>
               <div className={styles.field}>
-                <label htmlFor={`${id}-email`} className={styles.label}>
-                  Email
-                </label>
-                <input
-                  key={`email-${state.status}`}
-                  id={`${id}-email`}
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  defaultValue={state.email ?? ""}
-                  className={styles.input}
-                />
+                <label htmlFor={`${id}-hours`} className={styles.label}>Founder hours per week</label>
+                <input id={`${id}-hours`} type="number" min={1} max={80} value={weeklyHours} onChange={(event) => setWeeklyHours(Number(event.target.value))} className={styles.input} />
               </div>
             </div>
 
-            {state.status === "error" ? (
-              <p id={`${id}-error`} className={styles.error} role="alert">
-                {state.message}
-              </p>
-            ) : null}
-
-            <div className={styles.actions}>
-              <Button type="submit" size="lg" arrow disabled={pending}>
-                {pending ? "Opening your build…" : "Open my build"}
-              </Button>
-              <p className={styles.hint}>{checkoutTruth}</p>
+            <div className={styles.field}>
+              <label htmlFor={`${id}-budget`} className={styles.label}>Available startup budget · USD</label>
+              <input id={`${id}-budget`} type="number" min={0} max={100000} step={50} value={budget} onChange={(event) => setBudget(Number(event.target.value))} className={styles.input} />
+              <p className={styles.hint}>Planning input only. This does not authorize spending or move money.</p>
             </div>
+
+            <fieldset className={styles.fieldset}>
+              <legend className={styles.label}>Working preferences</legend>
+              <label className={styles.check}><input type="checkbox" checked={ownerOperated} onChange={(event) => setOwnerOperated(event.target.checked)} /> Owner-operated at launch</label>
+              <label className={styles.check}><input type="checkbox" checked={avoidSundays} onChange={(event) => setAvoidSundays(event.target.checked)} /> Avoid Sunday scheduling</label>
+            </fieldset>
+
+            <fieldset className={styles.fieldset} disabled={pending}>
+              <legend className={styles.label}>Starting package</legend>
+              <div className={styles.packages}>
+                {pilotPackages.map((item) => (
+                  <label key={item.id} className={cn(styles.package, pkg === item.id && styles.packageActive)}>
+                    <input type="radio" name="package" value={item.id} checked={pkg === item.id} onChange={() => setPkg(item.id as "business" | "run")} className={styles.radio} />
+                    <span className={styles.packageName}>{item.name}</span>
+                    <span className={styles.packageModel}>{pilotPrice[item.id as "business" | "run"]}</span>
+                  </label>
+                ))}
+              </div>
+              <p className={styles.hint}>This proof creates only the pending Build My Business order. Build & Run remains inactive until authoritative checkout.</p>
+            </fieldset>
+
+            {message ? <p id={`${id}-status`} className={styles.error} role="alert">{message}</p> : null}
+
+            {authRequired && !productionAuth ? (
+              <div className={styles.authPanel}>
+                <div>
+                  <p className={styles.authTitle}>Authenticate before we persist the build</p>
+                  <p className={styles.hint}>The configured provider-neutral session adapter supplies identity. Tenant, company, and role remain server-derived.</p>
+                </div>
+                <div className={styles.field}>
+                  <label htmlFor={`${id}-proof`} className={styles.label}>Pilot access code</label>
+                  <input id={`${id}-proof`} type="password" autoComplete="current-password" value={proof} onChange={(event) => setProof(event.target.value)} className={styles.input} />
+                </div>
+                <Button type="button" onClick={() => void authenticate()} disabled={pending}>Authenticate and open build</Button>
+              </div>
+            ) : (
+              <div className={styles.actions}>
+                <Button type="submit" size="lg" arrow disabled={pending}>{pending ? "Opening your build…" : "Open my build"}</Button>
+                <p className={styles.hint}>{checkoutTruth}</p>
+              </div>
+            )}
           </form>
         </div>
       </Container>

@@ -21,6 +21,7 @@ const routes = [
   "/about",
   "/start",
   "/login",
+  "/build-room",
 ];
 
 const base = process.env.SHOOT_BASE ?? "http://localhost:3100";

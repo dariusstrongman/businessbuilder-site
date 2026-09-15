@@ -243,6 +243,40 @@
   line-height: 1.5;
 }
 
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 2.75rem;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  color: var(--fg-2);
+  font-size: var(--text-small);
+}
+
+.check input {
+  width: 1.5rem;
+  height: 1.5rem;
+  accent-color: var(--founder);
+}
+
+.authPanel {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-4);
+  border: 1px solid color-mix(in srgb, var(--founder) 45%, var(--line));
+  border-radius: var(--r-3);
+  background: var(--founder-soft);
+}
+
+.authTitle {
+  margin-bottom: var(--s-1);
+  font-size: var(--text-small);
+  font-weight: 500;
+  color: var(--fg);
+}
+
 .row {
   display: grid;
   grid-template-columns: 1fr;
