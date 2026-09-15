@@ -196,7 +196,7 @@ export type BuildRoomProjection = {
   approvals: Array<{ approval_id: string; title: string; summary: string; state: string; required_approver_role: string }>;
   founder_actions: FounderAction[];
   handoff: { state: string; authority: string; verification_id: string | null };
-  commercial?: null | { authority: "commercial"; orders: Array<{ order_id: string; status: string; offer_code: string | null; payment_eligibility: string }>; active_entitlements: number };
+  commercial?: null | { authority: "commercial"; orders: Array<{ order_id: string; status: string; offer_code: string | null; payment_eligibility: string }>; subscriptions: Array<{ subscription_id: string; order_id: string; status: string; renewal_state: string; period_ends_at: string | null }>; active_entitlements: number };
 };
 
 export type SessionStatus = {

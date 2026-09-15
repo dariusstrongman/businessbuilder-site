@@ -414,7 +414,7 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
 
         <section id="build" className={styles.section} aria-labelledby="build-title">
           <div className={styles.sectionHeading}><div><Eyebrow>Real projection</Eyebrow><h2 id="build-title">Build Room.</h2></div><span className={styles.status}>{room.summary.progress_percent}% verified work</span></div>
-          {room.commercial?.orders.length ? <p className={styles.notice}>Commercial projection: {room.commercial.orders.map((item) => `${item.order_id} ${label(item.status)}`).join(" · ")}. Active entitlements: {room.commercial.active_entitlements}. Payment status does not count as Verified work.</p> : null}
+          {room.commercial?.orders.length ? <p className={styles.notice}>Commercial projection: {room.commercial.orders.map((item) => `${item.order_id} ${label(item.status)}`).join(" · ")}. Active entitlements: {room.commercial.active_entitlements}. {room.commercial.subscriptions?.length ? `Recurring service: ${room.commercial.subscriptions.map((item) => `${label(item.status)} (${label(item.renewal_state)})`).join(" · ")}. ` : ""}Payment status does not count as Verified work.</p> : null}
           <div
             className={styles.meter}
             role="progressbar"
