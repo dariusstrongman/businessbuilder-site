@@ -13,6 +13,7 @@
     "perf": "node scripts/perf.mjs",
     "keyboard": "node scripts/keyboard.mjs",
     "integration": "node scripts/flagship-integration.mjs",
+    "auth:integration": "node scripts/production-auth-integration.mjs",
     "verify": "npm run typecheck && npm run lint && npm run a11y && npm run keyboard"
   },
   "dependencies": {

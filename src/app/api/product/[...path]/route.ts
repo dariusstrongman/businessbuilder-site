@@ -1,4 +1,5 @@
 import { authenticatedBackendFetch, passthrough } from "@/lib/businessBuilder/server";
+import { sameOriginMutation } from "@/lib/businessBuilder/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,7 @@ function permitted(path: string): boolean {
 }
 
 async function forward(request: Request, context: { params: Promise<{ path: string[] }> }, method: "GET" | "POST") {
+  if (method === "POST" && !sameOriginMutation(request)) return Response.json({ status: "error", error: "forbidden" }, { status: 403 });
   const { path: parts } = await context.params;
   const path = parts.join("/");
   if (!permitted(path)) return Response.json({ status: "error", error: "not_found" }, { status: 404 });

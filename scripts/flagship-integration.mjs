@@ -168,7 +168,7 @@ try {
   await page.getByLabel("The company, in your words").fill("A reliable residential cleaning company for busy Denton households.");
   await page.getByLabel("I've started setting things up").check();
   await page.getByRole("button", { name: "Open my build" }).click();
-  await page.getByText("Authenticate before we persist the build").waitFor();
+  await page.waitForTimeout(1000); const startText = await page.locator("body").innerText(); if (!startText.includes("Authenticate before we persist the build")) throw new Error(`test auth prompt missing: ${startText}`);
   await page.getByLabel("Pilot access code").fill("founder-proof");
   await page.getByRole("button", { name: "Authenticate and open build" }).click();
   await page.waitForURL(`**/build-room/${companyId}`);
@@ -218,8 +218,8 @@ try {
   const operatorPage = await operator.newPage();
   await operatorPage.goto(`${siteBase}/login?next=/operator/reviews/${companyId}`);
   await operatorPage.getByLabel("Email").fill("operator@example.test");
-  await operatorPage.getByLabel("Session proof").fill("operator-proof");
-  await operatorPage.getByRole("button", { name: "Log in" }).click();
+  await operatorPage.getByLabel("Test session proof").fill("operator-proof");
+  await operatorPage.getByRole("button", { name: "Open test session" }).click();
   await operatorPage.waitForURL(`**/operator/reviews/${companyId}`);
   await operatorPage.getByText("Operator evidence review").waitFor();
   await operatorPage.getByRole("group", { name: "Evidence in this decision" }).getByRole("checkbox").check();

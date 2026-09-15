@@ -1,8 +1,10 @@
 import { authenticatedBackendFetch, passthrough, stableIntakeKey } from "@/lib/businessBuilder/server";
+import { sameOriginMutation } from "@/lib/businessBuilder/auth";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
+  if (!sameOriginMutation(request)) return Response.json({ status: "error", error: "forbidden" }, { status: 403 });
   const raw = await request.text();
   if (raw.length > 32_000) {
     return Response.json({ status: "error", error: "request_too_large" }, { status: 413 });

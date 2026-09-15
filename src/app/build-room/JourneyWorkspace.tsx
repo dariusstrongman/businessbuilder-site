@@ -13,6 +13,7 @@ import type {
   SessionStatus,
 } from "@/lib/businessBuilder/types";
 import styles from "./journey.module.css";
+import { SessionActions } from "./SessionActions";
 
 type LoadState = "loading" | "ready" | "unauthenticated" | "unauthorized" | "error";
 type Notice = { tone: "info" | "error" | "success"; text: string } | null;
@@ -129,6 +130,7 @@ export function JourneyWorkspace({ companyId, operatorMode = false }: { companyI
             <span>Company Brain · {journey.company.lifecycle}</span>
             <span>Runtime · {journey.scope_commit.job_status}</span>
             <span>Verification · {journey.verification.ready ? "Ready" : "Not Ready"}</span>
+            <SessionActions />
           </div>
         </header>
 

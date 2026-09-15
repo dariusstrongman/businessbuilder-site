@@ -12,15 +12,26 @@ export class ProductApiError extends Error {
 }
 
 export async function productRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const response = await fetch(`/api/product/${path.replace(/^\/+/, "")}`, {
+  const target = `/api/product/${path.replace(/^\/+/, "")}`;
+  let response = await fetch(target, {
     ...init,
     cache: "no-store",
+    credentials: "same-origin",
     headers: {
       Accept: "application/json",
       ...(init.body ? { "Content-Type": "application/json" } : {}),
       ...init.headers,
     },
   });
+  if (response.status === 401 && path !== "session") {
+    const refreshed = await fetch("/api/auth/refresh", { method: "POST", credentials: "same-origin", cache: "no-store" });
+    if (refreshed.ok) response = await fetch(target, {
+      ...init,
+      cache: "no-store",
+      credentials: "same-origin",
+      headers: { Accept: "application/json", ...(init.body ? { "Content-Type": "application/json" } : {}), ...init.headers },
+    });
+  }
   const value = (await response.json().catch(() => ({
     status: "error",
     error: "invalid_backend_response",

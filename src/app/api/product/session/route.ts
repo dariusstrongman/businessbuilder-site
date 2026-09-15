@@ -6,6 +6,7 @@ import {
   safeEqual,
   SUPPORT_SESSION_COOKIE,
 } from "@/lib/businessBuilder/server";
+import { sameOriginMutation } from "@/lib/businessBuilder/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -56,6 +57,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!sameOriginMutation(request)) return Response.json({ status: "error", error: "forbidden" }, { status: 403 });
   if (process.env.NODE_ENV === "production" || process.env.BUSINESS_BUILDER_TEST_AUTH_MODE !== "enabled") {
     return unavailable();
   }
@@ -136,7 +138,8 @@ export async function POST(request: Request) {
   }
 }
 
-export async function DELETE() {
+export async function DELETE(request: Request) {
+  if (!sameOriginMutation(request)) return Response.json({ status: "error", error: "forbidden" }, { status: 403 });
   const jar = await cookies();
   jar.delete(CUSTOMER_SESSION_COOKIE);
   jar.delete(SUPPORT_SESSION_COOKIE);

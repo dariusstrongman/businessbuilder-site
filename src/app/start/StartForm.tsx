@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, type FormEvent } from "react";
+import { useEffect, useId, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Container, Eyebrow } from "@/components/primitives/Layout";
 import { Button } from "@/components/primitives/Button";
@@ -19,6 +19,8 @@ type Props = {
   defaultIdea: string;
   defaultPackage: PackageId;
   defaultFrom?: StartingPointId;
+  productionAuth: boolean;
+  resume?: boolean;
 };
 
 const pilotPackages = packages.filter((item) => item.id === "business" || item.id === "run");
@@ -44,7 +46,9 @@ function NextSteps({ current }: { current: number }) {
   );
 }
 
-export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }: Props) {
+const DRAFT_KEY = "businessbuilder.residential-cleaning-intake.v1";
+
+export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea", productionAuth, resume = false }: Props) {
   const id = useId();
   const router = useRouter();
   const [idea, setIdea] = useState(defaultIdea);
@@ -63,12 +67,35 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!resume) return;
+    const scheduled = window.setTimeout(() => {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || "null") as Record<string, unknown> | null;
+        if (!saved) return;
+        if (typeof saved.idea === "string") setIdea(saved.idea);
+        if (typeof saved.name === "string") setName(saved.name);
+        if (typeof saved.email === "string") setEmail(saved.email);
+        if (typeof saved.companyName === "string") setCompanyName(saved.companyName);
+        if (saved.pkg === "business" || saved.pkg === "run") setPkg(saved.pkg);
+        if (startingPoints.some((item) => item.id === saved.from)) setFrom(saved.from as StartingPointId);
+        if (typeof saved.radius === "number") setRadius(saved.radius);
+        if (typeof saved.weeklyHours === "number") setWeeklyHours(saved.weeklyHours);
+        if (typeof saved.budget === "number") setBudget(saved.budget);
+        if (typeof saved.avoidSundays === "boolean") setAvoidSundays(saved.avoidSundays);
+        if (typeof saved.ownerOperated === "boolean") setOwnerOperated(saved.ownerOperated);
+        setMessage("Your intake draft was restored. Review it, then open the persisted build.");
+      } catch { sessionStorage.removeItem(DRAFT_KEY); }
+    }, 0);
+    return () => window.clearTimeout(scheduled);
+  }, [resume]);
+
   const startJourney = async () => {
     if (idea.trim().length < 12 || !name.trim() || !companyName.trim()) {
       setMessage("Add your name, a company working name, and a sentence describing the company.");
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!productionAuth && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setMessage("Enter the email address attached to your founder session.");
       return;
     }
@@ -98,9 +125,15 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
           },
         }),
       });
+      sessionStorage.removeItem(DRAFT_KEY);
       router.push(`/build-room/${encodeURIComponent(result.journey.company.company_id)}`);
     } catch (error) {
       if (error instanceof ProductApiError && error.status === 401) {
+        if (productionAuth) {
+          sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ idea, name, email, companyName, pkg, from, radius, weeklyHours, budget, avoidSundays, ownerOperated }));
+          router.push("/login?next=/start?resume=1");
+          return;
+        }
         setAuthRequired(true);
         setMessage("Your intake is still here. Authenticate to open the persisted build.");
       } else {
@@ -171,10 +204,10 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
                 <label htmlFor={`${id}-name`} className={styles.label}>Your name</label>
                 <input id={`${id}-name`} value={name} onChange={(event) => setName(event.target.value)} autoComplete="name" className={styles.input} />
               </div>
-              <div className={styles.field}>
+              {!productionAuth ? <div className={styles.field}>
                 <label htmlFor={`${id}-email`} className={styles.label}>Founder account email</label>
                 <input id={`${id}-email`} value={email} onChange={(event) => setEmail(event.target.value)} type="email" autoComplete="email" className={styles.input} />
-              </div>
+              </div> : <p className={styles.hint}>Your verified provider identity will be attached server-side. This form cannot choose tenant, company, or role authority.</p>}
             </div>
 
             <div className={styles.field}>
@@ -222,7 +255,7 @@ export function StartForm({ defaultIdea, defaultPackage, defaultFrom = "idea" }:
 
             {message ? <p id={`${id}-status`} className={styles.error} role="alert">{message}</p> : null}
 
-            {authRequired ? (
+            {authRequired && !productionAuth ? (
               <div className={styles.authPanel}>
                 <div>
                   <p className={styles.authTitle}>Authenticate before we persist the build</p>

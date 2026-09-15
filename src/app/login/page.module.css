@@ -88,3 +88,7 @@
   font-size: var(--text-xs);
   line-height: 1.5;
 }
+
+.recovery { color: var(--fg); font-size: var(--text-small); text-decoration: underline; text-underline-offset: 0.2em; }
+.success { padding: var(--s-3); border-left: 3px solid #246b45; background: color-mix(in srgb, #246b45 8%, transparent); font-size: var(--text-small); }
+.testBadge { width: fit-content; padding: 0.2rem 0.45rem; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--fg-3); font-family: var(--font-mono); font-size: var(--text-mono-xs); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; }
