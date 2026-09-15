@@ -183,7 +183,32 @@ determination rather than an assumption, and the site copy that drifts toward ea
 and customer-acquisition claims should be corrected either way.
 
 **To close:** counsel determines applicability. See
-[04-service-terms-business.md](04-service-terms-business.md).
+[04-service-terms-business.md](04-service-terms-business.md) and
+[25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md).
+
+Research has since sharpened this considerably. **The federal rule requires no earnings
+claim at all** — the customer-provision prong stands alone, and extends to "otherwise
+assisting the purchaser in obtaining his or her own customers". The disclosure must be
+delivered **seven calendar days before the buyer signs or pays**, which is incompatible
+with same-day checkout. A Texas statute adds a separate test needing both a profit
+representation and a marketing program, with a filing before advertising and a $25,000
+bond. And an enforcement action settled in March 2026 against an AI company selling to
+small businesses ended in a permanent ban on marketing business opportunities.
+
+## Blocker 8b, where the pilot agreement gets signed
+
+**Severity: high, and trivially avoidable.**
+
+A Texas statute gives a three-business-day cancellation right for consumer transactions
+over $25 solicited and signed **away from the merchant's own place of business**. It
+requires a boldface notice adjacent to the signature line and a detachable duplicate
+form. **A non-compliant contract is void**, and non-compliance is a per se deceptive
+practices violation.
+
+The pilot customer will most naturally be signed at their own premises. That triggers it.
+
+**To close:** sign at a fixed business location, which is exempt, or comply.
+
 
 ## Blocker 9, the company has no published identity
 

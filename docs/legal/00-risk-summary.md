@@ -10,12 +10,15 @@ contract behind it. The site makes many customer-favourable promises, has no ter
 to balance them, and states three things that are not true. Research also turned up
 a tax obligation that changes the pricing, not just the paperwork.
 
-None of this is unusual for a company at this stage. All of it has to be closed
-before a real customer pays.
+Two further rules reach the offer itself, and both attach before the sale rather than
+after it, so neither can be repaired later.
+
+None of this is unusual for a company at this stage. All of it has to be closed before
+a real customer pays.
 
 ---
 
-## The five risks that matter
+## The seven risks that matter
 
 ### 1. The site is the contract, and it only has one side
 
@@ -110,6 +113,58 @@ is worth nothing against harm of that kind.
 **Mitigation:** document 07, and it should be the last thing signed rather than the
 first.
 
+### 6. Two business-opportunity rules, and neither can be fixed later
+
+**Likelihood: unknown. Impact: high. Urgency: highest in the package.**
+
+A federal rule reaches a service that solicits someone into a **new business**, takes a
+required payment with **no dollar floor**, and represents that it will provide customers
+for them, including "otherwise assisting the purchaser in obtaining his or her own
+customers". **No earnings claim is required.** Lead capture, listings, local presence
+and an AI worker whose job is handling enquiries all sit close to that line.
+
+Where it applies, the disclosure must be delivered **seven calendar days before the
+buyer signs or pays**, which is incompatible with same-day checkout.
+
+A Texas statute reaches a sale over $500 used to begin a business where the seller
+represents **both** a likely profit **and** a marketing program. The second element is
+satisfied outright. The first is entirely controllable and the site currently does not
+trip it. If both trip: a filing with the Secretary of State before advertising, a
+$25,000 bond, and per se deceptive-practices liability.
+
+An enforcement action settled in March 2026 against an AI company selling to small
+businesses ended in an $18 million judgment and a **permanent ban on marketing business
+opportunities**.
+
+**Mitigation:** [04-service-terms-business.md](04-service-terms-business.md) and
+[25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md), sections 1 and 2.
+
+### 7. The deceptive practices statute cannot be contracted around
+
+**Likelihood: certain. Impact: shapes every other document.**
+
+Three findings, and together they remove options that a standard technology contract
+assumes.
+
+The pilot customer **is** a consumer. The exclusion applies only to a business with
+assets of $25 million or more. Business-to-business is not an escape.
+
+**A waiver is not available.** The single route requires the consumer to be
+**represented by legal counsel**, with counsel not suggested by the provider. The
+large-transaction exemptions sit at $100,000 and $500,000, against offers of $795 to
+$1,995.
+
+**Attorney's fees are mandatory and one-way**, treble damages are available on a
+finding of knowing conduct, and "knowing" may be inferred from objective
+manifestations.
+
+And one provision reframes the drafting exercise entirely: it is a violation to
+represent that an agreement confers rights or obligations "which it does not have or
+involve, **or which are prohibited by law**." **An unenforceable clause is itself a
+potential violation.**
+
+**Mitigation:** [17-liability-warranty-framework.md](17-liability-warranty-framework.md).
+
 ---
 
 ## Risk register
@@ -131,6 +186,11 @@ first.
 | 13 | No fair use policy, as promised | Medium | Medium | 15 |
 | 14 | Credential handling unverified | Medium | High | 13 |
 | 15 | No published entity or contact | Certain | Low | 01 |
+| 16 | **Business opportunity rules, federal and Texas** | Unknown | High | 04, 25 |
+| 17 | Link-only terms acceptance, unenforceable in a dispute | Certain | Medium | 09, 24 |
+| 18 | **Three-day cancellation law, if the pilot is signed on site** | High | High | 07, 25 |
+| 19 | Unauthorised practice of law, entity selection specifically | Medium | High | 04, 25 |
+| 20 | Telephone and messaging stack, if voice or SMS is enabled | Low today | High | 14, 25 |
 
 ### Two that deserve a note
 
@@ -187,6 +247,9 @@ Four things, none of which need a lawyer.
 2. Publish the legal entity name, an address and a contact method.
 3. Book a Texas CPA for the tax determination.
 4. Book a broker conversation about errors and omissions and cyber cover.
+5. Decide where the pilot agreement gets signed. Signing at the customer's own premises
+   triggers a three-day cancellation statute whose notice requirements, if missed, make
+   the contract **void**. Signing at a fixed business location avoids it entirely.
 
 Then document 21 for counsel, and document 23 for the sequence.
 

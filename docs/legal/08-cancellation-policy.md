@@ -124,6 +124,15 @@ acceptance and not pre-checked, with consent records retained. Bundling is
 non-compliant in the largest US market, and it simultaneously weakens the chargeback
 evidence, because the issuer sees consent to "terms" rather than to recurring billing.
 
+**Texas has no auto-renewal statute**, confirmed two independent ways. The
+"six months or more" language circulating in secondary sources is failed bill text from
+2009 and 2011. What applies instead is the deceptive practices statute, which reaches
+business customers with mandatory one-way attorney's fees.
+
+**The binding design constraints are the federal statute and the California
+auto-renewal law, not Texas law.** See
+[25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md), section 9.
+
 `[COUNSEL]` Confirm which state auto-renewal statutes reach this business. The answer
 depends on where customers are, not only where Business Builder is.
 

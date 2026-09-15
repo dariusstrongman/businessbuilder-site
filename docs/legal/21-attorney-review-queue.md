@@ -79,6 +79,22 @@ first because they affect pricing, which affects everything downstream.
 18d. Whether a state-specific rider is needed. At least one state disqualifies its
     safe harbour for non-lawyer document services where the contract carries a
     liability cap or an out-of-state forum clause.
+18e. **The Texas Business Opportunity Act.** Both elements, and confirmation that no
+    profit representation exists anywhere. The filing obligation attaches **before
+    advertising**.
+18f. **The seven-day federal disclosure rule**, and whether same-day checkout is
+    available to this offer at all.
+18g. The Franchise Rule's trademark element, and confirmation that customers never
+    hold out as associated with a Business Builder mark.
+18h. **The three-day cancellation statute.** Where the pilot agreement is signed. A
+    non-compliant contract is **void**.
+18i. Entity selection specifically. The safe harbour covers designing, creating,
+    publishing, distributing, displaying and selling. It does not cover selecting,
+    customising, applying or advising.
+18j. The S-corporation election question, which sits at the intersection of Texas UPL
+    and federal practice before the IRS.
+18k. Whether a notary is or will be on staff, which triggers a separate Texas criminal
+    provision on accepting compensation to obtain relief from a government agency.
 
 ---
 
@@ -98,6 +114,22 @@ items was commissioned and its findings should be read alongside.
     conspicuousness?
 25. Is a limitation of liability that would be enforceable elsewhere unenforceable
     here, such that attempting it is worse than not?
+
+**Most of this group is now answered.** See
+[25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md), section 4. The
+pilot customer is a consumer, a waiver is unavailable at these prices, fees are
+mandatory and one-way, and an unenforceable clause is itself a potential violation.
+What remains open:
+
+25a. Whether an **LLC** is a consumer under the statutory definition. Unresolved, no
+    controlling opinion.
+25b. Whether the professional services exemption covers AI- or software-delivered
+    output. No controlling authority, and the statute does not define the term.
+25c. **Build the process around the two procedural controls**: the complete bar
+    available by tendering damages plus fees within 30 days of a pre-suit notice, and
+    the settlement offer that caps recovery. Both run on short clocks.
+25d. Confirm every disclaimer uses genuinely contrasting typeface, size or colour, and
+    that any non-reliance clause is negotiated rather than boilerplate.
 
 ---
 
@@ -125,6 +157,18 @@ items was commissioned and its findings should be read alongside.
 37. Confirm the legal hold trigger and who can issue one.
 38. Confirm confidentiality obligations exist in writing for every person and
     contractor with access.
+
+**Most of this group is now answered.** The Texas statute almost certainly does not
+apply, because of the federal small-business size standards and the absence of a
+consumer-count threshold. The cure period does not sunset. There is no private right of
+action. One obligation survives the exemption: **no sale of sensitive personal data
+without prior consent**, at $7,500 per violation. What remains:
+
+38a. Confirm the size-standard classification and calendar a review, since the
+    exemption lapses as revenue grows.
+38b. Adopt the statutory processor contract terms voluntarily, including the
+    **subcontractor flow-down** requirement, which reaches every model provider and
+    tool in the stack.
 
 ---
 
@@ -246,7 +290,24 @@ Mostly **COMMERCIAL** with legal input.
     automated system, and whether it differs by channel.
 88. Federal and Texas telephone and SMS rules before any worker places a call or
     sends a text.
-89. Whether a Texas AI statute is in force and reaches this model.
+89. **Answered.** The Texas AI statute took effect January 2026 and does not
+    practically reach a company using AI to operate a customer's business, because it
+    defines "consumer" to exclude commercial contexts. It imposes **no general AI
+    disclosure duty** on private companies, no impact assessment, and no private right
+    of action. Texas has no analogue to California's bot disclosure law.
+89a. **Design to the statutory safe harbour.** Substantial compliance with the NIST AI
+    Risk Management Framework Generative AI Profile is an express defence, alongside a
+    rebuttable presumption of reasonable care. Much of the build list already points
+    that way.
+89b. **The Texas biometric statute does bite.** Voiceprint capture for a commercial
+    purpose requires consent, at $25,000 per violation, and the AI exemption does not
+    apply where a system uniquely identifies an individual. **A voice receptionist that
+    identifies callers is squarely in scope.**
+89c. **The telephone and messaging stack.** Texas extended its registration and bond
+    regime to text messages in September 2025, a federal violation is now also a per se
+    Texas deceptive practices violation, and the script-filing provision makes **AI
+    system prompts filing-disclosable**. Confirm before any worker places a call or
+    sends a text.
 90. Auto-renewal disclosure requirements, and which states' rules apply given where
     customers are.
 91. The customer-review responsibility in the AI disclosure, which must not be so

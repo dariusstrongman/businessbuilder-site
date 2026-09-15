@@ -169,6 +169,29 @@ may not extend to outreach performed by Business Builder. This is particularly a
 for SMS. Recommendation: no SMS or voice in the pilot at all, which removes the
 question entirely.
 
+## Where the agreement is signed matters
+
+A Texas statute gives a three-business-day cancellation right for consumer transactions
+over $25 where the merchant solicited **away from its own place of business** and the
+agreement was signed away from it. It requires a boldface notice of at least 10 points
+adjacent to the signature line, in prescribed words, and a detachable duplicate
+cancellation form.
+
+**A non-compliant contract is void**, and non-compliance is a per se violation of the
+Texas deceptive practices statute.
+
+The pilot customer is a cleaning company that will most naturally be signed at their own
+premises. **That triggers it.**
+
+`[COUNSEL]` Either sign at a fixed business location, which the statute exempts, or
+comply with the notice and form requirements. See
+[25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md), section 3.
+
+`[COUNSEL]` Note also that the pilot customer **is** a consumer under the Texas
+deceptive practices statute. The exclusion applies only to a business with assets of
+$25 million or more. Business-to-business is not an escape, and there is no contractual
+waiver available at this price point. See section 4 of the same document.
+
 ## Term and exit
 
 - Short defined term `[COUNSEL]` recommend 60 or 90 days

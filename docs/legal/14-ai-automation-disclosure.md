@@ -223,10 +223,84 @@ a jurisdiction-by-jurisdiction analysis that is not worth doing at this scale.
 Recommendation: adopt the conservative position for outbound voice and SMS, and
 decide separately for email.
 
-`[COUNSEL]` Voice and SMS raise federal telephone-consumer issues independent of
-disclosure. Confirm before any worker is permitted to place a call or send a text,
-including whether consent held by the customer for their own outreach extends to
-outreach performed by Business Builder on their behalf.
+### Voice and SMS: the research says do not
+
+Findings and citations are in
+[25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md), section 7. The
+stack is worse than it looks.
+
+**AI voice counts as an artificial voice** under the federal rule, in force since
+February 2024, requiring prior express consent and **written** consent for telemarketing
+content. The order states the statute "does not allow for any carve out of technologies
+that purport to provide the equivalent of a live agent."
+
+**Texas extended its telemarketing registration regime to text messages** effective
+September 2025. A seller may not solicit **to a purchaser located in Texas** without a
+registration certificate, a $200 fee and **$10,000** of security. And a provision
+requires filing "all sales information and literature, **including scripts, outlines,
+instructions**", which is public information.
+
+**AI system prompts are filing-disclosable under that provision.** That consequence
+deserves its own decision.
+
+**A federal violation is now also a per se Texas deceptive practices violation**, which
+is where mandatory one-way attorney's fees come from. The federal statute has no fee
+provision. Texas also legislated that prior recoveries by the same claimant do not limit
+future ones.
+
+**The platform is directly liable.** Under the federal definitions the customer is the
+"seller" and the platform is the "telemarketer", and a person "initiates" a call by
+taking the steps necessary to place it. The Texas provision attaches to "the person who
+**originates** the communication", with no vicarious-liability provision to redirect it.
+
+**A single non-consented AI text to a Texas mobile number can simultaneously be a
+federal violation, a violation of two Texas chapters, and a deceptive practices claim.**
+
+`[COUNSEL]` The recommendation of **no SMS and no voice in the pilot** is strongly
+supported. It removes the registration question, the bond, the script-filing question,
+the consent question and the four-way liability stack at once.
+
+`[BUILD]` If voice or SMS is ever enabled: consent must name the **customer** as seller
+and cannot travel between customers; the caller bears the burden of proving consent per
+number; revocation must be honoured within **ten business days**, accepted by any
+reasonable method, and **may not be funnelled to a single exclusive channel**; and
+cross-campaign propagation should be built now, because the current waiver expires in
+January 2027.
+
+### The Texas AI statute, and what it does not require
+
+Effective January 2026. **It does not reach a company using AI to operate a customer's
+business**, for practical purposes, because it defines "consumer" as an individual
+acting only in an individual or household context, expressly excluding commercial
+contexts.
+
+Three things it notably does not do: **no general AI disclosure duty** for private
+companies, the obligation binding governmental agencies and health care providers; **no
+impact assessment, risk assessment or registration**, all of which were stripped from
+the introduced bill; and **no private right of action**.
+
+**Texas has no analogue to California's bot disclosure law.** That answers part of the
+disclosure question above, for Texas, and only for Texas.
+
+`[COUNSEL]` Two defensive provisions are worth designing around: a **rebuttable
+presumption of reasonable care**, and a **statutory safe harbour for substantial
+compliance with the NIST AI Risk Management Framework Generative AI Profile**. The
+second is concrete and actionable, and much of the `[BUILD]` list in
+[22-security-and-build-gaps.md](22-security-and-build-gaps.md) already points that way.
+
+### The Texas statute that does bite
+
+**Biometric identifiers.** A person must inform and obtain consent before capturing a
+"retina or iris scan, fingerprint, **voiceprint**, or record of hand or face geometry"
+for a commercial purpose. **$25,000 per violation.** The 2025 amendment exempts AI
+training and processing **unless a system is used to uniquely identify a specific
+individual**.
+
+**A voice AI receptionist that identifies callers is squarely in scope.** This statute
+produced the two largest state privacy recoveries in the country.
+
+`[COUNSEL]` A further reason for no voice in the pilot, and a hard constraint on any
+future voice product.
 
 ## What must never be claimed
 

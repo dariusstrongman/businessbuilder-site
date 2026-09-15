@@ -37,28 +37,43 @@ business that holds the relationship with them.
 
 ## Texas Data Privacy and Security Act
 
-`[COUNSEL]` Research on applicability was commissioned and had not returned at the
-time of writing. The items requiring confirmation are:
+Research has answered this. Findings and citations are in
+[25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md), section 5.
 
-- Applicability thresholds and whether Business Builder meets them
-- The small business exemption and how "small business" is defined
-- Which obligations attach **even to an exempt small business**, in particular the
-  rule on consent before selling sensitive personal data, which is understood to
-  apply regardless of the exemption
-- Required privacy notice contents
-- Consumer rights, response deadlines, and the appeals process
-- Any specific required sentence where sensitive or biometric data is sold
-- When a Data Protection Assessment is triggered
-- Whether the cure period has sunset, and the penalty exposure
-- What a contract with a processor or subprocessor must contain
+**The statute almost certainly does not apply.** Applicability requires all three of
+conducting business in Texas, processing or selling personal data, and **not being a
+small business** under the federal size standards. There is **no consumer-count
+threshold**, unlike several other state statutes. The relevant size standards run from
+$19 million to $34 million in averaged receipts depending on industry classification,
+with affiliate receipts added.
 
-The strategic point regardless of the answer: **being exempt is not a reason to
-behave as if the obligations do not exist.** A customer entrusting their whole
-business to a provider will not be reassured by a size exemption, and the exemption
-disappears as the company grows, at which point retrofitting is expensive.
+**One obligation survives the exemption.** A small business may not sell personal data
+that is **sensitive data** without prior consent, and a violation carries the full
+**$7,500 per violation** penalty. Sensitive data includes health, genetic and biometric
+data processed to identify a person, data from a known child, and **precise
+geolocation**. "Sale" reaches transfers for "monetary or other valuable consideration",
+so barter counts.
 
-Recommendation: build to the standard now, and treat the exemption as a defence
-rather than a design principle.
+**The cure period does not sunset.** Texas differs from Connecticut and Colorado here.
+The enforcement subchapter contains no expiration clause, and the enacting bill used an
+express sunset elsewhere, which shows the drafters used explicit language when they
+meant it. Enforcement is Attorney General exclusive and there is **no private right of
+action**.
+
+`[COUNSEL]` The strategic question is unchanged by the exemption. **Being exempt is not
+a reason to behave as if the obligations do not exist.** A customer entrusting their
+whole business to a provider will not be reassured by a size exemption, and the
+exemption disappears as the company grows. Build to the standard and treat the exemption
+as a defence rather than a design principle.
+
+Requirements to design to, if the standard is adopted voluntarily or when the exemption
+lapses: a notice stating the categories processed including sensitive data, the purpose,
+**how a consumer appeals a decision**, categories shared and with whom, and the
+submission methods; **two or more secure and reliable methods** for submitting requests,
+though an exclusively online controller with a direct relationship may offer only an
+email address; a response within **45 days**, extendable once by 45; an appeal process
+with a written response within **60 days** and a link to the Attorney General complaint
+mechanism on denial. Any contract term waiving these rights is void.
 
 ## What the policy must cover
 

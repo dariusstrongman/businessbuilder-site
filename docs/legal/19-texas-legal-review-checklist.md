@@ -265,12 +265,17 @@ not confirm the appeal's status as of September 2026.
 
 ---
 
-## 9. Non-tax items still to be confirmed
+## 9. Non-tax items, now researched
 
-Research on Texas consumer protection, privacy and communications law was
-commissioned alongside the tax work and had not returned at the time of writing.
-The following are flagged as requiring review and are addressed in the documents
-named.
+**That research has since returned.** Findings, citations and the answers to most of
+the questions below are in
+[25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md). Three headlines:
+the deceptive practices statute **covers the pilot customer and cannot be waived at
+these prices**; the privacy statute **almost certainly does not apply** because of the
+small-business exemption, with one surviving obligation; and the unauthorised practice
+of law safe harbour **protects the product, not the conversation**.
+
+The table below maps each question to where it is now addressed.
 
 | Item | Where it matters |
 |---|---|

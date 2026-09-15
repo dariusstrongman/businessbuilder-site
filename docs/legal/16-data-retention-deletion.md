@@ -87,11 +87,11 @@ a procedure that ensures it, not an intention.
 
 ## Deletion on request
 
-`[COUNSEL]` Confirm the obligations that apply. Texas privacy law grants deletion
-rights subject to applicability thresholds and a small-business exemption, and the
-response deadline and appeals process are statutory. See
-[02-privacy-policy.md](02-privacy-policy.md) and
-[19-texas-legal-review-checklist.md](19-texas-legal-review-checklist.md).
+Research indicates the Texas statute **almost certainly does not apply**, because of
+the federal small-business size standards and the absence of any consumer-count
+threshold. See [25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md),
+section 5. One obligation survives regardless: **no sale of sensitive personal data
+without prior consent**, at $7,500 per violation.
 
 Regardless of statutory applicability, a customer who asks for their data to be
 deleted should be able to have it deleted. The recommended position is to honour
@@ -235,6 +235,17 @@ Required:
 - A written agreement with each, containing the terms the statute requires
 - Disclosure to customers, and `[COUNSEL]` decide whether notice of changes is given
 - Confirmation of whether customer data is excluded from model training
+
+**The required processor contract terms are specific.** Six items: clear processing
+instructions, the nature and purpose, the type of data, the duration, the rights and
+obligations of both parties, and a requirement that the processor ensure
+confidentiality duties, delete or return data at the controller's direction, make
+compliance information available, allow reasonable assessments, and **engage any
+subcontractor under a written contract imposing the same requirements**.
+
+That last item is a flow-down obligation, not merely a list, and it reaches every model
+provider and tool in the operational stack. See
+[25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md), section 5.
 
 `[COUNSEL]` The last item must be verified against actual contract terms with each
 model provider, not assumed from marketing pages. The answer differs by tier and the

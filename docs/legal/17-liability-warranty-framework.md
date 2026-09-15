@@ -30,26 +30,81 @@ question rather than answering it.
 
 ## The Texas constraint
 
-`[COUNSEL]` The Texas Deceptive Trade Practices Act materially constrains what can
-be disclaimed and waived in a consumer transaction, and the definition of "consumer"
-is broader than intuition suggests. A small business purchasing services can be a
-consumer under the Act.
+Research has now answered most of this. Full findings and citations are in
+[25-texas-consumer-privacy-upl.md](25-texas-consumer-privacy-upl.md), section 4. Four
+conclusions, and they are constraining.
 
-Specific items requiring analysis before any disclaimer is drafted:
+**The pilot customer is a covered consumer.** The statute excludes a business consumer
+only where it has assets of **$25 million or more**. A residential cleaning company is
+squarely inside. **Business-to-business is not an escape in Texas.**
 
-- Whether the customer is a consumer under the Act
-- Whether a waiver is available at all, and if so the precise statutory
-  requirements for validity, which are narrow and formal
-- Whether the professional services exemption applies to any part of the service
-- The effect of the treble damages provision on the knowing standard
-- The pre-suit notice requirement and how it interacts with any dispute clause
-- Whether a limitation of liability that would be enforceable elsewhere is
-  unenforceable here, in which case attempting it may be worse than not
+**A waiver is not available.** There is one route with three cumulative conditions,
+including that the consumer be **represented by legal counsel** in acquiring the
+services, with counsel not suggested by the provider. A waiver in a click-through
+agreement with an unrepresented customer is void, and a signed waiver is not a defence
+to an action by the Attorney General in any event.
 
-That last point is the one that most affects drafting strategy. An overreaching
-disclaimer that a court strikes leaves the provider with nothing, and may support an
-argument that the provider was acting in bad faith. A narrower clause that holds is
-worth more than a broad one that does not.
+**There is no exit at these prices.** The large-transaction exemptions sit at
+**$100,000** with counsel and **$500,000** without. Neither is inflation-indexed, and
+the offers are $795 to $1,995.
+
+**Attorney's fees are mandatory and one-way.** A prevailing consumer shall be awarded
+costs and reasonable fees. Defence fees are available only on a groundless or bad-faith
+finding. Treble damages are discretionary on a finding of knowing conduct, and "knowing"
+may be **inferred** from objective manifestations.
+
+### The provision that changes drafting strategy
+
+One item makes overreaching drafting affirmatively risky rather than merely useless. The
+statute makes it a violation to represent that an agreement confers rights or
+obligations "**which it does not have or involve, or which are prohibited by law**."
+
+**An unenforceable clause is itself a potential violation.** That is the strongest
+possible argument for the position taken throughout this document: a narrow clause that
+holds is worth more than a broad one that does not.
+
+### What the case law settles
+
+A liability limitation is invalid insofar as it purports to waive liability for conduct
+the statute defines as deceptive. **But** a cap that is genuinely part of the warranty
+given does limit a breach-of-warranty claim, because warranty claims derive from other
+law.
+
+An express waiver is void. An "as is" clause is not, but it works only where it is "an
+important part of the basis of the bargain, **not an incidental or boiler-plate
+provision**", between parties of relatively equal bargaining position. And it collapses
+entirely if the seller made the representation that induced it: **"A seller cannot have
+it both ways."**
+
+A warranty disclaimer must be conspicuous to a reasonable person. Text "undistinguished
+in typeface, size or color" within a form purporting to grant a warranty is
+unenforceable.
+
+`[COUNSEL]` Every disclaimer needs genuinely contrasting typeface, size or colour. A
+non-reliance clause only works if negotiated and non-boilerplate, which is not
+achievable in a standard click-through without deliberate design.
+
+### The two mechanisms that actually control the exposure
+
+Because the exposure cannot be contracted away, the controls are procedural, and both
+run on short clocks that start when a notice letter arrives.
+
+**A complete bar** applies if, within **30 days** of the statutory pre-suit notice, the
+provider tenders the claimed damages plus reasonably incurred fees.
+
+**A settlement offer** caps recovery where the tender equals or exceeds the factfinder's
+award, and cuts off fees from the date of the offer.
+
+The pre-suit notice itself must come at least **60 days before filing**, and the remedy
+for non-compliance is abatement rather than dismissal.
+
+`[BUILD]` and `[COUNSEL]` Build an internal process around both mechanisms before the
+first customer. They are the only meaningful damage-control available, and a notice
+letter that sits unread for three weeks forfeits the better one.
+
+`[COUNSEL]` Two items remain unconfirmed: whether an **LLC** is a consumer under the
+statutory definition, and whether the professional services exemption covers AI- or
+software-delivered output. No controlling authority was found on either.
 
 ## Warranty framework
 
